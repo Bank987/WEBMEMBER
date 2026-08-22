@@ -8,7 +8,7 @@ import { assertTrustedMutationOrigin } from "@/lib/security";
 export async function createMember(formData: FormData): Promise<{ ok: boolean; error?: string }> {
   try { await assertTrustedMutationOrigin(); } catch { return { ok: false, error: "คำขอไม่ปลอดภัย กรุณารีเฟรชหน้าแล้วลองใหม่" }; }
   const gang = await getAuthenticatedGang();
-  if (!gang) return { ok: false, error: "เซสชันหมดอายุ กรุณาเข้าสู่ระบบใหม่" };
+  if (!gang) return { ok: false, error: "เซสชันหมดอายุ" };
 
   try {
     await createMemberInDB({
@@ -31,7 +31,7 @@ export async function updateMember(id: string, formData: FormData): Promise<{ ok
   try { await assertTrustedMutationOrigin(); } catch { return { ok: false, error: "คำขอไม่ปลอดภัย กรุณารีเฟรชหน้าแล้วลองใหม่" }; }
   const gang = await getAuthenticatedGang();
   const member = await getMember(id);
-  if (!gang || !member || member.gangId !== gang.id) return { ok: false, error: "เซสชันหมดอายุหรือไม่มีสิทธิ์แก้ไขสมาชิกนี้" };
+  if (!gang || !member || member.gangId !== gang.id) return { ok: false, error: !gang ? "เซสชันหมดอายุ" : "ไม่มีสิทธิ์แก้ไขสมาชิกนี้" };
   try {
     await updateMemberInDB(id, {
       name: formData.get("name") as string,

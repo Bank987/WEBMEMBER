@@ -41,7 +41,7 @@ export default function MemberForm({ member }: { member?: Member }) {
   return (
     <form onSubmit={handleSubmit} className="bg-[#050505] border border-[#111111] p-[45px] rounded-[24px] max-w-3xl shadow-2xl relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#0084ff] blur-[150px] opacity-10 pointer-events-none" />
-      {error && <Alert variant="destructive" className="relative z-10 mb-6 rounded-2xl"><AlertCircle className="text-[#ef4444]" /><AlertTitle>บันทึกข้อมูลไม่สำเร็จ</AlertTitle><AlertDescription><span>{error}</span>{error.includes("เซสชัน") && <Link href="/#auth" className="mt-3 inline-flex rounded-lg bg-[#ef4444]/15 px-3 py-2 font-[900] text-[#ffb0b0] hover:bg-[#ef4444]/25">เข้าสู่ระบบใหม่</Link>}</AlertDescription></Alert>}
+      {error && <Alert variant="destructive" className="relative z-10 mb-6 rounded-2xl"><AlertCircle className="text-[#ef4444]" /><AlertTitle>บันทึกข้อมูลไม่สำเร็จ</AlertTitle><AlertDescription><span>{error}</span>{error.includes("เซสชัน") && <Link href="/#auth" className="mt-3 inline-flex rounded-lg bg-[#ef4444]/15 px-3 py-2 font-[900] text-[#ffb0b0] hover:bg-[#ef4444]/25">เข้าสู่ระบบ</Link>}</AlertDescription></Alert>}
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-[36px] relative z-10">
         

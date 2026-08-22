@@ -1,6 +1,6 @@
 import { createHash, createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
-import { getGangBySubdomainWithSession, type Gang } from "@/lib/db";
+import { getGangBySubdomainWithTokenHash, type Gang } from "@/lib/db";
 
 export const SESSION_COOKIE = "gang_session";
 export const SUPER_ADMIN_SESSION_COOKIE = "super_admin_session";
@@ -43,7 +43,7 @@ export async function getAuthenticatedGang(): Promise<Gang | null> {
   if (parts.length < 2) return null;
   const subdomain = parts[0].toLowerCase();
   const sessionId = parts[1];
-  const gang = await getGangBySubdomainWithSession(subdomain);
+  const gang = await getGangBySubdomainWithTokenHash(subdomain);
   if (!gang) return null;
 
   // New sessions are stateless, signed, and tied to the current admin token hash.
@@ -55,6 +55,7 @@ export async function getAuthenticatedGang(): Promise<Gang | null> {
   }
 
   // Temporary compatibility for sessions created before the signed-cookie migration.
+  if (parts.length === 2 && gang.adminTokenHash && hashAdminToken(sessionId) === gang.adminTokenHash) return gang;
   if (parts.length === 2 && gang.adminSessionHash && hashAdminToken(sessionId) === gang.adminSessionHash) return gang;
   return null;
 }
