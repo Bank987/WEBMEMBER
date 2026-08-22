@@ -58,6 +58,9 @@ if (!GangModel.schema.path("theme")) {
   GangModel.schema.add({ theme: { type: String, default: "default" } });
 }
 const MemberModel = mongoose.models.Member || mongoose.model("Member", memberSchema);
+// Dev hot reload can retain the pre-migration schema where department was required.
+const departmentPath = MemberModel.schema.path("department");
+if (departmentPath) departmentPath.required(false);
 
 // Cache connection state
 let isConnected = false;
