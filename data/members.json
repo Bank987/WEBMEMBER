@@ -1,0 +1,16 @@
+[
+  { "id": "1", "name": "Thomas Winterfell", "role": "FOUNDER", "avatar": "https://i.pravatar.cc/150?u=12", "department": "Executive Board", "facebookUrl": "#" },
+  { "id": "2", "name": "Awake Prime", "role": "FOUNDER", "avatar": "https://i.pravatar.cc/150?u=22", "department": "Executive Board", "facebookUrl": "#" },
+  { "id": "3", "name": "Paul Winterfell", "role": "FOUNDER", "avatar": "https://i.pravatar.cc/150?u=32", "department": "Executive Board", "facebookUrl": "#" },
+  { "id": "4", "name": "HoudMan Winterfell", "role": "FOUNDER", "avatar": "https://i.pravatar.cc/150?u=42", "department": "Executive Board", "facebookUrl": "#" },
+  { "id": "5", "name": "Jaliyor Winterfell", "role": "FOUNDER", "avatar": "https://i.pravatar.cc/150?u=52", "department": "Executive Board", "facebookUrl": "#" },
+  { "id": "6", "name": "Tim Bowint", "role": "FOUNDER", "avatar": "https://i.pravatar.cc/150?u=62", "department": "Executive Board", "facebookUrl": "#" },
+  { "id": "7", "name": "Denmark Winterfell", "role": "FOUNDER", "avatar": "https://i.pravatar.cc/150?u=72", "department": "Executive Board", "facebookUrl": "#" },
+  { "id": "8", "name": "Orell Winterfell", "role": "FOUNDER", "avatar": "https://i.pravatar.cc/150?u=82", "department": "Executive Board", "facebookUrl": "#" },
+  { "id": "9", "name": "Syumin Winterfell", "role": "LEADER", "avatar": "https://i.pravatar.cc/150?u=92", "department": "Engineering", "facebookUrl": "#" },
+  { "id": "10", "name": "Jaeun Winterfell", "role": "LEADER", "avatar": "https://i.pravatar.cc/150?u=102", "department": "Engineering", "facebookUrl": "#" },
+  { "id": "11", "name": "Safller Winterfell", "role": "LEADER", "avatar": "https://i.pravatar.cc/150?u=112", "department": "Engineering", "facebookUrl": "#" },
+  { "id": "12", "name": "Sapphire Threethousand", "role": "LEADER", "avatar": "https://i.pravatar.cc/150?u=122", "department": "Design", "facebookUrl": "#" },
+  { "id": "13", "name": "Aileen Winterfell", "role": "LEADER", "avatar": "https://i.pravatar.cc/150?u=132", "department": "Design", "facebookUrl": "#" },
+  { "id": "14", "name": "Cutter Winterfell", "role": "LEADER", "avatar": "https://i.pravatar.cc/150?u=142", "department": "Marketing", "facebookUrl": "#" }
+]

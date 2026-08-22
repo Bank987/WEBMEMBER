@@ -1,0 +1,93 @@
+import { Sliders, Music } from "lucide-react";
+import { getAuthenticatedGang } from "@/lib/auth";
+import { saveSettings } from "@/actions/settings";
+import { redirect } from "next/navigation";
+import { gangThemes } from "@/lib/themes";
+
+export default async function SettingsPage() {
+  const settings = await getAuthenticatedGang();
+  if (!settings) redirect("/#auth");
+
+  return (
+    <div className="max-w-4xl">
+      <div className="border-b border-[#111111] pb-[18px] mb-[36px]">
+        <h2 className="text-[28px] font-[900] tracking-[-0.5625px] uppercase text-transparent bg-clip-text bg-gradient-to-r from-white to-[#888888]">
+          ตั้งค่าเว็บไซต์
+        </h2>
+        <p className="text-[10.5px] text-[#999999] tracking-[3px] uppercase mt-[6px]">
+          จัดการรูปแบบเว็บไซต์และความปลอดภัย
+        </p>
+      </div>
+
+      <form action={saveSettings} className="space-y-[36px]">
+        {/* Music Settings */}
+        <div className="bg-[#050505] border border-[#111111] rounded-[18px] overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-[#0084ff] blur-[150px] opacity-10 pointer-events-none" />
+          <div className="bg-[#0a0a0a] p-[18px] border-b border-[#111111] flex items-center justify-between relative z-10">
+            <div className="flex items-center gap-[12px]">
+              <Music className="w-[18px] h-[18px] text-[#0084ff]" />
+              <h3 className="text-[14px] font-[900] tracking-[1.8px] text-text-inverse">ตั้งค่าเสียงพื้นหลัง</h3>
+            </div>
+            <button type="submit" className="bg-[#0084ff]/10 hover:bg-[#0084ff]/20 text-[#0084ff] border border-[#0084ff]/30 px-[18px] py-[6px] rounded-full text-[9px] font-[900] tracking-[2px] uppercase transition-all">
+              บันทึกการเปลี่ยนแปลง
+            </button>
+          </div>
+          <div className="p-[27px] space-y-[24px] relative z-10">
+            <div className="flex items-center justify-between gap-[24px]">
+              <div className="flex-1">
+                <p className="text-[12px] font-[700] text-text-inverse mb-[3px]">เพลงพื้นหลัง (ลิงก์ YouTube)</p>
+                <p className="text-[10.5px] text-[#888888]">เพลงนี้จะเล่นเมื่อผู้เข้าชมเปิดไดเรกทอรี</p>
+              </div>
+              <input 
+                type="url" 
+                name="youtubeMusicUrl"
+                defaultValue={settings.youtubeMusicUrl} 
+                placeholder="https://www.youtube.com/watch?v=..."
+                className="bg-black/50 border border-white/10 rounded-[12px] px-[18px] py-[12px] text-[12px] text-white focus:border-[#0084ff] outline-none w-[400px] max-w-full"
+              />
+            </div>
+          </div>
+        </div>
+            
+        <div id="theme" className="scroll-mt-8 bg-[#050505] border border-[#111111] rounded-[18px] overflow-hidden">
+          <div className="bg-[#0a0a0a] p-[18px] border-b border-[#111111] flex items-center justify-between"><div><h3 className="text-[14px] font-[900] text-text-inverse">ธีมเว็บไซต์</h3><p className="mt-1 text-[10px] text-[#777]">เลือกสไตล์หลักสำหรับหน้า Gate และรายชื่อสมาชิก</p></div><button type="submit" className="bg-[#0084ff]/10 hover:bg-[#0084ff]/20 text-[#0084ff] border border-[#0084ff]/30 px-[18px] py-[7px] rounded-full text-[9px] font-[900] tracking-[1px]">บันทึกธีม</button></div>
+          <div className="grid grid-cols-1 gap-3 p-5 sm:grid-cols-2 lg:grid-cols-4">{Object.entries(gangThemes).map(([key, theme]) => <label key={key} className="group cursor-pointer"><input type="radio" name="theme" value={key} defaultChecked={settings.theme === key || (!settings.theme && key === "default")} className="peer sr-only" /><span className="block rounded-2xl border border-white/10 bg-[#0a0a0a] p-3 transition group-hover:border-white/25 peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10"><span className="block h-20 rounded-xl" style={{ background: theme.preview }} /><span className="mt-3 block text-[11px] font-[900] text-white">{theme.name}</span><span className="mt-1 block text-[10px] text-[#777]">{theme.description}</span></span></label>)}</div>
+        </div>
+
+        {/* Platform Configuration */}
+        <div className="bg-[#050505] border border-[#111111] rounded-[18px] overflow-hidden">
+          <div className="bg-[#0a0a0a] p-[18px] border-b border-[#111111] flex items-center gap-[12px]">
+            <Sliders className="w-[18px] h-[18px] text-[#0084ff]" />
+            <h3 className="text-[14px] font-[900] tracking-[1.8px] text-text-inverse">ตั้งค่าหน้าเว็บไซต์</h3>
+          </div>
+          <div className="p-[27px] space-y-[18px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[18px]">
+              <div>
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">ข้อความปุ่มเข้าสู่เว็บไซต์</p>
+                <input type="text" name="buttonText" defaultValue={settings.buttonText} className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+              </div>
+              <div>
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปปุ่มเข้าสู่เว็บไซต์ (ใช้แทนข้อความ)</p>
+                <input type="text" name="buttonImage" defaultValue={settings.buttonImage} className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+              </div>
+              <div>
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">ชื่อหน้าเว็บไซต์</p>
+                <input type="text" name="pageTitle" defaultValue={settings.pageTitle} className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+              </div>
+              <div>
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">คำโปรยใต้ชื่อเว็บไซต์</p>
+                <input type="text" name="pageSubtitle" defaultValue={settings.pageSubtitle} className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+              </div>
+              <div className="sm:col-span-2">
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">ลิงก์ไอคอนเว็บไซต์ (Favicon)</p>
+                <input type="text" name="faviconUrl" defaultValue={settings.faviconUrl} placeholder="https://example.com/icon.png" className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+                <p className="text-[10px] text-[#666666] mt-[6px]">รองรับ PNG, JPG, WEBP หรือ ICO หลังบันทึกให้รีเฟรชหน้าเว็บไซต์หนึ่งครั้งเพื่อดูไอคอนใหม่บนแท็บ</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        </form>
+    </div>
+  );
+}

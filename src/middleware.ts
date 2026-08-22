@@ -1,0 +1,63 @@
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
+
+export const config = {
+  matcher: [
+    /*
+     * Match all paths except for:
+     * 1. /api routes
+     * 2. /_next (Next.js internals)
+     * 3. /_static (inside /public)
+     * 4. all root files inside /public (e.g. favicon.ico)
+     */
+    '/((?!api/|_next/|_static/|_vercel|[\\w-]+\\.\\w+).*)',
+    '/favicon.ico',
+  ],
+};
+
+export default function middleware(req: NextRequest) {
+  const url = req.nextUrl;
+  
+  // Get hostname of request (e.g. thunder.localhost:3000)
+  let hostname = req.headers.get('host') || 'localhost:3000';
+
+  // Remove port if present for processing
+  hostname = hostname.split(':')[0];
+
+  // Define our root domains
+  // In production, this should be process.env.NEXT_PUBLIC_ROOT_DOMAIN
+  const isLocalhost = hostname === 'localhost' || hostname.endsWith('.localhost');
+  const rootDomain = isLocalhost ? 'localhost' : (process.env.NEXT_PUBLIC_ROOT_DOMAIN || 'lastname.site');
+
+  const currentHost = hostname;
+
+  // Handle local development subdomains
+  // For local testing, we might use thunder.localhost:3000 
+  // and the hostname will be 'thunder.localhost'
+  
+  let subdomain = null;
+  if (currentHost !== rootDomain) {
+    if (currentHost.endsWith(`.${rootDomain}`)) {
+      subdomain = currentHost.replace(`.${rootDomain}`, '');
+    }
+  }
+
+  // 1. Root Domain -> Route to marketing/home page
+  if (!subdomain || subdomain === 'www') {
+    if (url.pathname === '/favicon.ico') {
+      return NextResponse.next();
+    }
+    // Let admin routes pass through normally without rewrite
+    if (url.pathname.startsWith('/admin')) {
+      return NextResponse.next();
+    }
+    // We rewrite to /home path which contains our landing page
+    return NextResponse.rewrite(new URL(`/home${url.pathname}`, req.url));
+  }
+
+  // 2. Tenant Subdomain -> Route to tenant pages
+  if (url.pathname === '/favicon.ico') {
+    return NextResponse.rewrite(new URL(`/${subdomain}/favicon`, req.url));
+  }
+  return NextResponse.rewrite(new URL(`/${subdomain}${url.pathname === '/' ? '' : url.pathname}`, req.url));
+}
