@@ -23,13 +23,16 @@ export default function MemberForm({ member }: { member?: Member }) {
     
     try {
       if (member) {
-        await updateMember(member.id, formData);
+        const result = await updateMember(member.id, formData);
+        if (!result.ok) { setError(result.error ?? "ไม่สามารถแก้ไขข้อมูลได้"); return; }
       } else {
-        await createMember(formData);
+        const result = await createMember(formData);
+        if (!result.ok) { setError(result.error ?? "ไม่สามารถบันทึกข้อมูลได้"); return; }
       }
-      router.push("/admin/members");
+      router.replace("/admin/members");
+      router.refresh();
     } catch (submitError) {
-      setError(submitError instanceof Error ? submitError.message : "ไม่สามารถบันทึกข้อมูลได้ กรุณาเข้าสู่ระบบใหม่");
+      setError(submitError instanceof Error ? submitError.message : "ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่");
     } finally {
       setLoading(false);
     }
