@@ -57,6 +57,9 @@ const GangModel = mongoose.models.Gang || mongoose.model("Gang", gangSchema);
 if (!GangModel.schema.path("theme")) {
   GangModel.schema.add({ theme: { type: String, default: "default" } });
 }
+if (!GangModel.schema.path("adminSessionHash")) {
+  GangModel.schema.add({ adminSessionHash: { type: String, select: false } });
+}
 const MemberModel = mongoose.models.Member || mongoose.model("Member", memberSchema);
 // Dev hot reload can retain the pre-migration schema where department was required.
 const departmentPath = MemberModel.schema.path("department");
