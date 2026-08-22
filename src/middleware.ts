@@ -57,7 +57,11 @@ export default function middleware(req: NextRequest) {
 
   // 2. Tenant Subdomain -> Route to tenant pages
   if (url.pathname === '/favicon.ico') {
-    return NextResponse.rewrite(new URL(`/${subdomain}/favicon`, req.url));
+    const response = NextResponse.rewrite(new URL(`/${subdomain}/favicon`, req.url));
+    response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+    return response;
   }
-  return NextResponse.rewrite(new URL(`/${subdomain}${url.pathname === '/' ? '' : url.pathname}`, req.url));
+  const response = NextResponse.rewrite(new URL(`/${subdomain}${url.pathname === '/' ? '' : url.pathname}`, req.url));
+  response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
+  return response;
 }

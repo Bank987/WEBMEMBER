@@ -5,31 +5,40 @@ import { createMember, updateMember } from "@/actions/members";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Link from "next/link";
-import { UploadCloud, Link as LinkIcon, UserCircle, Star } from "lucide-react";
+import { AlertCircle, UploadCloud, Link as LinkIcon, UserCircle, Star } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 export default function MemberForm({ member }: { member?: Member }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(member?.avatar || "");
+  const [error, setError] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setLoading(true);
+    setError("");
     
     const formData = new FormData(e.currentTarget);
     
-    if (member) {
-      await updateMember(member.id, formData);
-    } else {
-      await createMember(formData);
+    try {
+      if (member) {
+        await updateMember(member.id, formData);
+      } else {
+        await createMember(formData);
+      }
+      router.push("/admin/members");
+    } catch (submitError) {
+      setError(submitError instanceof Error ? submitError.message : "ไม่สามารถบันทึกข้อมูลได้ กรุณาเข้าสู่ระบบใหม่");
+    } finally {
+      setLoading(false);
     }
-    
-    router.push("/admin/members");
   }
 
   return (
     <form onSubmit={handleSubmit} className="bg-[#050505] border border-[#111111] p-[45px] rounded-[24px] max-w-3xl shadow-2xl relative overflow-hidden">
       <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#0084ff] blur-[150px] opacity-10 pointer-events-none" />
+      {error && <Alert variant="destructive" className="relative z-10 mb-6 rounded-2xl"><AlertCircle className="text-[#ef4444]" /><AlertTitle>บันทึกข้อมูลไม่สำเร็จ</AlertTitle><AlertDescription>{error}</AlertDescription></Alert>}
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-[36px] relative z-10">
         

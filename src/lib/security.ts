@@ -21,9 +21,10 @@ export function checkRateLimit(key: string, limit: number, windowMs: number) {
 
 export async function assertTrustedMutationOrigin() {
   const requestHeaders = await headers();
-  const origin = requestHeaders.get("origin");
+  const origin = requestHeaders.get("origin") || requestHeaders.get("referer");
   const host = requestHeaders.get("host");
   if (!origin || !host) throw new Error("Invalid request origin");
-  const originUrl = new URL(origin);
-  if (originUrl.host !== host) throw new Error("Invalid request origin");
+  const originUrl = new URL(origin).origin;
+  const expectedOrigin = `${requestHeaders.get("x-forwarded-proto") || "http"}://${host}`;
+  if (originUrl !== expectedOrigin && originUrl !== `https://${host}` && originUrl !== `http://${host}`) throw new Error("Invalid request origin");
 }
