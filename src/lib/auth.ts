@@ -19,23 +19,44 @@ export function createSessionValue(subdomain: string, token: string) {
 
 export function createOwnerSession(subdomain: string) {
   const sessionId = randomBytes(32).toString("hex");
-  return { value: `${subdomain}.${sessionId}`, hash: hashAdminToken(sessionId) };
+  return { sessionId, value: `${subdomain}.${sessionId}` };
+}
+
+function ownerSessionSecret() {
+  return process.env.OWNER_SESSION_SECRET || process.env.SUPER_ADMIN_SESSION_SECRET || "development-owner-session-secret";
+}
+
+function ownerSessionSignature(subdomain: string, sessionId: string, adminTokenHash: string) {
+  return createHmac("sha256", ownerSessionSecret()).update(`${subdomain}.${sessionId}.${adminTokenHash}`).digest("hex");
+}
+
+export function createSignedOwnerSession(subdomain: string, adminTokenHash: string) {
+  const sessionId = randomBytes(32).toString("hex");
+  return `${subdomain}.${sessionId}.${ownerSessionSignature(subdomain, sessionId, adminTokenHash)}`;
 }
 
 export async function getAuthenticatedGang(): Promise<Gang | null> {
   const session = (await cookies()).get(SESSION_COOKIE)?.value;
   if (!session) return null;
 
-  const separator = session.indexOf(".");
-  if (separator < 1) return null;
-
-  const subdomain = session.slice(0, separator).toLowerCase();
-  const token = session.slice(separator + 1);
-  if (!token) return null;
-
+  const parts = session.split(".");
+  if (parts.length < 2) return null;
+  const subdomain = parts[0].toLowerCase();
+  const sessionId = parts[1];
   const gang = await getGangBySubdomainWithSession(subdomain);
-  if (!gang || !gang.adminSessionHash || hashAdminToken(token) !== gang.adminSessionHash) return null;
-  return gang;
+  if (!gang) return null;
+
+  // New sessions are stateless, signed, and tied to the current admin token hash.
+  if (parts.length === 3 && gang.adminTokenHash) {
+    const expected = ownerSessionSignature(subdomain, sessionId, gang.adminTokenHash);
+    const received = Buffer.from(parts[2]);
+    const expectedBuffer = Buffer.from(expected);
+    if (received.length === expectedBuffer.length && timingSafeEqual(received, expectedBuffer)) return gang;
+  }
+
+  // Temporary compatibility for sessions created before the signed-cookie migration.
+  if (parts.length === 2 && gang.adminSessionHash && hashAdminToken(sessionId) === gang.adminSessionHash) return gang;
+  return null;
 }
 
 function getSuperAdminConfig() {

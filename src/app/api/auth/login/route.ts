@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { getGangBySubdomainWithTokenHash } from "@/lib/db";
-import { createOwnerSession, hashAdminToken, SESSION_COOKIE } from "@/lib/auth";
-import { updateGang } from "@/lib/db";
+import { createSignedOwnerSession, hashAdminToken, SESSION_COOKIE } from "@/lib/auth";
 import { checkRateLimit, getRequestIp } from "@/lib/security";
 
 export async function POST(request: Request) {
@@ -16,9 +15,8 @@ export async function POST(request: Request) {
     return Response.json({ error: "ชื่อ slug หรือรหัสลับผู้ดูแลระบบไม่ถูกต้อง" }, { status: 401 });
   }
 
-  const session = createOwnerSession(subdomain);
-  await updateGang(gang.id, { adminSessionHash: session.hash });
-  (await cookies()).set(SESSION_COOKIE, session.value, {
+  const session = createSignedOwnerSession(subdomain, gang.adminTokenHash);
+  (await cookies()).set(SESSION_COOKIE, session, {
     httpOnly: true,
     sameSite: "lax",
     secure: process.env.NODE_ENV === "production",
