@@ -13,6 +13,11 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
   
   return {
     title: gang.pageTitle,
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true,
+    },
     icons: gang.faviconUrl ? { icon: gang.faviconUrl } : undefined,
   };
 }
