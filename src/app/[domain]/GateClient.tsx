@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { NeonTypingButton } from "@/components/NeonTypingButton";
 import { getGangTheme } from "@/lib/themes";
 import { BackgroundEffects } from "@/components/BackgroundEffects";
-import { Disc as Discord, Facebook } from "lucide-react";
+import { MessageSquare as Discord, Globe as Facebook } from "lucide-react";
 import { useEffect } from "react";
 
 type Settings = {
@@ -25,7 +25,7 @@ type Settings = {
   entryAnimation?: string;
 };
 
-const getAnimationProps = (type?: string, index: number = 0) => {
+const getAnimationProps = (type?: string, index: number = 0): any => {
   const delay = 0.2 + index * 0.4;
   if (type === 'typewriter') {
     return {
@@ -59,8 +59,8 @@ export default function GateClient({ settings }: { settings: Settings }) {
   useEffect(() => {
     if (settings.customCursor === 'glow') {
       const handleMouseMove = (e: MouseEvent) => {
-        document.documentElement.style.setProperty('--mouse-x', \\px\);
-        document.documentElement.style.setProperty('--mouse-y', \\px\);
+        document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+        document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
       };
       window.addEventListener('mousemove', handleMouseMove);
       return () => window.removeEventListener('mousemove', handleMouseMove);
@@ -69,10 +69,10 @@ export default function GateClient({ settings }: { settings: Settings }) {
 
   return (
     <div 
-      className={\min-h-screen overflow-hidden relative flex flex-col items-center justify-center \ \ \\} 
+      className={`min-h-screen overflow-hidden relative flex flex-col items-center justify-center ${fontClass} ${theme.className} ${cursorClass}`} 
       style={{ 
         backgroundColor: theme.background,
-        backgroundImage: settings.backgroundImageUrl ? \linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url(\)\ : undefined,
+        backgroundImage: settings.backgroundImageUrl ? `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url(${settings.backgroundImageUrl})` : undefined,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -141,7 +141,7 @@ export default function GateClient({ settings }: { settings: Settings }) {
           <div className="w-full sm:w-[450px]">
             <NeonTypingButton 
               label={settings.buttonText} 
-              loadingText={\ACCESSING_\...\} 
+              loadingText={`ACCESSING_${settings.buttonText}...`} 
               href="/members" 
               className="block w-full"
               textClassName="text-[18px] py-[9px]"

@@ -42,7 +42,7 @@ function SnowEffects() {
         <motion.div
           key={f.id}
           className="absolute top-[-10%] w-[3px] h-[3px] bg-white rounded-full opacity-50"
-          style={{ left: \\%\ }}
+          style={{ left: `${f.left}%` }}
           animate={{ top: "110%", opacity: [0, 0.8, 0], x: [0, Math.random() * 50 - 25] }}
           transition={{ duration: f.duration, delay: f.delay, repeat: Infinity, ease: "linear" }}
         />
@@ -69,7 +69,7 @@ function OrbsEffects() {
         <motion.div
           key={o.id}
           className="absolute w-[100px] h-[100px] rounded-full bg-[color:var(--gang-accent)] filter blur-[50px] opacity-20"
-          style={{ left: \\%\, top: \\%\ }}
+          style={{ left: `${o.left}%`, top: `${o.top}%` }}
           animate={{ 
             x: [0, Math.random() * 100 - 50, 0], 
             y: [0, Math.random() * 100 - 50, 0],
@@ -105,7 +105,7 @@ function MatrixEffects() {
       ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.fillStyle = accent.trim();
-      ctx.font = \\px monospace\;
+      ctx.font = `${fontSize}px monospace`;
       
       for (let i = 0; i < drops.length; i++) {
         const text = chars[Math.floor(Math.random() * chars.length)];
