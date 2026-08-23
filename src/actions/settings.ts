@@ -20,6 +20,13 @@ export async function saveSettings(formData: FormData) {
     backgroundImageUrl: formData.get("backgroundImageUrl") as string,
     textColor: formData.get("textColor") as string,
     fontFamily: formData.get("fontFamily") as string || "sans",
+    particleEffect: formData.get("particleEffect") as string || "none",
+    customAccentColor: formData.get("customAccentColor") as string,
+    customCursor: formData.get("customCursor") as string || "default",
+    logoUrl: formData.get("logoUrl") as string,
+    discordUrl: formData.get("discordUrl") as string,
+    facebookUrl: formData.get("facebookUrl") as string,
+    entryAnimation: formData.get("entryAnimation") as string || "fade",
   };
 
   await updateGang(gang.id, data);

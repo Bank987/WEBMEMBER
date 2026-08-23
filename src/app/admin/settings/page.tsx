@@ -103,6 +103,72 @@ export default async function SettingsPage() {
           </div>
         </div>
 
+        {/* Custom Effects */}
+        <div className="bg-[#050505] border border-[#111111] rounded-[18px] overflow-hidden">
+          <div className="bg-[#0a0a0a] p-[18px] border-b border-[#111111] flex items-center gap-[12px]">
+            <Sliders className="w-[18px] h-[18px] text-[#0084ff]" />
+            <h3 className="text-[14px] font-[900] tracking-[1.8px] text-text-inverse">เอฟเฟกต์หน้า Gate (Visual Effects)</h3>
+          </div>
+          <div className="p-[27px] space-y-[18px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[18px]">
+              <div>
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">เอฟเฟกต์พื้นหลัง</p>
+                <select name="particleEffect" defaultValue={settings.particleEffect || "none"} className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none">
+                  <option value="none">ไม่มี (None)</option>
+                  <option value="matrix">เดอะเมทริกซ์ (Matrix Rain)</option>
+                  <option value="snow">หิมะ/เถ้าถ่าน (Snow/Ash)</option>
+                  <option value="orbs">หิ่งห้อยลอย (Glowing Orbs)</option>
+                  <option value="scanlines">เส้นสแกนทีวี (Retro Scanlines)</option>
+                </select>
+              </div>
+              <div>
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">แอนิเมชันเปิดตัวอักษร</p>
+                <select name="entryAnimation" defaultValue={settings.entryAnimation || "fade"} className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none">
+                  <option value="fade">ค่อยๆ ลอยขึ้น (Fade Up)</option>
+                  <option value="typewriter">พิมพ์ดีด (Typewriter)</option>
+                  <option value="glitch">จอกระตุก (Cyberpunk Glitch)</option>
+                </select>
+              </div>
+              <div>
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">สีเรืองแสง (Hex) ทับสีธีม</p>
+                <input type="text" name="customAccentColor" defaultValue={settings.customAccentColor} placeholder="#00ff00" className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+              </div>
+              <div>
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปแบบเมาส์ (Cursor)</p>
+                <select name="customCursor" defaultValue={settings.customCursor || "default"} className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none">
+                  <option value="default">ปกติ (Default)</option>
+                  <option value="crosshair">เป้าเล็ง (Crosshair)</option>
+                  <option value="glow">ไฟส่อง (Glow Trail)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Socials & Logo */}
+        <div className="bg-[#050505] border border-[#111111] rounded-[18px] overflow-hidden">
+          <div className="bg-[#0a0a0a] p-[18px] border-b border-[#111111] flex items-center gap-[12px]">
+            <Sliders className="w-[18px] h-[18px] text-[#0084ff]" />
+            <h3 className="text-[14px] font-[900] tracking-[1.8px] text-text-inverse">โลโก้และโซเชียลมีเดีย</h3>
+          </div>
+          <div className="p-[27px] space-y-[18px]">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-[18px]">
+              <div className="sm:col-span-2">
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปลิงก์โลโก้แก๊ง (จะโชว์กลางหน้าจอ)</p>
+                <input type="text" name="logoUrl" defaultValue={settings.logoUrl} placeholder="https://..." className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+              </div>
+              <div>
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">Discord URL</p>
+                <input type="url" name="discordUrl" defaultValue={settings.discordUrl} placeholder="https://discord.gg/..." className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+              </div>
+              <div>
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">Facebook URL</p>
+                <input type="url" name="facebookUrl" defaultValue={settings.facebookUrl} placeholder="https://facebook.com/..." className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+              </div>
+            </div>
+          </div>
+        </div>
+
         </form>
     </div>
   );

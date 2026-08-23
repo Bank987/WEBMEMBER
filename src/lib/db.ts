@@ -17,6 +17,13 @@ export interface Gang {
   backgroundImageUrl?: string;
   textColor?: string;
   fontFamily?: string;
+  particleEffect?: string;
+  customAccentColor?: string;
+  customCursor?: string;
+  logoUrl?: string;
+  discordUrl?: string;
+  facebookUrl?: string;
+  entryAnimation?: string;
 }
 
 export interface Member {
@@ -49,6 +56,13 @@ const gangSchema = new mongoose.Schema({
   backgroundImageUrl: { type: String, default: "" },
   textColor: { type: String, default: "" },
   fontFamily: { type: String, default: "sans" },
+  particleEffect: { type: String, default: "none" },
+  customAccentColor: { type: String, default: "" },
+  customCursor: { type: String, default: "default" },
+  logoUrl: { type: String, default: "" },
+  discordUrl: { type: String, default: "" },
+  facebookUrl: { type: String, default: "" },
+  entryAnimation: { type: String, default: "fade" },
 }, { timestamps: true });
 
 const memberSchema = new mongoose.Schema({
@@ -67,7 +81,18 @@ if (!GangModel.schema.path("adminSessionHash")) {
   GangModel.schema.add({ adminSessionHash: { type: String, select: false } });
 }
 if (!GangModel.schema.path("backgroundImageUrl")) {
-  GangModel.schema.add({ backgroundImageUrl: { type: String, default: "" }, textColor: { type: String, default: "" }, fontFamily: { type: String, default: "sans" } });
+  GangModel.schema.add({ 
+    backgroundImageUrl: { type: String, default: "" }, 
+    textColor: { type: String, default: "" }, 
+    fontFamily: { type: String, default: "sans" },
+    particleEffect: { type: String, default: "none" },
+    customAccentColor: { type: String, default: "" },
+    customCursor: { type: String, default: "default" },
+    logoUrl: { type: String, default: "" },
+    discordUrl: { type: String, default: "" },
+    facebookUrl: { type: String, default: "" },
+    entryAnimation: { type: String, default: "fade" }
+  });
 }
 const MemberModel = mongoose.models.Member || mongoose.model("Member", memberSchema);
 // Dev hot reload can retain the pre-migration schema where department was required.
@@ -107,6 +132,13 @@ type GangDocument = {
   backgroundImageUrl?: string;
   textColor?: string;
   fontFamily?: string;
+  particleEffect?: string;
+  customAccentColor?: string;
+  customCursor?: string;
+  logoUrl?: string;
+  discordUrl?: string;
+  facebookUrl?: string;
+  entryAnimation?: string;
 };
 
 type MemberDocument = {
@@ -132,6 +164,13 @@ function mapGang(doc: GangDocument): Gang {
     backgroundImageUrl: doc.backgroundImageUrl || "",
     textColor: doc.textColor || "",
     fontFamily: doc.fontFamily || "sans",
+    particleEffect: doc.particleEffect || "none",
+    customAccentColor: doc.customAccentColor || "",
+    customCursor: doc.customCursor || "default",
+    logoUrl: doc.logoUrl || "",
+    discordUrl: doc.discordUrl || "",
+    facebookUrl: doc.facebookUrl || "",
+    entryAnimation: doc.entryAnimation || "fade",
   };
 }
 
