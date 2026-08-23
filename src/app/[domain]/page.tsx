@@ -12,6 +12,11 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
   
   return {
     title: gang.pageTitle,
+    description: gang.pageSubtitle,
+    openGraph: {
+      title: gang.pageTitle,
+      description: gang.pageSubtitle,
+    },
     robots: {
       index: false,
       follow: false,
