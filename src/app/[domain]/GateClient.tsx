@@ -136,15 +136,15 @@ export default function GateClient({ settings }: { settings: Settings }) {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 1.8, ease: "easeOut" }}
-          className="flex flex-col items-center justify-center gap-[18px] mt-[18px] w-full"
+          className="flex flex-col items-center justify-center gap-[18px] mt-[24px] w-full"
         >
-          <div className="w-[85%] sm:w-[320px]">
+          <div className="w-[160px] h-[160px] sm:w-[180px] sm:h-[180px]">
             <NeonTypingButton 
               label={settings.buttonText} 
               loadingText={`ACCESSING_${settings.buttonText}...`} 
               href="/members" 
-              className="block w-full"
-              textClassName="text-[18px] py-[9px]"
+              className="block w-full h-full"
+              textClassName="text-[16px] text-center"
               imageSrc={settings.buttonImage || undefined}
             />
           </div>

@@ -44,20 +44,20 @@ export function NeonTypingButton({
       <motion.button
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
-        className={`w-full relative group flex items-center justify-center rounded-[12px] overflow-hidden transition-all duration-300 border ${
-          isHovered ? "border-[#0084ff] bg-transparent" : "border-[rgba(255,255,255,0.1)] bg-transparent"
-        } ${imageSrc && !imageError ? 'p-0' : 'gap-[9px] px-[36px] py-[9px]'}`}
+        className={`w-full h-full relative group flex flex-col items-center justify-center rounded-[16px] overflow-hidden transition-all duration-300 border ${
+          isHovered ? "border-[#0084ff] bg-[#0084ff]/5" : "border-[rgba(255,255,255,0.1)] bg-black/20 backdrop-blur-sm"
+        } ${imageSrc && !imageError ? 'p-0' : 'gap-[9px] p-[16px]'}`}
         style={{
           boxShadow: isHovered 
-            ? "0 0 15px rgba(0, 132, 255, 0.2)" 
+            ? "0 0 25px rgba(0, 132, 255, 0.3)" 
             : "0 0 0px rgba(0, 132, 255, 0)",
         }}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
       >
         {imageSrc && !imageError ? (
           /* Image Mode - Smart Auto Fit */
-          <div className="relative w-full flex items-center justify-center p-[4px] sm:p-[8px]">
+          <div className="relative w-full h-full flex items-center justify-center p-[8px]">
             <img 
               src={useProxy ? `/api/image-proxy?url=${encodeURIComponent(imageSrc)}` : imageSrc} 
               alt={label} 
@@ -69,20 +69,20 @@ export function NeonTypingButton({
                   setImageError(true); // Proxy failed too, fallback to text
                 }
               }}
-              className={`w-full max-h-[100px] object-contain rounded-[8px] transition-all duration-500 ${isHovered ? 'scale-105 filter brightness-125 drop-shadow-[0_0_15px_rgba(0,132,255,0.5)]' : 'filter brightness-90'}`} 
+              className={`w-full h-full object-cover rounded-[12px] transition-all duration-500 ${isHovered ? 'scale-110 filter brightness-125 drop-shadow-[0_0_15px_rgba(0,132,255,0.5)]' : 'filter brightness-90'}`} 
             />
             {/* Hover overlay glow */}
-            <div className={`absolute inset-0 bg-gradient-to-r from-[#0084ff]/0 via-[#0084ff]/20 to-[#0084ff]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+            <div className={`absolute inset-0 bg-gradient-to-tr from-[#0084ff]/0 via-[#0084ff]/20 to-[#0084ff]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
           </div>
         ) : (
           /* Text Mode - Neon Typing Effect */
           <>
-            <div className={`relative z-10 flex items-center font-sans tracking-[1.8px] font-[400] uppercase ${textClassName}`}>
-              <div className="min-w-[180px] flex justify-center items-center">
+            <div className={`relative z-10 flex flex-col items-center justify-center font-sans tracking-[1.8px] font-[900] uppercase ${textClassName} h-full w-full px-2`}>
+              <div className="flex justify-center items-center text-center break-words w-full max-w-full">
                 {!isHovered ? (
-                  <span className="text-[#ffffff]">{label}</span>
+                  <span className="text-[#ffffff] leading-tight break-words">{label}</span>
                 ) : (
-                  <span className="text-[#0084ff]">
+                  <span className="text-[#0084ff] leading-tight break-words">
                     {loadingText.slice(0, textIndex)}
                     <motion.span
                       animate={{ opacity: [1, 0] }}
