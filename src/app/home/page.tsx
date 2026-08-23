@@ -1,94 +1,129 @@
-import { ArrowDownRight, Check, Globe2, ShieldCheck, Sparkles, Users } from "lucide-react";
+import { ArrowRight, Globe, Users, Shield, Sparkles, Command, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import GangAuth from "@/components/GangAuth";
-import { GangPreview, Reveal } from "@/components/LandingMotion";
-import { LaunchSequence, MemberSignal } from "@/components/LaunchSequence";
-import { DiscordSupportButton } from "@/components/DiscordSupportButton";
-import { Snowfall } from "@/components/Snowfall";
+import { Reveal, FloatingHero, BentoGrid, GlowingButton } from "@/components/LandingMotion";
 
 export const metadata = {
-  title: "WEBSITE สร้างเว็บรายชื่อแก๊ง อันดับ 1",
-  description: "WEBSITE สร้างเว็บรายชื่อแก๊ง อันดับ 1 พร้อมระบบจัดการสมาชิกและหลังบ้านส่วนตัว",
+  title: "GANGLIST - The Next-Gen Faction Platform",
+  description: "Create your faction's website, manage members, and dominate. All in one stunning, easy-to-use platform.",
   openGraph: {
-    title: "WEBSITE สร้างเว็บรายชื่อแก๊ง อันดับ 1",
-    description: "สร้างเว็บรายชื่อแก๊ง พร้อมระบบจัดการสมาชิกและหลังบ้านส่วนตัว",
+    title: "GANGLIST - The Next-Gen Faction Platform",
+    description: "Create your faction's website, manage members, and dominate. All in one stunning, easy-to-use platform.",
     type: "website",
   },
 };
 
-const packages = [
-  { name: "เริ่มต้น", price: "ฟรี", detail: "พื้นที่สำหรับแก๊งที่ต้องการเริ่มต้นให้เร็วที่สุด", features: ["ซับโดเมนเฉพาะแก๊ง", "จัดการสมาชิก 50 คน", "หลังบ้านส่วนตัว"] },
-  { name: "เอมไพร์", price: "89฿", detail: "พื้นที่เต็มรูปแบบสำหรับแก๊งที่ต้องการขยายตัว", features: ["เชื่อมต่อโดเมนของคุณเอง", "สมาชิกไม่จำกัด", "เอฟเฟกต์และเสียงพิเศษ"], featured: true },
-];
-
 export default function LandingPage() {
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#090a0c] text-[#f5f7fa]">
-      <Snowfall />
-      <header className="absolute inset-x-0 top-0 z-50">
-        <div className="mx-auto flex max-w-[1380px] items-center justify-between px-6 py-7 md:px-10">
-          <Link href="/" className="flex items-center gap-3 text-[17px] font-[900] tracking-[1px]"><span className="relative grid size-9 place-items-center rounded-full border border-[#b6dcff]/60 bg-[#dceeff] shadow-[0_0_32px_rgba(118,186,255,0.8)]"><span className="size-2 rounded-full bg-[#0b5eab]" /></span>GANGLIST</Link>
-          <div className="flex items-center gap-2"><DiscordSupportButton compact /><a href="#auth" className="rounded-full border border-white/15 bg-white/[0.07] px-5 py-2.5 text-[11px] font-[900] tracking-[0.7px] text-white backdrop-blur-md transition hover:bg-white/15">เข้าสู่หลังบ้าน</a></div>
+    <div className="min-h-screen overflow-x-hidden bg-black text-slate-200 selection:bg-[#0084ff] selection:text-white font-sans">
+      
+      {/* Dynamic Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,#141e30,transparent_50%)] opacity-60" />
+        <div className="absolute top-[-10%] right-[-5%] w-[50vw] h-[50vw] rounded-full bg-[#0084ff]/20 blur-[120px] mix-blend-screen" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#7a00ff]/15 blur-[150px] mix-blend-screen" />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,black_40%,transparent_100%)]" />
+      </div>
+
+      <header className="fixed inset-x-0 top-0 z-50 transition-all duration-300 backdrop-blur-md border-b border-white/5 bg-black/40">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="relative flex size-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#0084ff] to-[#004b99] shadow-[0_0_20px_rgba(0,132,255,0.4)]">
+              <Command className="size-5 text-white" />
+              <div className="absolute inset-0 rounded-xl ring-1 ring-white/20" />
+            </div>
+            <span className="text-lg font-[900] tracking-widest text-white uppercase">GANGLIST</span>
+          </Link>
+          <div className="flex items-center gap-4">
+            <Link href="#auth" className="relative group overflow-hidden rounded-full p-[1px]">
+              <span className="absolute inset-0 bg-gradient-to-r from-[#0084ff] to-[#7a00ff] rounded-full opacity-70 group-hover:opacity-100 transition-opacity duration-300" />
+              <div className="relative bg-black px-6 py-2.5 rounded-full text-xs font-[800] tracking-wider text-white transition-all group-hover:bg-transparent">
+                LOGIN TO SECURE NET
+              </div>
+            </Link>
+          </div>
         </div>
       </header>
 
-      <main>
-        <section className="relative isolate min-h-[820px] overflow-hidden px-6 pb-20 pt-36 md:px-10 md:pt-44">
-          <div className="absolute inset-0 -z-20 bg-[#090a0c]" />
-          <div className="absolute -right-[12%] top-[4%] -z-10 size-[680px] rounded-full bg-[#2387d5]/20 blur-[130px]" />
-          <div className="absolute -left-[15%] bottom-[-35%] -z-10 size-[700px] rounded-full bg-[#a743cf]/10 blur-[160px]" />
-          <div className="absolute inset-0 -z-10 opacity-[0.18] [background-image:radial-gradient(rgba(255,255,255,0.5)_0.7px,transparent_0.7px)] [background-size:15px_15px]" />
-          <div className="mx-auto grid max-w-[1380px] gap-16 lg:grid-cols-[0.95fr_1.05fr] lg:items-center lg:gap-20">
-            <Reveal>
-              <p className="mb-7 flex items-center gap-2 text-[11px] font-[900] tracking-[1.6px] text-[#9fd3ff]"><span className="size-2 rounded-full bg-[#79c0ff] shadow-[0_0_14px_#79c0ff]" /> แพลตฟอร์มสำหรับแก๊งยุคใหม่</p>
-              <h1 className="max-w-[720px] text-[52px] font-[900] leading-[1.08] tracking-[0] text-white sm:text-[68px] md:text-[88px]">มีที่ของคุณ<br /><span className="text-transparent [-webkit-text-stroke:1px_rgba(255,255,255,0.62)]">ในโลกของแก๊ง</span></h1>
-              <p className="mt-10 max-w-[530px] text-[16px] leading-[1.9] text-[#b8bec9] md:text-[18px]">สร้างหน้าเว็บไซต์ที่ดูมีตัวตน จัดระเบียบรายชื่อสมาชิก และดูแลทุกอย่างด้วยตัวเองจากหลังบ้านเดียว</p>
-              <div className="mt-12 flex flex-wrap items-center gap-x-5 gap-y-4"><a href="#auth" className="group flex items-center gap-3 rounded-full bg-[#ecf6ff] px-7 py-4 text-[12px] font-[900] text-[#07111c] transition hover:bg-white">สร้างพื้นที่ของคุณ <ArrowDownRight className="size-4 transition group-hover:translate-x-1 group-hover:translate-y-1" /></a><span className="flex items-center gap-2 text-[11px] text-[#aeb5c0]"><ShieldCheck className="size-4 text-[#72d89b]" /> เริ่มต้นได้ฟรี</span></div>
+      <main className="relative z-10 pt-32 pb-24">
+        {/* Hero Section */}
+        <section className="relative px-6 pt-10 md:pt-20 pb-32">
+          <div className="mx-auto max-w-7xl grid lg:grid-cols-[1fr_1fr] gap-16 items-center">
+            <Reveal className="flex flex-col items-start text-left">
+              <div className="inline-flex items-center gap-2 rounded-full border border-[#0084ff]/30 bg-[#0084ff]/10 px-4 py-1.5 mb-8">
+                <span className="flex size-2 rounded-full bg-[#0084ff] shadow-[0_0_10px_#0084ff] animate-pulse" />
+                <span className="text-[10px] font-bold tracking-[0.2em] text-[#0084ff] uppercase">System Online V2.0</span>
+              </div>
+              <h1 className="text-[4rem] sm:text-[5rem] lg:text-[6rem] font-[900] leading-[0.9] tracking-tighter text-white mb-8">
+                RULE <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0084ff] to-[#7a00ff]">THE GRID</span>
+              </h1>
+              <p className="max-w-md text-lg text-slate-400 mb-10 leading-relaxed font-light">
+                Establish your digital presence. Manage your roster, customize your aesthetic, and assert dominance with a breathtaking faction hub.
+              </p>
+              <GlowingButton href="#auth" text="INITIALIZE FACTION" />
             </Reveal>
-            <GangPreview />
+
+            <FloatingHero />
           </div>
         </section>
 
-        <section className="relative z-10 mx-auto -mt-12 max-w-[1380px] px-6 md:px-10">
-          <div className="grid rounded-[30px] border border-white/10 bg-white/[0.055] p-3 backdrop-blur-xl md:grid-cols-3">
-            {[{ icon: Globe2, title: "ชื่อที่เป็นของคุณ", detail: "เลือก URL ของแก๊งและทำให้คนจำคุณได้" }, { icon: Users, title: "สมาชิกเป็นระเบียบ", detail: "สร้างไดเรกทอรีที่ค้นหาและดูแลง่าย" }, { icon: Sparkles, title: "สวยตั้งแต่วันแรก", detail: "ไม่ต้องออกแบบหรือเขียนโค้ดเอง" }].map(({ icon: Icon, title, detail }, index) => <div key={title} className={`flex gap-5 rounded-[23px] p-7 md:p-8 ${index > 0 ? "md:border-l md:border-white/10" : ""}`}><span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-white/10"><Icon className="size-5 text-[#9fd3ff]" /></span><div><h2 className="text-[15px] font-[900] text-white">{title}</h2><p className="mt-2.5 text-[12px] leading-[1.75] text-[#a4acb8]">{detail}</p></div></div>)}
+        {/* Bento Grid Features */}
+        <section className="px-6 py-32 bg-black/50 border-y border-white/5 backdrop-blur-xl">
+          <div className="mx-auto max-w-7xl">
+            <Reveal delay={0.1}>
+              <h2 className="text-3xl md:text-5xl font-[900] text-center mb-16 tracking-tight text-white uppercase">
+                Arsenal <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0084ff] to-[#00bfff]">Overview</span>
+              </h2>
+            </Reveal>
+            <BentoGrid />
           </div>
         </section>
 
-        <section id="auth" className="scroll-mt-8 px-6 py-28 md:px-10 md:py-36">
-          <div className="mx-auto max-w-[1160px] rounded-[38px] border border-[#91cbff]/20 bg-[linear-gradient(130deg,rgba(19,71,119,0.65),rgba(14,18,25,0.96)_46%,rgba(63,22,93,0.32))] p-6 shadow-[0_30px_100px_rgba(0,0,0,0.45)] md:p-12">
-            <div className="grid gap-14 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
-              <Reveal>
-                <p className="text-[11px] font-[900] tracking-[1.5px] text-[#a5d8ff]">เริ่มใช้งานในไม่กี่นาที</p>
-                <h2 className="mt-5 text-[38px] font-[900] leading-[1.18] text-white md:text-[54px]">เปิดเว็บไซต์<br />ในชื่อของคุณ</h2>
-                <p className="mt-7 max-w-[350px] text-[13px] leading-[1.95] text-[#aeb9c8]">ระบบจะสร้างพื้นที่ส่วนตัวและรหัสลับสำหรับเข้าไปดูแลเว็บไซต์ของคุณทันที</p>
-                <div className="mt-10 flex gap-3 text-[11px] text-[#d9e7f4]"><span className="grid size-8 place-items-center rounded-full bg-[#dff1ff] font-[900] text-[#095a98]">1</span><span className="grid size-8 place-items-center rounded-full bg-white/10 font-[900]">2</span><span className="grid size-8 place-items-center rounded-full bg-white/10 font-[900]">3</span></div>
-              </Reveal>
-              <Reveal delay={0.12}><div className="rounded-[28px] bg-[#0c0e12]/80 p-3 shadow-2xl sm:p-5"><GangAuth /></div></Reveal>
+        {/* Auth / Terminal Section */}
+        <section id="auth" className="px-6 py-32 scroll-mt-20">
+          <div className="mx-auto max-w-5xl">
+            <div className="relative rounded-3xl overflow-hidden border border-white/10 bg-black/60 backdrop-blur-2xl p-1">
+              <div className="absolute inset-0 bg-gradient-to-br from-[#0084ff]/10 via-transparent to-[#7a00ff]/10 opacity-50" />
+              <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 mix-blend-overlay" />
+              
+              <div className="relative rounded-[22px] bg-[#050505] border border-white/5 p-8 md:p-16 grid lg:grid-cols-2 gap-12 items-center">
+                <Reveal delay={0.2} className="space-y-8">
+                  <div className="space-y-4">
+                    <Shield className="size-12 text-[#0084ff] drop-shadow-[0_0_15px_rgba(0,132,255,0.5)]" />
+                    <h2 className="text-4xl md:text-5xl font-[900] text-white tracking-tight uppercase leading-none">
+                      Secure <br />Access Point
+                    </h2>
+                    <p className="text-sm text-slate-400 leading-relaxed max-w-sm">
+                      Enter your faction's designation code to deploy your digital headquarters instantly. Zero friction.
+                    </p>
+                  </div>
+                  <ul className="space-y-3">
+                    {["Instant Deployment", "End-to-End Encrypted", "No Credit Card Required"].map((item, i) => (
+                      <li key={i} className="flex items-center gap-3 text-sm text-slate-300 font-medium">
+                        <CheckCircle2 className="size-4 text-[#0084ff]" /> {item}
+                      </li>
+                    ))}
+                  </ul>
+                </Reveal>
+                
+                <Reveal delay={0.4} className="relative z-10">
+                  <div className="rounded-2xl bg-black border border-white/10 p-2 shadow-2xl relative">
+                    <div className="absolute -inset-[1px] rounded-2xl bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+                    <GangAuth />
+                  </div>
+                </Reveal>
+              </div>
             </div>
           </div>
         </section>
-
-        <section className="px-6 pb-28 md:px-10 md:pb-36">
-          <div className="mx-auto grid max-w-[1120px] gap-5 lg:grid-cols-[1.18fr_0.82fr]">
-            <Reveal><LaunchSequence /></Reveal>
-            <Reveal delay={0.1}><MemberSignal /></Reveal>
-          </div>
-        </section>
-
-        <section className="border-t border-white/[0.08] bg-[#07080a] px-6 py-28 md:px-10">
-          <div className="mx-auto max-w-[1200px]">
-            <Reveal className="max-w-[640px]"><p className="text-[11px] font-[900] tracking-[1.5px] text-[#93ceff]">แพ็กเกจบริการ</p><h2 className="mt-4 text-[42px] font-[900] leading-[1.1] text-white md:text-[60px]">เล็กพอที่จะเริ่ม<br />ใหญ่พอที่จะเติบโต</h2></Reveal>
-            <div className="mt-14 grid gap-5 md:grid-cols-2">{packages.map((item) => <Reveal key={item.name} delay={item.featured ? 0.1 : 0}><article className={`group relative flex min-h-[390px] flex-col rounded-[30px] p-7 transition duration-500 hover:-translate-y-1 md:p-9 ${item.featured ? "overflow-hidden bg-[#e9f5ff] text-[#0a1826]" : "border border-white/10 bg-[#101216]"}`}>
-              {item.featured && <div className="absolute -right-20 -top-20 size-[260px] rounded-full bg-[#4baff4]/45 blur-[50px]" />}
-              <div className="relative"><p className={`text-[12px] font-[900] tracking-[1.4px] ${item.featured ? "text-[#185d91]" : "text-[#93ceff]"}`}>{item.featured && <Sparkles className="mr-2 inline size-4" />}{item.name}</p><div className="mt-5 flex items-baseline gap-2"><span className="text-[52px] font-[900]">{item.price}</span>{item.featured && <span className="text-[13px] opacity-60">/ เดือน</span>}</div><p className="mt-3 max-w-[330px] text-[13px] leading-relaxed opacity-70">{item.detail}</p></div>
-              <div className="relative mt-10 space-y-4 border-t border-current/10 pt-7">{item.features.map((feature) => <div key={feature} className="flex gap-3 text-[13px] leading-relaxed"><Check className={`mt-0.5 size-4 shrink-0 ${item.featured ? "text-[#17669e]" : "text-[#7bd6a0]"}`} />{feature}</div>)}</div>
-              {item.featured ? <div className="relative mt-10 flex items-center justify-center gap-2 rounded-full bg-[#0c2335]/80 px-5 py-4 text-[11px] font-[900] text-[#b8cde0]"><span className="size-1.5 animate-pulse rounded-full bg-[#ffbd68]" /> กำลังปิดปรับปรุง</div> : <a href="#auth" className="relative mt-10 flex items-center justify-between rounded-full bg-white/10 px-5 py-4 text-[11px] font-[900] text-white">เลือกแพ็กเกจนี้ <ArrowDownRight className="size-4" /></a>}
-            </article></Reveal>)}</div>
-            <div className="mt-12 flex flex-col items-center justify-between gap-5 rounded-[24px] border border-white/10 bg-white/[0.035] px-6 py-6 text-center sm:flex-row sm:text-left"><div><p className="text-[15px] font-[900] text-white">ต้องการความช่วยเหลือก่อนเริ่มต้น?</p><p className="mt-1 text-[12px] text-[#97a3af]">พูดคุยกับทีมดูแลและชุมชนผ่าน Discord</p></div><DiscordSupportButton /></div>
-          </div>
-        </section>
       </main>
+
+      <footer className="border-t border-white/5 bg-black/80 backdrop-blur-lg py-8 text-center relative z-10">
+        <p className="text-xs font-bold tracking-[0.2em] text-slate-500 uppercase">
+          © 2026 GANGLIST. Neural Network Secured.
+        </p>
+      </footer>
     </div>
   );
 }
