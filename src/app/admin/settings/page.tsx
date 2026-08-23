@@ -183,7 +183,7 @@ export default async function SettingsPage() {
               โดเมน (ชื่อเว็บ) นี้จะถูกปล่อยว่างเพื่อให้คนอื่นสามารถใช้งานได้ 
               <strong> ต้องสร้างแก๊งมาแล้วอย่างน้อย 3 วันจึงจะสามารถยุบได้</strong>
             </p>
-            <DeleteGangButton deleteAction={async () => {
+            <DeleteGangButton gangName={settings.pageTitle} deleteAction={async () => {
               "use server";
               const { deleteGangAction } = await import("@/actions/settings");
               await deleteGangAction();
