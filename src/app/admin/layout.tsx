@@ -43,13 +43,13 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </nav>
 
           <div className="relative z-10 border-t border-white/10 p-5">
-            <Link 
+            <a 
               href="/api/auth/logout" 
               className="group flex items-center justify-center gap-2 rounded-2xl border border-[#ef4444]/20 px-4 py-3.5 text-[11px] font-[900] tracking-[0.5px] text-[#ef7777] transition hover:border-[#ef4444]/50 hover:bg-[#ef4444]/10"
             >
               <LogOut className="w-[14px] h-[14px] group-hover:-translate-x-1 transition-transform" />
               ออกจากระบบ
-            </Link>
+            </a>
           </div>
         </aside>
 

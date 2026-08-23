@@ -22,6 +22,9 @@ export async function POST(request: Request) {
     secure: process.env.NODE_ENV === "production",
     path: "/",
     maxAge: 60 * 60 * 24 * 7,
+    ...(process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_ROOT_DOMAIN
+      ? { domain: `.${process.env.NEXT_PUBLIC_ROOT_DOMAIN}` }
+      : {}),
   };
   (await cookies()).set(SESSION_COOKIE, session, cookieOptions);
   return Response.json({ subdomain });
