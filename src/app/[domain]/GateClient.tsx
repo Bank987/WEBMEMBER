@@ -127,7 +127,7 @@ export default function GateClient({ settings }: { settings: Settings }) {
             className="text-[10.5px] max-w-2xl mx-auto leading-[15px] tracking-[3.15px] font-normal uppercase mt-[27px]"
             style={{ color: settings.textColor ? settings.textColor : '#999999', opacity: settings.textColor ? 0.7 : 1 }}
           >
-            System Initialization / Faction Access
+            LASTNAME.SITE BY. ganglist
           </motion.p>
         </div>
 
