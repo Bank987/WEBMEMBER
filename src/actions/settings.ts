@@ -27,6 +27,7 @@ export async function saveSettings(formData: FormData) {
     discordUrl: formData.get("discordUrl") as string,
     facebookUrl: formData.get("facebookUrl") as string,
     entryAnimation: formData.get("entryAnimation") as string || "fade",
+    buttonShape: formData.get("buttonShape") as string || "square",
   };
 
   await updateGang(gang.id, data);

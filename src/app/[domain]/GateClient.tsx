@@ -24,6 +24,7 @@ type Settings = {
   discordUrl?: string;
   facebookUrl?: string;
   entryAnimation?: string;
+  buttonShape?: string;
 };
 
 const getAnimationProps = (type?: string, index: number = 0): any => {
@@ -155,7 +156,11 @@ export default function GateClient({ settings }: { settings: Settings }) {
           transition={{ duration: 0.8, delay: 1.8, ease: "easeOut" }}
           className="flex flex-col items-center justify-center gap-[18px] mt-[24px] w-full"
         >
-          <div className="w-[200px] h-[200px] sm:w-[240px] sm:h-[240px]">
+          <div className={
+            settings.buttonShape === 'rectangle' ? "w-[240px] h-[64px] sm:w-[320px] sm:h-[72px]" :
+            settings.buttonShape === 'parallelogram' ? "w-[240px] h-[64px] sm:w-[320px] sm:h-[72px]" :
+            "w-[200px] h-[200px] sm:w-[240px] sm:h-[240px]"
+          }>
             <NeonTypingButton 
               label={settings.buttonText} 
               loadingText={`ACCESSING_${settings.buttonText}...`} 
@@ -163,6 +168,7 @@ export default function GateClient({ settings }: { settings: Settings }) {
               className="block w-full h-full"
               textClassName="text-[16px] text-center"
               imageSrc={settings.buttonImage || undefined}
+              shape={settings.buttonShape}
             />
           </div>
 

@@ -24,6 +24,7 @@ export interface Gang {
   discordUrl?: string;
   facebookUrl?: string;
   entryAnimation?: string;
+  buttonShape?: string;
   createdAt?: string;
   creatorIp?: string;
 }
@@ -65,6 +66,7 @@ const gangSchema = new mongoose.Schema({
   discordUrl: { type: String, default: "" },
   facebookUrl: { type: String, default: "" },
   entryAnimation: { type: String, default: "fade" },
+  buttonShape: { type: String, default: "square" },
   creatorIp: { type: String, default: "" },
 }, { timestamps: true });
 
@@ -77,6 +79,9 @@ const memberSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const GangModel = mongoose.models.Gang || mongoose.model("Gang", gangSchema);
+if (!GangModel.schema.path("buttonShape")) {
+  GangModel.schema.add({ buttonShape: { type: String, default: "square" } });
+}
 if (!GangModel.schema.path("theme")) {
   GangModel.schema.add({ theme: { type: String, default: "default" } });
 }
@@ -142,6 +147,7 @@ type GangDocument = {
   discordUrl?: string;
   facebookUrl?: string;
   entryAnimation?: string;
+  buttonShape?: string;
 };
 
 type MemberDocument = {
@@ -174,6 +180,7 @@ function mapGang(doc: GangDocument): Gang {
     discordUrl: doc.discordUrl || "",
     facebookUrl: doc.facebookUrl || "",
     entryAnimation: doc.entryAnimation || "fade",
+    buttonShape: doc.buttonShape || "square",
     createdAt: (doc as any).createdAt instanceof Date ? (doc as any).createdAt.toISOString() : (doc as any).createdAt,
   };
 }

@@ -12,6 +12,7 @@ interface Props {
   className?: string;
   textClassName?: string;
   imageSrc?: string;
+  shape?: string;
 }
 
 export function NeonTypingButton({ 
@@ -21,6 +22,7 @@ export function NeonTypingButton({
   className = "",
   textClassName = "text-[12px]",
   imageSrc,
+  shape = "square",
 }: Props) {
   const [isHovered, setIsHovered] = useState(false);
   const [textIndex, setTextIndex] = useState(0);
@@ -45,9 +47,13 @@ export function NeonTypingButton({
       <motion.button
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
-        className={`w-full h-full relative group flex flex-col items-center justify-center rounded-[16px] overflow-hidden transition-all duration-300 border ${
+        className={`w-full h-full relative group flex flex-col items-center justify-center overflow-hidden transition-all duration-300 border ${
           isHovered ? "border-[#0084ff] bg-[#0084ff]/5" : "border-[rgba(255,255,255,0.1)] bg-black/20 backdrop-blur-sm"
-        } ${imageSrc && !imageError ? 'p-0' : 'gap-[9px] p-[16px]'}`}
+        } ${imageSrc && !imageError && shape === 'square' ? 'p-0' : 'gap-[9px] p-[16px]'} ${
+          shape === 'parallelogram' ? 'rounded-none -skew-x-[15deg]' :
+          shape === 'rectangle' ? 'rounded-[16px]' :
+          'rounded-[16px]'
+        }`}
         style={{
           boxShadow: isHovered 
             ? "0 0 25px rgba(0, 132, 255, 0.3)" 
@@ -56,7 +62,7 @@ export function NeonTypingButton({
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        {imageSrc && !imageError ? (
+        {imageSrc && !imageError && shape === 'square' ? (
           /* Image Mode - Smart Auto Fit */
           <div className="relative w-full h-full flex items-center justify-center p-[8px]">
             <Image 
@@ -81,7 +87,7 @@ export function NeonTypingButton({
         ) : (
           /* Text Mode - Neon Typing Effect */
           <>
-            <div className={`relative z-10 flex flex-col items-center justify-center font-sans tracking-[1.8px] font-[900] uppercase ${textClassName} h-full w-full px-2`}>
+            <div className={`relative z-10 flex flex-col items-center justify-center font-sans tracking-[1.8px] font-[900] uppercase ${textClassName} h-full w-full px-2 ${shape === 'parallelogram' ? 'skew-x-[15deg]' : ''}`}>
               <div className="flex justify-center items-center text-center break-words w-full max-w-full">
                 {!isHovered ? (
                   <span className="text-[#ffffff] leading-tight break-words">{label}</span>

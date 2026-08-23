@@ -4,6 +4,7 @@ import { saveSettings } from "@/actions/settings";
 import { redirect } from "next/navigation";
 import { gangThemes } from "@/lib/themes";
 import { DeleteGangButton } from "@/components/DeleteGangButton";
+import { ButtonSettings } from "@/components/ButtonSettings";
 
 export default async function SettingsPage() {
   const settings = await getAuthenticatedGang();
@@ -63,14 +64,11 @@ export default async function SettingsPage() {
           </div>
           <div className="p-[27px] space-y-[18px]">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-[18px]">
-              <div>
-                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">ข้อความปุ่มเข้าสู่เว็บไซต์</p>
-                <input type="text" name="buttonText" defaultValue={settings.buttonText} className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
-              </div>
-              <div>
-                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปปุ่มเข้าสู่เว็บไซต์ (ใช้แทนข้อความ)</p>
-                <input type="text" name="buttonImage" defaultValue={settings.buttonImage} className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
-              </div>
+              <ButtonSettings 
+                initialText={settings.buttonText} 
+                initialImage={settings.buttonImage} 
+                initialShape={settings.buttonShape} 
+              />
               <div>
                 <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">ชื่อหน้าเว็บไซต์</p>
                 <input type="text" name="pageTitle" defaultValue={settings.pageTitle} className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
