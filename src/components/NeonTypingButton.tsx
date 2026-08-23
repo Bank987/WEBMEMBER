@@ -69,7 +69,7 @@ export function NeonTypingButton({
                   setImageError(true); // Proxy failed too, fallback to text
                 }
               }}
-              className={`w-full h-full object-cover rounded-[12px] transition-all duration-500 ${isHovered ? 'scale-110 filter brightness-125 drop-shadow-[0_0_15px_rgba(0,132,255,0.5)]' : 'filter brightness-90'}`} 
+              className={`w-full h-full object-contain rounded-[12px] transition-all duration-500 ${isHovered ? 'scale-110 filter brightness-125 drop-shadow-[0_0_15px_rgba(0,132,255,0.5)]' : 'filter brightness-90'}`} 
             />
             {/* Hover overlay glow */}
             <div className={`absolute inset-0 bg-gradient-to-tr from-[#0084ff]/0 via-[#0084ff]/20 to-[#0084ff]/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
