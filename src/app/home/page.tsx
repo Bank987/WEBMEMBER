@@ -3,6 +3,7 @@ import Link from "next/link";
 import GangAuth from "@/components/GangAuth";
 import { Reveal } from "@/components/LandingMotion";
 import { DiscordSupportButton } from "@/components/DiscordSupportButton";
+import { BackgroundEffects } from "@/components/BackgroundEffects";
 
 export const metadata = {
   title: "WEBSITE สร้างเว็บรายชื่อแก๊ง อันดับ 1",
@@ -27,8 +28,8 @@ export default function LandingPage() {
       <div className="fixed inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[#000000]" />
         
-        {/* Futuristic Grid Lines */}
-        <div className="absolute inset-0 opacity-[0.05] bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:60px_60px] [mask-image:radial-gradient(ellipse_100%_100%_at_50%_0%,black_30%,transparent_80%)]" />
+        {/* Snow Effect */}
+        <BackgroundEffects type="snow" />
         
         {/* Deep Glows */}
         <div className="absolute top-[-20%] left-1/2 -translate-x-1/2 w-[80vw] h-[50vw] rounded-[100%] bg-[#0084ff]/15 blur-[120px] mix-blend-screen" />
@@ -120,8 +121,6 @@ export default function LandingPage() {
 
         {/* Pricing Section */}
         <section className="px-6 py-24 border-t border-white/5 bg-black/40 relative overflow-hidden">
-          {/* Subtle Grid Background */}
-          <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(rgba(255,255,255,1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,1)_1px,transparent_1px)] bg-[size:40px_40px]" />
           
           <div className="mx-auto max-w-[1380px] relative z-10 md:px-4">
             <Reveal className="max-w-[640px] text-center mx-auto mb-20">
@@ -164,15 +163,17 @@ export default function LandingPage() {
                       ))}
                     </div>
 
-                    {item.featured ? (
-                      <div className="relative z-10 mt-auto pt-10 flex items-center justify-center gap-2 rounded-2xl bg-[#0084ff]/10 border border-[#0084ff]/30 px-6 py-5 text-[11px] font-[900] tracking-[1px] text-[#0084ff]">
-                        <span className="size-2 animate-pulse rounded-full bg-[#0084ff]" /> กำลังปิดปรับปรุง
-                      </div>
-                    ) : (
-                      <a href="#auth" className="relative z-10 mt-auto pt-10 flex items-center justify-between rounded-2xl bg-white/5 border border-white/10 px-6 py-5 text-[11px] font-[900] tracking-[1px] text-white hover:bg-white/10 hover:border-white/20 transition-all">
-                        เลือกแพ็กเกจนี้ <ArrowDownRight className="size-4" />
-                      </a>
-                    )}
+                    <div className="relative z-10 mt-auto pt-10">
+                      {item.featured ? (
+                        <div className="flex items-center justify-center gap-2 rounded-2xl bg-[#0084ff]/10 border border-[#0084ff]/30 px-6 py-4 text-[11px] font-[900] tracking-[1px] text-[#0084ff]">
+                          <span className="size-2 animate-pulse rounded-full bg-[#0084ff]" /> กำลังปิดปรับปรุง
+                        </div>
+                      ) : (
+                        <a href="#auth" className="flex items-center justify-between rounded-2xl bg-white/5 border border-white/10 px-6 py-4 text-[11px] font-[900] tracking-[1px] text-white hover:bg-white/10 hover:border-white/20 transition-all">
+                          เลือกแพ็กเกจนี้ <ArrowDownRight className="size-4" />
+                        </a>
+                      )}
+                    </div>
                   </article>
                 </Reveal>
               ))}
