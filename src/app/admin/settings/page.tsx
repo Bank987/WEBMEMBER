@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { gangThemes } from "@/lib/themes";
 import { DeleteGangButton } from "@/components/DeleteGangButton";
 import { ButtonSettings } from "@/components/ButtonSettings";
+import { SettingsFormWrapper } from "@/components/SettingsFormWrapper";
 
 export default async function SettingsPage() {
   const settings = await getAuthenticatedGang();
@@ -21,7 +22,7 @@ export default async function SettingsPage() {
         </p>
       </div>
 
-      <form action={saveSettings} className="space-y-[36px]">
+      <SettingsFormWrapper action={saveSettings}>
         {/* Music Settings */}
         <div className="bg-[#050505] border border-[#111111] rounded-[18px] overflow-hidden relative">
           <div className="absolute top-0 right-0 w-[200px] h-[200px] bg-[#0084ff] blur-[150px] opacity-10 pointer-events-none" />
@@ -30,9 +31,6 @@ export default async function SettingsPage() {
               <Music className="w-[18px] h-[18px] text-[#0084ff]" />
               <h3 className="text-[14px] font-[900] tracking-[1.8px] text-text-inverse">ตั้งค่าเสียงพื้นหลัง</h3>
             </div>
-            <button type="submit" className="bg-[#0084ff]/10 hover:bg-[#0084ff]/20 text-[#0084ff] border border-[#0084ff]/30 px-[18px] py-[6px] rounded-full text-[9px] font-[900] tracking-[2px] uppercase transition-all">
-              บันทึกการเปลี่ยนแปลง
-            </button>
           </div>
           <div className="p-[27px] space-y-[24px] relative z-10">
             <div className="flex items-center justify-between gap-[24px]">
@@ -52,7 +50,7 @@ export default async function SettingsPage() {
         </div>
             
         <div id="theme" className="scroll-mt-8 bg-[#050505] border border-[#111111] rounded-[18px] overflow-hidden">
-          <div className="bg-[#0a0a0a] p-[18px] border-b border-[#111111] flex items-center justify-between"><div><h3 className="text-[14px] font-[900] text-text-inverse">ธีมเว็บไซต์</h3><p className="mt-1 text-[10px] text-[#777]">เลือกสไตล์หลักสำหรับหน้า Gate และรายชื่อสมาชิก</p></div><button type="submit" className="bg-[#0084ff]/10 hover:bg-[#0084ff]/20 text-[#0084ff] border border-[#0084ff]/30 px-[18px] py-[7px] rounded-full text-[9px] font-[900] tracking-[1px]">บันทึกธีม</button></div>
+          <div className="bg-[#0a0a0a] p-[18px] border-b border-[#111111] flex items-center justify-between"><div><h3 className="text-[14px] font-[900] text-text-inverse">ธีมเว็บไซต์</h3><p className="mt-1 text-[10px] text-[#777]">เลือกสไตล์หลักสำหรับหน้า Gate และรายชื่อสมาชิก</p></div></div>
           <div className="grid grid-cols-1 gap-3 p-5 sm:grid-cols-2 lg:grid-cols-4">{Object.entries(gangThemes).map(([key, theme]) => <label key={key} className="group cursor-pointer"><input type="radio" name="theme" value={key} defaultChecked={settings.theme === key || (!settings.theme && key === "default")} className="peer sr-only" /><span className="block rounded-2xl border border-white/10 bg-[#0a0a0a] p-3 transition group-hover:border-white/25 peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10"><span className="block h-20 rounded-xl" style={{ background: theme.preview }} /><span className="mt-3 block text-[11px] font-[900] text-white">{theme.name}</span><span className="mt-1 block text-[10px] text-[#777]">{theme.description}</span></span></label>)}</div>
         </div>
 
@@ -168,7 +166,7 @@ export default async function SettingsPage() {
           </div>
         </div>
 
-        </form>
+        </SettingsFormWrapper>
         
         {/* Danger Zone */}
         <div className="bg-[#0a0000] border border-[#ff0000]/30 rounded-[18px] overflow-hidden mt-[36px]">
