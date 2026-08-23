@@ -85,6 +85,7 @@ export default function GateClient({ settings }: { settings: Settings }) {
               alt="Background" 
               fill 
               priority
+              quality={100}
               className="object-contain object-center"
               sizes="100vw"
             />
@@ -122,6 +123,7 @@ export default function GateClient({ settings }: { settings: Settings }) {
               alt="Faction Logo" 
               fill
               priority
+              quality={100}
               className="object-contain"
               sizes="120px"
             />

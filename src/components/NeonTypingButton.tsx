@@ -65,6 +65,7 @@ export function NeonTypingButton({
               fill
               sizes="(max-width: 640px) 200px, 240px"
               priority
+              quality={100}
               onError={() => {
                 if (!useProxy) {
                   setUseProxy(true); // Try proxy first
