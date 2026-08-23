@@ -40,6 +40,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               <Palette className="w-[16px] h-[16px] text-[#0084ff] group-hover:scale-110 transition-transform" />
               ธีมเว็บไซต์
             </Link>
+            <div className="pt-2 mt-2 border-t border-white/10">
+              <a href={`//${gang.subdomain}.lastname.site`} target="_blank" rel="noreferrer" className="group flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-[11px] font-[900] tracking-[0.5px] text-[#c9d8e5] transition hover:bg-white/10 hover:text-white">
+                เปิดหน้าเว็บไซต์
+              </a>
+            </div>
           </nav>
 
           <div className="relative z-10 border-t border-white/10 p-5">

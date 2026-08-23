@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { AlertCircle, ArrowRight, CheckCircle2, Copy, KeyRound, LoaderCircle, LogIn, UserPlus, Fingerprint, ShieldAlert, Check } from "lucide-react";
+import { AlertCircle, ArrowRight, CheckCircle2, Copy, KeyRound, LoaderCircle, LogIn, UserPlus, Fingerprint, ShieldAlert, Check, X } from "lucide-react";
 import { Alert, AlertAction, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { WebsiteComposer } from "@/components/WebsiteComposer";
 import { getGangUrl } from "@/lib/site-url";
@@ -109,9 +109,14 @@ export default function GangAuth() {
               </p>
             </div>
 
-            <a href={getGangUrl(message)} className="mt-8 flex w-full items-center justify-center gap-3 rounded-xl bg-white px-7 py-4 text-[12px] font-[900] tracking-[1px] text-black transition-all hover:bg-[#f0f0f0] active:scale-[0.98]">
-              เข้าสู่หน้าเว็บไซต์ <ArrowRight className="size-4" />
-            </a>
+            <div className="mt-8 flex flex-col gap-3">
+              <a href={getGangUrl(message)} className="flex w-full items-center justify-center gap-3 rounded-xl bg-white px-7 py-4 text-[12px] font-[900] tracking-[1px] text-black transition-all hover:bg-[#f0f0f0] active:scale-[0.98]">
+                เข้าสู่หน้าเว็บไซต์ <ArrowRight className="size-4" />
+              </a>
+              <button type="button" onClick={() => { setStatus("idle"); setToken(""); setName(""); setSlug(""); setSecret(""); }} className="flex w-full items-center justify-center gap-2 rounded-xl bg-white/5 border border-white/10 px-7 py-3 text-[11px] font-[900] tracking-[1px] text-white/70 transition-all hover:bg-white/10 hover:text-white active:scale-[0.98]">
+                <X className="size-3.5" /> ปิดหน้าต่างนี้
+              </button>
+            </div>
           </div>
         </div>
       </motion.div>
