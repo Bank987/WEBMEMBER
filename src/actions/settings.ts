@@ -32,3 +32,29 @@ export async function saveSettings(formData: FormData) {
   await updateGang(gang.id, data);
   revalidatePath("/", "layout");
 }
+
+export async function deleteGangAction() {
+  await assertTrustedMutationOrigin();
+  const gang = await getAuthenticatedGang();
+  if (!gang) throw new Error("Unauthorized");
+  
+  if (!gang.createdAt) {
+    throw new Error("Cannot determine creation date");
+  }
+  
+  const createdDate = new Date(gang.createdAt);
+  const now = new Date();
+  const diffTime = now.getTime() - createdDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
+  
+  if (diffDays < 3) {
+    throw new Error(`ต้องสร้างแก๊งมาแล้วอย่างน้อย 3 วันจึงจะสามารถยุบได้ (ปัจจุบัน: ${diffDays} วัน)`);
+  }
+  
+  // Need to import deleteGangInDB and cookies
+  const { deleteGangInDB } = await import("@/lib/db");
+  await deleteGangInDB(gang.id);
+  
+  const { cookies } = await import("next/headers");
+  (await cookies()).delete("admin_session");
+}

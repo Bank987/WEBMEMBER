@@ -24,6 +24,7 @@ export interface Gang {
   discordUrl?: string;
   facebookUrl?: string;
   entryAnimation?: string;
+  createdAt?: string;
 }
 
 export interface Member {
@@ -171,6 +172,7 @@ function mapGang(doc: GangDocument): Gang {
     discordUrl: doc.discordUrl || "",
     facebookUrl: doc.facebookUrl || "",
     entryAnimation: doc.entryAnimation || "fade",
+    createdAt: (doc as any).createdAt instanceof Date ? (doc as any).createdAt.toISOString() : (doc as any).createdAt,
   };
 }
 
@@ -216,6 +218,12 @@ export async function createGang(data: Partial<Gang>): Promise<Gang> {
 export async function updateGang(id: string, data: Partial<Gang>) {
   await connectDB();
   await GangModel.findByIdAndUpdate(id, data);
+}
+
+export async function deleteGangInDB(id: string) {
+  await connectDB();
+  await GangModel.findByIdAndDelete(id);
+  await MemberModel.deleteMany({ gangId: id });
 }
 
 export async function getAllGangsForSuperAdmin(): Promise<SuperAdminGang[]> {

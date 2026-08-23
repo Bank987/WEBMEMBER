@@ -3,6 +3,7 @@ import { getAuthenticatedGang } from "@/lib/auth";
 import { saveSettings } from "@/actions/settings";
 import { redirect } from "next/navigation";
 import { gangThemes } from "@/lib/themes";
+import { DeleteGangButton } from "@/components/DeleteGangButton";
 
 export default async function SettingsPage() {
   const settings = await getAuthenticatedGang();
@@ -170,6 +171,27 @@ export default async function SettingsPage() {
         </div>
 
         </form>
+        
+        {/* Danger Zone */}
+        <div className="bg-[#0a0000] border border-[#ff0000]/30 rounded-[18px] overflow-hidden mt-[36px]">
+          <div className="bg-[#1a0000] p-[18px] border-b border-[#ff0000]/30 flex items-center gap-[12px]">
+            <h3 className="text-[14px] font-[900] tracking-[1.8px] text-[#ff4444]">พื้นที่อันตราย (Danger Zone)</h3>
+          </div>
+          <div className="p-[27px]">
+            <p className="text-[12px] text-[#ff8888] mb-[18px]">
+              การยุบแก๊งจะลบข้อมูลหน้าเว็บไซต์และสมาชิกทั้งหมดอย่างถาวร 
+              โดเมน (ชื่อเว็บ) นี้จะถูกปล่อยว่างเพื่อให้คนอื่นสามารถใช้งานได้ 
+              <strong> ต้องสร้างแก๊งมาแล้วอย่างน้อย 3 วันจึงจะสามารถยุบได้</strong>
+            </p>
+            <DeleteGangButton deleteAction={async () => {
+              "use server";
+              const { deleteGangAction } = await import("@/actions/settings");
+              await deleteGangAction();
+              const { redirect } = await import("next/navigation");
+              redirect("/");
+            }} />
+          </div>
+        </div>
     </div>
   );
 }
