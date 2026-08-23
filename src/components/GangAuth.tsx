@@ -43,7 +43,7 @@ export default function GangAuth() {
         return;
       }
       if (mode === "login") {
-        router.push("/admin");
+        window.location.href = "/admin";
         return;
       }
       setToken(data.token ?? "");
