@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { NeonTypingButton } from "@/components/NeonTypingButton";
 import { getGangTheme } from "@/lib/themes";
 import { BackgroundEffects } from "@/components/BackgroundEffects";
@@ -72,15 +73,29 @@ export default function GateClient({ settings }: { settings: Settings }) {
       className={`min-h-screen overflow-hidden relative flex flex-col items-center justify-center ${fontClass} ${theme.className} ${cursorClass}`} 
       style={{ 
         backgroundColor: theme.background,
-        backgroundImage: settings.backgroundImageUrl ? `linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.9)), url(${settings.backgroundImageUrl})` : undefined,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
         ["--gang-accent" as string]: settings.customAccentColor || theme.accent,
         color: settings.textColor || '#ededed'
       }}
     >
-      <BackgroundEffects type={settings.particleEffect} />
+      {settings.backgroundImageUrl && (
+        <>
+          <div className="absolute inset-0 z-[1]">
+            <Image 
+              src={settings.backgroundImageUrl} 
+              alt="Background" 
+              fill 
+              priority
+              className="object-cover"
+              sizes="100vw"
+            />
+          </div>
+          <div className="absolute inset-0 z-[2] bg-gradient-to-b from-black/60 to-black/90" />
+        </>
+      )}
+
+      <div className="absolute inset-0 z-[3]">
+        <BackgroundEffects type={settings.particleEffect} />
+      </div>
       
       {settings.customCursor === 'glow' && (
         <div className="pointer-events-none fixed inset-0 z-[50] mix-blend-screen hidden md:block">
@@ -98,12 +113,19 @@ export default function GateClient({ settings }: { settings: Settings }) {
       <div className="relative z-[10] text-center px-4 max-w-4xl mx-auto flex flex-col items-center w-full">
         
         {settings.logoUrl && (
-          <motion.img 
-            src={settings.logoUrl} 
-            alt="Faction Logo" 
-            className="w-[120px] h-[120px] object-contain mb-[24px] drop-shadow-[0_0_15px_var(--gang-accent)]"
+          <motion.div 
+            className="relative w-[120px] h-[120px] mb-[24px] drop-shadow-[0_0_15px_var(--gang-accent)]"
             {...getAnimationProps(settings.entryAnimation, 0)}
-          />
+          >
+            <Image 
+              src={settings.logoUrl} 
+              alt="Faction Logo" 
+              fill
+              priority
+              className="object-contain"
+              sizes="120px"
+            />
+          </motion.div>
         )}
 
         <div className="mb-12">
