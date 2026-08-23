@@ -122,13 +122,6 @@ export default function GateClient({ settings }: { settings: Settings }) {
             {settings.pageSubtitle}
           </motion.h1>
           
-          <motion.p 
-            {...getAnimationProps(settings.entryAnimation, settings.logoUrl ? 3 : 2)}
-            className="text-[10.5px] max-w-2xl mx-auto leading-[15px] tracking-[3.15px] font-normal uppercase mt-[27px]"
-            style={{ color: settings.textColor ? settings.textColor : '#999999', opacity: settings.textColor ? 0.7 : 1 }}
-          >
-            LASTNAME.SITE BY. ganglist
-          </motion.p>
         </div>
 
         {/* Action Button */}
@@ -165,6 +158,18 @@ export default function GateClient({ settings }: { settings: Settings }) {
           )}
         </motion.div>
       </div>
+
+      {/* Subtle Branding */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.25 }}
+        transition={{ duration: 1.5, delay: 2.5 }}
+        className="absolute bottom-6 left-0 right-0 text-center pointer-events-none"
+      >
+        <p className="text-[8px] sm:text-[9px] tracking-[0.3em] font-medium uppercase" style={{ color: settings.textColor || '#ffffff' }}>
+          LASTNAME.SITE BY. ganglist
+        </p>
+      </motion.div>
     </div>
   );
 }
