@@ -138,7 +138,7 @@ export default function GateClient({ settings }: { settings: Settings }) {
           transition={{ duration: 0.8, delay: 1.8, ease: "easeOut" }}
           className="flex flex-col items-center justify-center gap-[18px] mt-[24px] w-full"
         >
-          <div className="w-[160px] h-[160px] sm:w-[180px] sm:h-[180px]">
+          <div className="w-[200px] h-[200px] sm:w-[240px] sm:h-[240px]">
             <NeonTypingButton 
               label={settings.buttonText} 
               loadingText={`ACCESSING_${settings.buttonText}...`} 
