@@ -31,8 +31,8 @@ function SnowEffects() {
     setFlakes(Array.from({ length: 50 }).map((_, i) => ({
       id: i,
       left: Math.random() * 100,
-      delay: Math.random() * 5,
-      duration: 3 + Math.random() * 5,
+      delay: Math.random() * 15,
+      duration: 12 + Math.random() * 18,
     })));
   }, []);
 
