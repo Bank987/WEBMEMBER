@@ -28,3 +28,20 @@ export async function assertTrustedMutationOrigin() {
   const expectedOrigin = `${requestHeaders.get("x-forwarded-proto") || "http"}://${host}`;
   if (originUrl !== expectedOrigin && originUrl !== `https://${host}` && originUrl !== `http://${host}`) throw new Error("Invalid request origin");
 }
+
+export async function verifyTurnstile(token?: string, ip?: string): Promise<boolean> {
+  if (!token) return false;
+  const secretKey = process.env.TURNSTILE_SECRET_KEY || "1x0000000000000000000000000000000AA";
+  try {
+    const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `secret=${encodeURIComponent(secretKey)}&response=${encodeURIComponent(token)}${ip ? `&remoteip=${encodeURIComponent(ip)}` : ''}`
+    });
+    const outcome = await res.json();
+    return !!outcome.success;
+  } catch (err) {
+    console.error("Turnstile verification error:", err);
+    return false;
+  }
+}

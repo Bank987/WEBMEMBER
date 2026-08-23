@@ -7,6 +7,7 @@ import { AlertCircle, ArrowRight, CheckCircle2, Copy, KeyRound, LoaderCircle, Lo
 import { Alert, AlertAction, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { WebsiteComposer } from "@/components/WebsiteComposer";
 import { getGangUrl } from "@/lib/site-url";
+import { Turnstile } from "@marsidev/react-turnstile";
 
 type Mode = "register" | "login";
 
@@ -18,6 +19,7 @@ export default function GangAuth() {
   const [secret, setSecret] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "error" | "success">("idle");
   const [message, setMessage] = useState("");
+  const [turnstileToken, setTurnstileToken] = useState("");
   const router = useRouter();
 
   function switchMode(nextMode: Mode) {
@@ -31,7 +33,9 @@ export default function GangAuth() {
     setStatus("loading");
     setMessage("");
     const endpoint = mode === "register" ? "/api/auth/register" : "/api/auth/login";
-    const body = mode === "register" ? { pageTitle: name, subdomain: slug } : { subdomain: slug, token: secret };
+    const body = mode === "register" 
+      ? { pageTitle: name, subdomain: slug, cfTurnstileResponse: turnstileToken } 
+      : { subdomain: slug, token: secret, cfTurnstileResponse: turnstileToken };
 
     try {
       const response = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) });
@@ -186,7 +190,15 @@ export default function GangAuth() {
               )}
             </AnimatePresence>
 
-            <button disabled={status === "loading"} type="submit" className="relative mt-6 sm:mt-8 flex w-full items-center justify-center gap-3 rounded-xl bg-white px-5 sm:px-7 py-4 sm:py-4 text-[11px] sm:text-[12px] font-[900] tracking-[1.5px] text-black transition-all hover:bg-[#e0e0e0] active:scale-[0.98] disabled:opacity-60 overflow-hidden group">
+            <div className="flex justify-center mt-4">
+              <Turnstile 
+                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"} 
+                onSuccess={(t) => setTurnstileToken(t)} 
+                options={{ theme: "dark" }}
+              />
+            </div>
+
+            <button disabled={status === "loading" || !turnstileToken} type="submit" className="relative mt-6 sm:mt-8 flex w-full items-center justify-center gap-3 rounded-xl bg-white px-5 sm:px-7 py-4 sm:py-4 text-[11px] sm:text-[12px] font-[900] tracking-[1.5px] text-black transition-all hover:bg-[#e0e0e0] active:scale-[0.98] disabled:opacity-60 overflow-hidden group">
               <span className="relative z-10 flex items-center gap-2 sm:gap-3">
                 {status === "loading" ? "INITIALIZING..." : mode === "register" ? "INITIALIZE FACTION" : "AUTHENTICATE"}
                 {status === "loading" ? <LoaderCircle className="w-[14px] h-[14px] sm:w-[16px] sm:h-[16px] animate-spin" /> : <ArrowRight className="w-[14px] h-[14px] sm:w-[16px] sm:h-[16px] group-hover:translate-x-1 transition-transform" />}

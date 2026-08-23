@@ -1,17 +1,23 @@
 import { createGang, getGangBySubdomain } from "@/lib/db";
 import { createAdminToken, hashAdminToken } from "@/lib/auth";
-import { checkRateLimit, getRequestIp } from "@/lib/security";
+import { checkRateLimit, getRequestIp, verifyTurnstile } from "@/lib/security";
 
 const RESERVED = new Set(["www", "admin", "api", "home"]);
 const SLUG_PATTERN = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
 
 export async function POST(request: Request) {
-  if (!checkRateLimit(`register:${getRequestIp(request)}`, 5, 15 * 60 * 1000)) {
+  const ip = getRequestIp(request);
+  if (!checkRateLimit(`register:${ip}`, 5, 15 * 60 * 1000)) {
     return Response.json({ error: "สมัครบ่อยเกินไป กรุณารอ 15 นาที" }, { status: 429 });
   }
-  const body = (await request.json().catch(() => ({}))) as { pageTitle?: string; subdomain?: string };
+  const body = (await request.json().catch(() => ({}))) as { pageTitle?: string; subdomain?: string; cfTurnstileResponse?: string };
   const subdomain = body.subdomain?.trim().toLowerCase() ?? "";
   const pageTitle = body.pageTitle?.trim() ?? "";
+
+  const isHuman = await verifyTurnstile(body.cfTurnstileResponse, ip);
+  if (!isHuman) {
+    return Response.json({ error: "ไม่ผ่านการตรวจสอบบอท กรุณาลองใหม่อีกครั้ง" }, { status: 400 });
+  }
 
   if (!pageTitle || pageTitle.length > 80) {
     return Response.json({ error: "กรุณาระบุชื่อเว็บไซต์ และต้องมีความยาวไม่เกิน 80 ตัวอักษร" }, { status: 400 });

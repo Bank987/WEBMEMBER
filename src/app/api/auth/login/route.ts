@@ -1,14 +1,17 @@
 import { cookies } from "next/headers";
 import { getGangBySubdomainWithTokenHash } from "@/lib/db";
 import { createSignedOwnerSession, hashAdminToken, SESSION_COOKIE } from "@/lib/auth";
-import { checkRateLimit, getRequestIp } from "@/lib/security";
+import { checkRateLimit, getRequestIp, verifyTurnstile } from "@/lib/security";
 
 export async function POST(request: Request) {
   const ip = getRequestIp(request);
   if (!checkRateLimit(`owner-login:${ip}`, 8, 10 * 60 * 1000)) return Response.json({ error: "พยายามเข้าสู่ระบบมากเกินไป กรุณารอ 10 นาที" }, { status: 429 });
-  const body = (await request.json().catch(() => ({}))) as { subdomain?: string; token?: string };
+  const body = (await request.json().catch(() => ({}))) as { subdomain?: string; token?: string; cfTurnstileResponse?: string };
   const subdomain = body.subdomain?.trim().toLowerCase() ?? "";
   const token = body.token?.trim() ?? "";
+
+  const isHuman = await verifyTurnstile(body.cfTurnstileResponse, ip);
+  if (!isHuman) return Response.json({ error: "ไม่ผ่านการตรวจสอบบอท กรุณาลองใหม่อีกครั้ง" }, { status: 400 });
   const gang = await getGangBySubdomainWithTokenHash(subdomain);
 
   if (!gang || !token || hashAdminToken(token) !== gang.adminTokenHash) {
