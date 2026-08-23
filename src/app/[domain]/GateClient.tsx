@@ -85,7 +85,7 @@ export default function GateClient({ settings }: { settings: Settings }) {
               alt="Background" 
               fill 
               priority
-              className="object-cover"
+              className="object-contain object-center"
               sizes="100vw"
             />
           </div>
