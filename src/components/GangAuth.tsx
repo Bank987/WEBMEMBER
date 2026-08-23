@@ -131,39 +131,39 @@ export default function GangAuth() {
           transition={{ duration: 4, ease: "linear", repeat: Infinity }}
         />
 
-        <div className="p-8 sm:p-10">
-          <div className="flex items-center justify-between mb-8">
+        <div className="p-6 sm:p-10">
+          <div className="flex items-center justify-between mb-6 sm:mb-8">
             <div className="flex items-center gap-2">
               <span className="size-2 bg-[#0084ff] animate-pulse rounded-full shadow-[0_0_10px_#0084ff]" />
-              <span className="text-[9px] font-[900] text-[#0084ff] tracking-[0.2em] uppercase">Security Level : Max</span>
+              <span className="text-[8px] sm:text-[9px] font-[900] text-[#0084ff] tracking-[0.2em] uppercase">Security Level : Max</span>
             </div>
-            <Fingerprint className="size-5 text-white/20" />
+            <Fingerprint className="size-4 sm:size-5 text-white/20" />
           </div>
           
-          <div className="relative flex rounded-xl border border-white/10 bg-[#0a0a0a] p-1.5 mb-8">
+          <div className="relative flex rounded-xl border border-white/10 bg-[#0a0a0a] p-1.5 mb-6 sm:mb-8">
             <motion.div layoutId="auth-mode" className="absolute inset-y-1.5 w-[calc(50%-6px)] bg-[#0084ff] rounded-lg shadow-[0_0_20px_rgba(0,132,255,0.4)]" animate={{ x: mode === "register" ? "0%" : "100%" }} transition={{ type: "spring", stiffness: 400, damping: 30 }} />
-            <button type="button" onClick={() => switchMode("register")} className={`relative z-10 w-1/2 flex items-center justify-center gap-2 py-3 text-[11px] font-[900] tracking-[1px] transition-colors ${mode === "register" ? "text-white" : "text-[#777] hover:text-white"}`}><UserPlus className="size-4" /> สมัครเว็บ</button>
-            <button type="button" onClick={() => switchMode("login")} className={`relative z-10 w-1/2 flex items-center justify-center gap-2 py-3 text-[11px] font-[900] tracking-[1px] transition-colors ${mode === "login" ? "text-white" : "text-[#777] hover:text-white"}`}><LogIn className="size-4" /> เข้าหลังบ้าน</button>
+            <button type="button" onClick={() => switchMode("register")} className={`relative z-10 w-1/2 flex items-center justify-center gap-2 py-3 text-[10px] sm:text-[11px] font-[900] tracking-[1px] transition-colors ${mode === "register" ? "text-white" : "text-[#777] hover:text-white"}`}><UserPlus className="size-3.5 sm:size-4" /> สมัครเว็บ</button>
+            <button type="button" onClick={() => switchMode("login")} className={`relative z-10 w-1/2 flex items-center justify-center gap-2 py-3 text-[10px] sm:text-[11px] font-[900] tracking-[1px] transition-colors ${mode === "login" ? "text-white" : "text-[#777] hover:text-white"}`}><LogIn className="size-3.5 sm:size-4" /> เข้าหลังบ้าน</button>
           </div>
 
-          <form onSubmit={submit} className="w-full space-y-5">
+          <form onSubmit={submit} className="w-full space-y-4 sm:space-y-5">
             <AnimatePresence initial={false} mode="wait">
             {mode === "register" && (
               <motion.div key="website-name" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
-                <label className="block text-[10px] font-[900] text-white/50 mb-2 ml-1 tracking-[1px] uppercase">Faction Name</label>
+                <label className="block text-[9px] sm:text-[10px] font-[900] text-white/50 mb-2 ml-1 tracking-[1px] uppercase">Faction Name</label>
                 <div className="relative">
-                  <input aria-label="ชื่อเว็บไซต์" value={name} onChange={(e) => setName(e.target.value)} required maxLength={80} placeholder="ชื่อแก๊งของคุณ" className="w-full rounded-xl border border-white/10 bg-[#050505] px-5 py-4 text-[14px] text-white outline-none transition-all focus:border-[#0084ff] focus:bg-[#0084ff]/5 placeholder:text-white/20 shadow-inner" />
+                  <input aria-label="ชื่อเว็บไซต์" value={name} onChange={(e) => setName(e.target.value)} required maxLength={80} placeholder="ชื่อแก๊งของคุณ" className="w-full rounded-xl border border-white/10 bg-[#050505] px-4 py-3 sm:px-5 sm:py-4 text-[13px] sm:text-[14px] text-white outline-none transition-all focus:border-[#0084ff] focus:bg-[#0084ff]/5 placeholder:text-white/20 shadow-inner" />
                 </div>
               </motion.div>
             )}
             </AnimatePresence>
             
             <motion.div layout>
-              <label className="block text-[10px] font-[900] text-white/50 mb-2 ml-1 tracking-[1px] uppercase">{mode === "register" ? "Subdomain (URL)" : "Target Subdomain"}</label>
-              <div className="flex items-center rounded-xl border border-white/10 bg-[#050505] px-4 py-3 sm:py-4 transition-all focus-within:border-[#0084ff] focus-within:bg-[#0084ff]/5 shadow-inner">
-                <span className="text-[#444] font-[700] text-[13px] hidden sm:block">https://</span>
-                <input aria-label="ชื่อ slug" value={slug} onChange={(e) => setSlug(e.target.value.replace(/[^a-zA-Z0-9-]/g, "").toLowerCase())} required maxLength={63} placeholder="subdomain" className="bg-transparent text-white font-[900] text-[14px] w-full min-w-0 outline-none px-2 placeholder:text-white/20" />
-                <span className="text-[#0084ff] font-[900] text-[13px] whitespace-nowrap">.lastname.site</span>
+              <label className="block text-[9px] sm:text-[10px] font-[900] text-white/50 mb-2 ml-1 tracking-[1px] uppercase">{mode === "register" ? "Subdomain (URL)" : "Target Subdomain"}</label>
+              <div className="flex items-center rounded-xl border border-white/10 bg-[#050505] px-3 sm:px-4 py-3 sm:py-4 transition-all focus-within:border-[#0084ff] focus-within:bg-[#0084ff]/5 shadow-inner">
+                <span className="text-[#444] font-[700] text-[12px] sm:text-[13px] hidden sm:block">https://</span>
+                <input aria-label="ชื่อ slug" value={slug} onChange={(e) => setSlug(e.target.value.replace(/[^a-zA-Z0-9-]/g, "").toLowerCase())} required maxLength={63} placeholder="subdomain" className="bg-transparent text-white font-[900] text-[13px] sm:text-[14px] w-full min-w-0 outline-none px-2 placeholder:text-white/20" />
+                <span className="text-[#0084ff] font-[900] text-[11px] sm:text-[13px] whitespace-nowrap">.lastname.site</span>
               </div>
             </motion.div>
 
@@ -180,21 +180,21 @@ export default function GangAuth() {
             <AnimatePresence initial={false} mode="wait">
               {mode === "login" && (
                 <motion.div key="secret" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
-                  <label className="block text-[10px] font-[900] text-white/50 mb-2 ml-1 tracking-[1px] uppercase">Master Key</label>
-                  <input aria-label="รหัสลับผู้ดูแลระบบ" value={secret} onChange={(e) => setSecret(e.target.value)} required type="password" placeholder="••••••••••••" className="w-full rounded-xl border border-white/10 bg-[#050505] px-5 py-4 text-[14px] text-white outline-none transition-all focus:border-[#0084ff] focus:bg-[#0084ff]/5 placeholder:text-white/20 shadow-inner" />
+                  <label className="block text-[9px] sm:text-[10px] font-[900] text-white/50 mb-2 ml-1 tracking-[1px] uppercase">Master Key</label>
+                  <input aria-label="รหัสลับผู้ดูแลระบบ" value={secret} onChange={(e) => setSecret(e.target.value)} required type="password" placeholder="••••••••••••" className="w-full rounded-xl border border-white/10 bg-[#050505] px-4 py-3 sm:px-5 sm:py-4 text-[13px] sm:text-[14px] text-white outline-none transition-all focus:border-[#0084ff] focus:bg-[#0084ff]/5 placeholder:text-white/20 shadow-inner" />
                 </motion.div>
               )}
             </AnimatePresence>
 
-            <button disabled={status === "loading"} type="submit" className="relative mt-8 flex w-full items-center justify-center gap-3 rounded-xl bg-white px-7 py-4 text-[12px] font-[900] tracking-[1.5px] text-black transition-all hover:bg-[#e0e0e0] active:scale-[0.98] disabled:opacity-60 overflow-hidden group">
-              <span className="relative z-10 flex items-center gap-3">
+            <button disabled={status === "loading"} type="submit" className="relative mt-6 sm:mt-8 flex w-full items-center justify-center gap-3 rounded-xl bg-white px-5 sm:px-7 py-4 sm:py-4 text-[11px] sm:text-[12px] font-[900] tracking-[1.5px] text-black transition-all hover:bg-[#e0e0e0] active:scale-[0.98] disabled:opacity-60 overflow-hidden group">
+              <span className="relative z-10 flex items-center gap-2 sm:gap-3">
                 {status === "loading" ? "INITIALIZING..." : mode === "register" ? "INITIALIZE FACTION" : "AUTHENTICATE"}
-                {status === "loading" ? <LoaderCircle className="w-[16px] h-[16px] animate-spin" /> : <ArrowRight className="w-[16px] h-[16px] group-hover:translate-x-1 transition-transform" />}
+                {status === "loading" ? <LoaderCircle className="w-[14px] h-[14px] sm:w-[16px] sm:h-[16px] animate-spin" /> : <ArrowRight className="w-[14px] h-[14px] sm:w-[16px] sm:h-[16px] group-hover:translate-x-1 transition-transform" />}
               </span>
               <div className="absolute inset-0 bg-gradient-to-r from-[#0084ff] to-[#004b99] opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              <span className="absolute z-10 inset-0 flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white">
+              <span className="absolute z-10 inset-0 flex items-center justify-center gap-2 sm:gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-white">
                 {status === "loading" ? "INITIALIZING..." : mode === "register" ? "INITIALIZE FACTION" : "AUTHENTICATE"}
-                {status === "loading" ? <LoaderCircle className="w-[16px] h-[16px] animate-spin" /> : <ArrowRight className="w-[16px] h-[16px] group-hover:translate-x-1 transition-transform" />}
+                {status === "loading" ? <LoaderCircle className="w-[14px] h-[14px] sm:w-[16px] sm:h-[16px] animate-spin" /> : <ArrowRight className="w-[14px] h-[14px] sm:w-[16px] sm:h-[16px] group-hover:translate-x-1 transition-transform" />}
               </span>
             </button>
           </form>
@@ -203,7 +203,7 @@ export default function GangAuth() {
             {status === "error" && (
               <Alert variant="destructive" className="rounded-xl border-[#ef4444]/30 bg-[#ef4444]/10 text-white backdrop-blur-md py-3 px-4">
                 <AlertCircle className="text-[#ef4444] size-4" />
-                <AlertDescription className="text-[12px] text-slate-200 ml-2">{message}</AlertDescription>
+                <AlertDescription className="text-[11px] sm:text-[12px] text-slate-200 ml-2">{message}</AlertDescription>
               </Alert>
             )}
           </div>

@@ -73,7 +73,7 @@ export default function LandingPage() {
                 <span className="text-[10px] font-bold tracking-[0.2em] text-[#0084ff] uppercase">แพลตฟอร์มสร้างหน้าเว็บ รายชื่อแก๊ง ที่ดีที่สุด</span>
               </div>
               
-              <h1 className="text-[52px] font-[900] leading-[1.05] tracking-tight text-white sm:text-[72px] lg:text-[84px] mb-8 relative">
+              <h1 className="text-[46px] font-[900] leading-[1.05] tracking-tight text-white sm:text-[64px] lg:text-[84px] mb-8 relative">
                 WEBSITE<br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#0084ff]/50">
                   สร้างเว็บรายชื่อแก๊ง อันดับ 1
