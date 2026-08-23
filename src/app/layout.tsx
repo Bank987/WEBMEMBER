@@ -9,17 +9,7 @@ const chakraPetch = Chakra_Petch({
 });
 
 export const metadata: Metadata = {
-  title: "WEBSITE สร้างเว็บรายชื่อแก๊ง อันดับ 1",
-  description: "WEBSITE สร้างเว็บรายชื่อแก๊ง อันดับ 1 สร้างเว็บไซต์แก๊งพร้อมระบบจัดการสมาชิกและหลังบ้านส่วนตัว",
-  openGraph: {
-    title: "WEBSITE สร้างเว็บรายชื่อแก๊ง อันดับ 1",
-    description: "สร้างเว็บรายชื่อแก๊ง พร้อมระบบจัดการสมาชิกและหลังบ้านส่วนตัว",
-    type: "website",
-  },
-  icons: {
-    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
-    shortcut: ["/favicon.svg"],
-  },
+  title: "Gate",
 };
 
 export default function RootLayout({

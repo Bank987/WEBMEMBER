@@ -9,6 +9,11 @@ import { Snowfall } from "@/components/Snowfall";
 export const metadata = {
   title: "WEBSITE สร้างเว็บรายชื่อแก๊ง อันดับ 1",
   description: "WEBSITE สร้างเว็บรายชื่อแก๊ง อันดับ 1 พร้อมระบบจัดการสมาชิกและหลังบ้านส่วนตัว",
+  openGraph: {
+    title: "WEBSITE สร้างเว็บรายชื่อแก๊ง อันดับ 1",
+    description: "สร้างเว็บรายชื่อแก๊ง พร้อมระบบจัดการสมาชิกและหลังบ้านส่วนตัว",
+    type: "website",
+  },
 };
 
 const packages = [
