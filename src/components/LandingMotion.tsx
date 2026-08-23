@@ -77,16 +77,16 @@ export function FloatingHero() {
         <div className="rounded-2xl border border-white/5 bg-[#0a0a0a] p-6 relative overflow-hidden">
           <div className="absolute top-0 right-0 w-32 h-32 bg-[#0084ff] opacity-20 blur-[50px]" />
           <div className="flex items-center justify-between border-b border-white/5 pb-4 mb-6 relative z-10">
-            <span className="text-[9px] font-[900] tracking-widest text-slate-500 uppercase">System Status</span>
+            <span className="text-[9px] font-[900] tracking-widest text-slate-500 uppercase">สถานะระบบ</span>
             <span className="flex items-center gap-2 text-[10px] text-[#22c55e] tracking-widest font-bold">
-              <span className="size-2 rounded-full bg-[#22c55e] animate-pulse shadow-[0_0_10px_#22c55e]" /> ONLINE
+              <span className="size-2 rounded-full bg-[#22c55e] animate-pulse shadow-[0_0_10px_#22c55e]" /> ออนไลน์
             </span>
           </div>
           <div className="space-y-4 relative z-10">
             <div className="h-8 w-1/3 rounded-lg bg-white/5 animate-pulse" />
             <div className="h-20 w-full rounded-xl bg-gradient-to-br from-[#0084ff]/20 to-transparent border border-[#0084ff]/30 p-4 flex flex-col justify-center">
-              <span className="text-[8px] tracking-[0.3em] text-[#0084ff] uppercase font-bold">Roster Count</span>
-              <span className="text-3xl font-[900] text-white">42/100</span>
+              <span className="text-[10px] tracking-[0.2em] text-[#0084ff] uppercase font-bold">จำนวนสมาชิก</span>
+              <span className="text-3xl font-[900] text-white">42<span className="text-xl text-white/50">/100</span></span>
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@ export function FloatingHero() {
             <Globe2 className="size-4 text-[#7a00ff]" />
           </div>
           <div>
-            <p className="text-[9px] font-bold tracking-wider text-slate-400 uppercase">Domain</p>
+            <p className="text-[9px] font-bold tracking-wider text-slate-400 uppercase">โดเมนเนม</p>
             <p className="text-xs font-bold text-white">neon.site</p>
           </div>
         </div>
@@ -124,7 +124,7 @@ export function FloatingHero() {
       >
         <div className="flex flex-col gap-3">
           <div className="flex justify-between items-center">
-             <span className="text-[9px] font-bold tracking-wider text-slate-400 uppercase">Latest Joined</span>
+             <span className="text-[9px] font-bold tracking-wider text-slate-400 uppercase">เข้าร่วมล่าสุด</span>
           </div>
           <div className="flex items-center gap-3">
             <div className="size-8 rounded-full bg-gradient-to-tr from-[#0084ff] to-[#00ffcc] p-[1px]">
@@ -143,40 +143,40 @@ export function FloatingHero() {
 export function BentoGrid() {
   const features = [
     {
-      title: "Custom Domain Mapping",
-      description: "Claim your territory. Use a personalized subdomain instantly without configuration.",
+      title: "เชื่อมต่อซับโดเมนส่วนตัว",
+      description: "ประกาศอาณาเขตของคุณให้โลกจำ ใช้ชื่อแก๊งของคุณเป็นซับโดเมนได้ทันทีโดยไม่ต้องตั้งค่าให้ยุ่งยาก",
       icon: <Globe2 className="size-5 text-[#0084ff]" />,
-      className: "md:col-span-2 md:row-span-1 bg-gradient-to-br from-black to-[#001a33]",
+      className: "md:col-span-2 md:row-span-1 bg-[linear-gradient(135deg,#000000,#001026)]",
       illustration: <div className="absolute right-0 bottom-0 w-32 h-32 bg-[#0084ff] opacity-10 blur-2xl rounded-full" />
     },
     {
-      title: "Member Roster",
-      description: "Track hierarchy and roles.",
+      title: "จัดการระบบยศ",
+      description: "จัดเรียงรายชื่อสมาชิกตามตำแหน่ง",
       icon: <Users className="size-5 text-[#7a00ff]" />,
       className: "md:col-span-1 md:row-span-2 bg-[#050505]",
       illustration: (
-        <div className="mt-8 space-y-2">
+        <div className="mt-8 space-y-3">
           {[1,2,3].map(i => (
-             <div key={i} className="h-8 rounded-md bg-white/5 border border-white/5 flex items-center px-3 gap-2">
-               <div className="size-4 rounded-full bg-white/10" />
-               <div className="h-1.5 w-12 rounded-full bg-white/10" />
+             <div key={i} className="h-10 rounded-xl bg-white/5 border border-white/5 flex items-center px-4 gap-3">
+               <div className="size-5 rounded-full bg-white/10" />
+               <div className="h-2 w-16 rounded-full bg-white/10" />
              </div>
           ))}
         </div>
       )
     },
     {
-      title: "Cyber Aesthetics",
-      description: "Advanced particles, CRT scanlines, and glowing cursors. Stand out.",
+      title: "เอฟเฟกต์สุดล้ำ",
+      description: "เอฟเฟกต์หิมะ, เส้นสแกน CRT และแสงเลเซอร์ สะกดทุกสายตาตั้งแต่แรกเห็น",
       icon: <Sparkles className="size-5 text-[#00ffcc]" />,
       className: "md:col-span-1 md:row-span-1 bg-[#050505]",
       illustration: <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,#00ffcc0a,transparent)] pointer-events-none" />
     },
     {
-      title: "Central Dashboard",
-      description: "Manage everything from a sleek, dark-mode command center.",
+      title: "แดชบอร์ดศูนย์บัญชาการ",
+      description: "ควบคุมและปรับแต่งทุกอย่างจากระบบหลังบ้านสไตล์ Dark Mode",
       icon: <LayoutDashboard className="size-5 text-white" />,
-      className: "md:col-span-1 md:row-span-1 bg-white/5",
+      className: "md:col-span-1 md:row-span-1 bg-[#0a0a0a]",
     },
   ];
 
