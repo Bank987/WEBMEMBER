@@ -17,6 +17,9 @@ export async function saveSettings(formData: FormData) {
     pageTitle: formData.get("pageTitle") as string,
     pageSubtitle: formData.get("pageSubtitle") as string,
     theme: formData.get("theme") as string || "default",
+    backgroundImageUrl: formData.get("backgroundImageUrl") as string,
+    textColor: formData.get("textColor") as string,
+    fontFamily: formData.get("fontFamily") as string || "sans",
   };
 
   await updateGang(gang.id, data);

@@ -83,6 +83,22 @@ export default async function SettingsPage() {
                 <input type="text" name="faviconUrl" defaultValue={settings.faviconUrl} placeholder="https://example.com/icon.png" className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
                 <p className="text-[10px] text-[#666666] mt-[6px]">รองรับ PNG, JPG, WEBP หรือ ICO หลังบันทึกให้รีเฟรชหน้าเว็บไซต์หนึ่งครั้งเพื่อดูไอคอนใหม่บนแท็บ</p>
               </div>
+              <div className="sm:col-span-2">
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูประยะพื้นหลังหน้า Gate (ถ้ามีจะทับสีธีม)</p>
+                <input type="text" name="backgroundImageUrl" defaultValue={settings.backgroundImageUrl} placeholder="https://example.com/bg.jpg" className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+              </div>
+              <div>
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">สีข้อความ (Hex, rgba หรือเว้นว่างไว้)</p>
+                <input type="text" name="textColor" defaultValue={settings.textColor} placeholder="#ffffff" className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+              </div>
+              <div>
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปแบบฟอนต์</p>
+                <select name="fontFamily" defaultValue={settings.fontFamily || "sans"} className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none">
+                  <option value="sans">Sans-serif (Modern)</option>
+                  <option value="serif">Serif (Classic)</option>
+                  <option value="mono">Monospace (Code)</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>

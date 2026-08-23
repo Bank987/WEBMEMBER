@@ -14,6 +14,9 @@ export interface Gang {
   adminTokenHash?: string;
   adminSessionHash?: string;
   theme?: string;
+  backgroundImageUrl?: string;
+  textColor?: string;
+  fontFamily?: string;
 }
 
 export interface Member {
@@ -40,9 +43,12 @@ const gangSchema = new mongoose.Schema({
   buttonImage: { type: String, default: "" },
   pageTitle: { type: String, required: true },
   pageSubtitle: { type: String, default: "EST. 2024" },
-  adminTokenHash: { type: String, required: true, select: false }
-  ,adminSessionHash: { type: String, select: false }
-  ,theme: { type: String, default: "default" }
+  adminTokenHash: { type: String, required: true, select: false },
+  adminSessionHash: { type: String, select: false },
+  theme: { type: String, default: "default" },
+  backgroundImageUrl: { type: String, default: "" },
+  textColor: { type: String, default: "" },
+  fontFamily: { type: String, default: "sans" },
 }, { timestamps: true });
 
 const memberSchema = new mongoose.Schema({
@@ -59,6 +65,9 @@ if (!GangModel.schema.path("theme")) {
 }
 if (!GangModel.schema.path("adminSessionHash")) {
   GangModel.schema.add({ adminSessionHash: { type: String, select: false } });
+}
+if (!GangModel.schema.path("backgroundImageUrl")) {
+  GangModel.schema.add({ backgroundImageUrl: { type: String, default: "" }, textColor: { type: String, default: "" }, fontFamily: { type: String, default: "sans" } });
 }
 const MemberModel = mongoose.models.Member || mongoose.model("Member", memberSchema);
 // Dev hot reload can retain the pre-migration schema where department was required.
@@ -95,6 +104,9 @@ type GangDocument = {
   adminTokenHash?: string;
   adminSessionHash?: string;
   theme?: string;
+  backgroundImageUrl?: string;
+  textColor?: string;
+  fontFamily?: string;
 };
 
 type MemberDocument = {
@@ -117,6 +129,9 @@ function mapGang(doc: GangDocument): Gang {
     pageTitle: doc.pageTitle,
     pageSubtitle: doc.pageSubtitle || "EST. 2024",
     theme: doc.theme || "default",
+    backgroundImageUrl: doc.backgroundImageUrl || "",
+    textColor: doc.textColor || "",
+    fontFamily: doc.fontFamily || "sans",
   };
 }
 
