@@ -1,4 +1,4 @@
-import { createGang, getGangBySubdomain } from "@/lib/db";
+import { createGang, getGangBySubdomain, countRecentGangsByIp } from "@/lib/db";
 import { createAdminToken, hashAdminToken } from "@/lib/auth";
 import { checkRateLimit, getRequestIp, verifyTurnstile } from "@/lib/security";
 
@@ -10,6 +10,12 @@ export async function POST(request: Request) {
   if (!checkRateLimit(`register:${ip}`, 5, 15 * 60 * 1000)) {
     return Response.json({ error: "สมัครบ่อยเกินไป กรุณารอ 15 นาที" }, { status: 429 });
   }
+
+  const recentGangsCount = await countRecentGangsByIp(ip);
+  if (recentGangsCount >= 3) {
+    return Response.json({ error: "คุณสร้างแก๊งครบโควต้า 3 แก๊งต่อวันแล้ว กรุณารอ 24 ชั่วโมง" }, { status: 429 });
+  }
+
   const body = (await request.json().catch(() => ({}))) as { pageTitle?: string; subdomain?: string; cfTurnstileResponse?: string };
   const subdomain = body.subdomain?.trim().toLowerCase() ?? "";
   const pageTitle = body.pageTitle?.trim() ?? "";
@@ -31,7 +37,7 @@ export async function POST(request: Request) {
 
   const token = createAdminToken();
   try {
-    await createGang({ subdomain, pageTitle, pageSubtitle: "EST. 2026", adminTokenHash: hashAdminToken(token) });
+    await createGang({ subdomain, pageTitle, pageSubtitle: "EST. 2026", adminTokenHash: hashAdminToken(token), creatorIp: ip });
     return Response.json({ subdomain, token }, { status: 201 });
   } catch (error) {
     console.error("Gang registration failed", error);

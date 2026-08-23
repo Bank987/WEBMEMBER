@@ -25,6 +25,7 @@ export interface Gang {
   facebookUrl?: string;
   entryAnimation?: string;
   createdAt?: string;
+  creatorIp?: string;
 }
 
 export interface Member {
@@ -64,6 +65,7 @@ const gangSchema = new mongoose.Schema({
   discordUrl: { type: String, default: "" },
   facebookUrl: { type: String, default: "" },
   entryAnimation: { type: String, default: "fade" },
+  creatorIp: { type: String, default: "" },
 }, { timestamps: true });
 
 const memberSchema = new mongoose.Schema({
@@ -188,6 +190,15 @@ function mapMember(doc: MemberDocument): Member {
 }
 
 // Gang Operations
+export async function countRecentGangsByIp(ip: string): Promise<number> {
+  if (!ip || ip === "unknown") return 0;
+  await connectDB();
+  const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  return await GangModel.countDocuments({ 
+    creatorIp: ip, 
+    createdAt: { $gte: twentyFourHoursAgo } 
+  });
+}
 export async function getGangBySubdomain(subdomain: string): Promise<Gang | null> {
   await connectDB();
   const doc = await GangModel.findOne({ subdomain }).lean();
