@@ -1,16 +1,18 @@
 ﻿"use client";
 
 import Image from "next/image";
-import { useEffect, useState, useRef } from "react";
-import dynamic from "next/dynamic";
-
-const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
+import { useEffect, useState } from "react";
 
 export function BackgroundMedia({ url, className = "" }: { url?: string; className?: string }) {
-  const [mounted, setMounted] = useState(false);
-  const playerRef = useRef<any>(null);
+  const [showCover, setShowCover] = useState(true);
   
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    // Hide the cover after 3 seconds to let YouTube UI hide itself
+    const timer = setTimeout(() => {
+      setShowCover(false);
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, []);
 
   if (!url) return null;
 
@@ -22,53 +24,23 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
     const videoId = match[1];
     return (
       <div className={`absolute inset-0 z-[1] overflow-hidden bg-black ${className}`}>
-        {mounted && (
-          <ReactPlayer
-            ref={playerRef}
-            url={`https://www.youtube.com/watch?v=${videoId}`}
-            playing={true}
-            muted={true}
-            controls={false}
-            width="100vw"
-            height="56.25vw"
-            onEnded={() => {
-              if (playerRef.current) {
-                playerRef.current.seekTo(0);
-                // Also force play again in case seekTo pauses
-                playerRef.current.getInternalPlayer()?.playVideo?.();
-              }
-            }}
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              minHeight: "100vh",
-              minWidth: "177.77vh",
-              pointerEvents: "none"
-            }}
-            config={{
-              youtube: {
-                // @ts-ignore
-                playerVars: {
-                  controls: 0,
-                  showinfo: 0,
-                  rel: 0,
-                  modestbranding: 1,
-                  disablekb: 1,
-                  iv_load_policy: 3,
-                  fs: 0,
-                  playsinline: 1,
-                }
-              }
-            }}
-          />
-        )}
+        
+        {/* Cover to hide YouTube initialization UI */}
+        <div 
+          className={`absolute inset-0 bg-black z-[10] pointer-events-none transition-opacity duration-1000 ${showCover ? "opacity-100" : "opacity-0"}`} 
+        />
+
+        <iframe
+          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=${videoId}&modestbranding=1&playsinline=1&disablekb=1&iv_load_policy=3`}
+          allow="autoplay; encrypted-media"
+          className="absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2 object-cover pointer-events-none"
+          title="Background Video"
+        />
       </div>
     );
   }
 
-  // Fallback to Image
+  // Fallback to Image (works for GIF, JPG, PNG)
   return (
     <div className={`absolute inset-0 z-[1] ${className}`}>
       <Image 
@@ -78,7 +50,7 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
         priority
         quality={100} 
         className="object-cover" 
-        unoptimized={url.toLowerCase().endsWith(".gif")}
+        unoptimized={url.toLowerCase().endsWith(".gif")} // Next.js optimizes gifs by taking the first frame sometimes, unoptimized prevents it from breaking animation
       />
     </div>
   );
