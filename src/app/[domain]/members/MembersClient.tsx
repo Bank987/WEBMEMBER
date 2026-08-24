@@ -5,17 +5,20 @@ import { Shield, Crown, User, Search, Plus } from "lucide-react";
 import { useState } from "react";
 import { Member, Role } from "@/lib/db";
 import Link from "next/link";
+import { BackgroundMedia } from "@/components/BackgroundMedia";
 
 export default function MembersClient({ 
   initialMembers, 
   pageTitle, 
   pageSubtitle,
   theme,
+  backgroundImageUrl
 }: { 
   initialMembers: Member[], 
   pageTitle: string, 
   pageSubtitle: string,
-  theme?: string
+  theme?: string,
+  backgroundImageUrl?: string
 }) {
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -28,10 +31,19 @@ export default function MembersClient({
   const members = filteredMembers.filter(m => m.role === "MEMBER");
 
   return (
-    <div className={`min-h-screen bg-surface-muted text-text-primary selection:bg-text-secondary/30 relative font-sans ${theme || "theme-default"}`}>
-      {/* Background Pattern overlay matching the image */}
+    <div className={`min-h-screen bg-surface-muted text-text-primary selection:bg-text-secondary/30 relative font-sans overflow-hidden ${theme || "theme-default"}`}>
+      
+      {/* Dynamic Background Media (Image or YouTube) */}
+      {backgroundImageUrl && (
+        <>
+          <BackgroundMedia url={backgroundImageUrl} />
+          <div className="absolute inset-0 z-[2] bg-black/75 backdrop-blur-[2px]" />
+        </>
+      )}
+
+      {/* Pattern overlay */}
       <div 
-        className="absolute inset-0 z-0 pointer-events-none opacity-[0.04]" 
+        className="absolute inset-0 z-[3] pointer-events-none opacity-[0.04]" 
         style={{ 
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='36' height='36' viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18 12v12M12 18h12' stroke='%23ffffff' stroke-width='2' fill='none' /%3E%3C/svg%3E")` 
         }}

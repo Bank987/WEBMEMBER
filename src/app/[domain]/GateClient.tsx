@@ -5,6 +5,7 @@ import Image from "next/image";
 import { NeonTypingButton } from "@/components/NeonTypingButton";
 import { getGangTheme } from "@/lib/themes";
 import { BackgroundEffects } from "@/components/BackgroundEffects";
+import { BackgroundMedia } from "@/components/BackgroundMedia";
 import { MessageSquare as Discord, Globe as Facebook } from "lucide-react";
 import { useEffect } from "react";
 
@@ -80,17 +81,7 @@ export default function GateClient({ settings }: { settings: Settings }) {
     >
       {settings.backgroundImageUrl && (
         <>
-          <div className="absolute inset-0 z-[1]">
-            <Image 
-              src={settings.backgroundImageUrl} 
-              alt="Background" 
-              fill 
-              priority
-              quality={100}
-              className="object-contain object-center"
-              sizes="100vw"
-            />
-          </div>
+          <BackgroundMedia url={settings.backgroundImageUrl} />
           <div className="absolute inset-0 z-[2] bg-gradient-to-b from-black/60 to-black/90" />
         </>
       )}

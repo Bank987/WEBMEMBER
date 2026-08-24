@@ -81,8 +81,8 @@ export default async function SettingsPage() {
                 <p className="text-[10px] text-[#666666] mt-[6px]">รองรับ PNG, JPG, WEBP หรือ ICO หลังบันทึกให้รีเฟรชหน้าเว็บไซต์หนึ่งครั้งเพื่อดูไอคอนใหม่บนแท็บ</p>
               </div>
               <div className="sm:col-span-2">
-                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูประยะพื้นหลังหน้า Gate (ถ้ามีจะทับสีธีม)</p>
-                <input type="text" name="backgroundImageUrl" defaultValue={settings.backgroundImageUrl} placeholder="https://example.com/bg.jpg" className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปภาพ หรือ วิดีโอพื้นหลัง (รองรับลิงก์ YouTube และ GIF)</p>
+                <input type="text" name="backgroundImageUrl" defaultValue={settings.backgroundImageUrl} placeholder="https://example.com/bg.jpg หรือ https://youtu.be/..." className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
               </div>
               <div>
                 <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">สีข้อความ (Hex, rgba หรือเว้นว่างไว้)</p>

@@ -38,6 +38,7 @@ export default async function MembersPage({ params }: { params: Promise<{ domain
       pageTitle={gang.pageTitle}
       pageSubtitle={gang.pageSubtitle}
       theme={getGangTheme(gang.theme).className}
+      backgroundImageUrl={gang.backgroundImageUrl}
     />
   );
 }
