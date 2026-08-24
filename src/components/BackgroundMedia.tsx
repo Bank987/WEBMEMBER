@@ -1,8 +1,13 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import ReactPlayer from "react-player";
 
 export function BackgroundMedia({ url, className = "" }: { url?: string; className?: string }) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
   if (!url) return null;
 
   // Check if YouTube URL
@@ -13,12 +18,41 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
     const videoId = match[1];
     return (
       <div className={`absolute inset-0 z-[1] overflow-hidden bg-black ${className}`}>
-        <iframe
-          src={`https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=${videoId}&modestbranding=1&playsinline=1&disablekb=1&iv_load_policy=3`}
-          allow="autoplay; encrypted-media"
-          className="absolute top-1/2 left-1/2 w-[120vw] h-[67.5vw] min-h-[120vh] min-w-[213.33vh] -translate-x-1/2 -translate-y-1/2 object-cover pointer-events-none scale-[1.3]"
-          title="Background Video"
-        />
+        {mounted && (
+          <ReactPlayer
+            url={`https://www.youtube.com/watch?v=${videoId}`}
+            playing={true}
+            muted={true}
+            loop={true}
+            controls={false}
+            width="100vw"
+            height="56.25vw"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              minHeight: "100vh",
+              minWidth: "177.77vh",
+              pointerEvents: "none"
+            }}
+            config={{
+              youtube: {
+                // @ts-ignore
+                playerVars: {
+                  controls: 0,
+                  showinfo: 0,
+                  rel: 0,
+                  modestbranding: 1,
+                  disablekb: 1,
+                  iv_load_policy: 3,
+                  fs: 0,
+                  playsinline: 1,
+                }
+              }
+            }}
+          />
+        )}
       </div>
     );
   }
@@ -38,3 +72,4 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
     </div>
   );
 }
+
