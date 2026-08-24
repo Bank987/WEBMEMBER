@@ -4,6 +4,7 @@ import GangAuth from "@/components/GangAuth";
 import { Reveal } from "@/components/LandingMotion";
 import { DiscordSupportButton } from "@/components/DiscordSupportButton";
 import { BackgroundEffects } from "@/components/BackgroundEffects";
+import { GuideButton } from "@/components/GuideButton";
 
 export const metadata = {
   title: "WEBSITE สร้างเว็บรายชื่อแก๊ง อันดับ 1",
@@ -47,6 +48,7 @@ export default function LandingPage() {
             GANGLIST
           </Link>
           <div className="flex items-center gap-4">
+            <GuideButton />
             <DiscordSupportButton compact />
             <Link href="#auth" className="hidden sm:block relative overflow-hidden rounded-full p-[1px] group">
               <span className="absolute inset-0 bg-gradient-to-r from-[#0084ff] to-[#00bfff] rounded-full opacity-50 group-hover:opacity-100 transition-opacity" />
