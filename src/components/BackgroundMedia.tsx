@@ -37,7 +37,7 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
         width: "100%",
         height: "100%",
         playerVars: {
-          autoplay: 1, // Native autoplay
+          autoplay: 1, 
           controls: 0,
           disablekb: 1,
           fs: 0,
@@ -51,14 +51,13 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
         },
         events: {
           onReady: (event: any) => {
-            // ONLY mute here, do NOT call playVideo() as it triggers the UI Pause/Play flash
             event.target.mute();
+            // Since autoplay native is blocked by some browsers or still flashes, we just rely on YT default behavior
           },
           onStateChange: (event: any) => {
             if (event.data === window.YT.PlayerState.PLAYING) {
               if (!isVideoPlaying) {
                 setIsVideoPlaying(true);
-                // Reveal immediately or very shortly, since there is no API play flash
                 setTimeout(() => {
                   setIsReady(true);
                 }, 300);
@@ -109,12 +108,28 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
 
   const ytRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
   const isYoutube = ytRegex.test(url);
+  const isDirectVideo = url.toLowerCase().match(/\.(mp4|webm|ogg)$/i);
+
+  if (isDirectVideo) {
+    return (
+      <div className={`absolute inset-0 z-[1] overflow-hidden bg-black ${className}`}>
+        <video 
+          src={url} 
+          autoPlay 
+          muted 
+          loop 
+          playsInline
+          className="absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2 object-cover pointer-events-none"
+        />
+      </div>
+    );
+  }
 
   if (isYoutube) {
     const videoId = url.match(ytRegex)?.[1];
     return (
       <div className={`absolute inset-0 z-[1] overflow-hidden bg-black ${className}`}>
-        {/* Thumbnail Cover - fades out very quickly once playing */}
+        {/* Thumbnail Cover */}
         <div 
           className={`absolute inset-0 z-[10] pointer-events-none transition-opacity duration-500 ease-in-out ${isReady ? "opacity-0" : "opacity-100"}`}
         >
