@@ -9,6 +9,9 @@ import { getGangUrl } from "@/lib/site-url";
 
 export function SuperAdminDashboard({ gangs }: { gangs: SuperAdminGang[] }) {
   const [query, setQuery] = useState("");
+  const [pinQuery, setPinQuery] = useState("");
+  const [pinResult, setPinResult] = useState<{ id: string; subdomain: string; pageTitle: string; creatorIp: string; createdAt: string }[] | null>(null);
+  const [pinSearching, setPinSearching] = useState(false);
   const [resetting, setResetting] = useState<string | null>(null);
   const [token, setToken] = useState<{ name: string; value: string } | null>(null);
   const [error, setError] = useState("");
@@ -17,6 +20,23 @@ export function SuperAdminDashboard({ gangs }: { gangs: SuperAdminGang[] }) {
 
   const [dialog, setDialog] = useState<{ type: "reset" | "delete"; gang: SuperAdminGang } | null>(null);
   const [deleteInput, setDeleteInput] = useState("");
+
+  async function searchPin() {
+    if (pinQuery.length !== 6) return;
+    setPinSearching(true);
+    setError("");
+    try {
+      const res = await fetch(`/api/super-admin/find-by-pin?pin=${pinQuery}`);
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      setPinResult(data.gangs);
+    } catch (e: any) {
+      setError(e.message || "Failed to search PIN");
+      setPinResult(null);
+    } finally {
+      setPinSearching(false);
+    }
+  }
 
   async function confirmReset() {
     if (!dialog || dialog.type !== "reset") return;
@@ -59,6 +79,68 @@ export function SuperAdminDashboard({ gangs }: { gangs: SuperAdminGang[] }) {
     </section>
 
     <section className="mt-5 grid gap-3 sm:grid-cols-3"><MiniMetric label="แสดงผลอยู่" value={filtered.length} detail="จากผลการค้นหา" /><MiniMetric label="สถานะระบบ" value="ปกติ" detail="การเชื่อมต่อเสถียร" /><MiniMetric label="การจัดการ" value="พร้อม" detail="รีเซ็ต token ได้ทันที" /></section>
+
+    {/* PIN Search Section */}
+    <section className="mt-8 overflow-hidden rounded-[24px] border border-[#ff9b9b]/20 bg-[linear-gradient(135deg,#1c1010,#140b0b_60%)] p-6">
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-4">
+          <div className="grid size-12 shrink-0 place-items-center rounded-2xl bg-[#ef4444]/15 text-[#ff7979] shadow-[0_0_20px_rgba(239,68,68,0.2)]">
+            <KeyRound className="size-6" />
+          </div>
+          <div>
+            <h2 className="text-[17px] font-[900] text-white">ค้นหาเว็บด้วย Recovery PIN</h2>
+            <p className="mt-1 text-[11px] text-[#cca9a9]">ตรวจสอบว่ารหัส 6 หลักนี้เป็นของแก๊งไหน</p>
+          </div>
+        </div>
+        
+        <div className="flex gap-2">
+          <input 
+            value={pinQuery} 
+            onChange={(e) => {
+              const val = e.target.value.replace(/\D/g, "").slice(0, 6);
+              setPinQuery(val);
+              if (val.length < 6) setPinResult(null);
+            }} 
+            placeholder="000000" 
+            className="w-32 rounded-xl bg-black/40 border border-white/10 px-4 py-3 text-center text-[18px] tracking-[0.3em] font-mono text-white outline-none focus:border-[#ef4444] transition-all" 
+          />
+          <button 
+            onClick={searchPin} 
+            disabled={pinQuery.length !== 6 || pinSearching} 
+            className="flex items-center gap-2 rounded-xl bg-[#ef4444] px-5 py-3 text-[12px] font-[900] text-white transition hover:bg-[#ef4444]/90 disabled:opacity-50"
+          >
+            {pinSearching ? <LoaderCircle className="size-4 animate-spin" /> : <Search className="size-4" />}
+            ตรวจสอบ
+          </button>
+        </div>
+      </div>
+
+      {pinResult && (
+        <div className="mt-5 border-t border-[#ef4444]/20 pt-5">
+          {pinResult.length === 0 ? (
+            <p className="text-[12px] text-[#ff9b9b]">ไม่พบเว็บไซต์ที่ใช้รหัสกู้คืนนี้</p>
+          ) : (
+            <div className="space-y-2">
+              <p className="text-[11px] font-[900] text-[#ff9b9b] mb-3 uppercase tracking-[1px]">พบ {pinResult.length} เว็บไซต์</p>
+              {pinResult.map((g) => (
+                <div key={g.id} className="flex flex-wrap items-center justify-between gap-4 rounded-xl bg-black/30 border border-[#ef4444]/10 p-3 sm:px-5">
+                  <div>
+                    <p className="text-[13px] font-[900] text-white">{g.pageTitle}</p>
+                    <a href={getGangUrl(g.subdomain)} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-[11px] text-[#ff9b9b] hover:underline">
+                      {g.subdomain}.lastname.site <ExternalLink className="size-3" />
+                    </a>
+                  </div>
+                  <div className="text-right text-[10px] text-[#cca9a9]">
+                    <p>IP: {g.creatorIp || "Unknown"}</p>
+                    <p>{g.createdAt ? new Intl.DateTimeFormat("th-TH", { dateStyle: "short" }).format(new Date(g.createdAt)) : ""}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+    </section>
 
     <section className="mt-8 overflow-hidden rounded-[30px] border border-white/10 bg-[#0c1016] shadow-[0_25px_80px_rgba(0,0,0,0.25)]">
       <div className="flex flex-col justify-between gap-5 border-b border-white/10 p-5 sm:flex-row sm:items-center sm:p-7"><div><div className="flex items-center gap-3"><span className="grid size-9 place-items-center rounded-xl bg-[#dceeff] text-[#145d91]"><UsersRound className="size-4" /></span><div><h2 className="text-[19px] font-[900] text-white">ไดเรกทอรีแก๊ง</h2><p className="mt-1 text-[11px] text-[#8290a0]">เว็บไซต์ทั้งหมดภายใต้ Lastname.site</p></div></div></div><label className="flex items-center rounded-2xl border border-white/10 bg-black/20 px-4 transition focus-within:border-[#238de0]"><Search className="size-4 text-[#718092]" /><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder="ค้นหาชื่อหรือ slug" className="w-full bg-transparent px-2.5 py-3 text-[12px] text-white outline-none placeholder:text-[#647083] sm:w-[230px]" /></label></div>

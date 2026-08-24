@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Users, LayoutDashboard, Settings, LogOut, Palette } from "lucide-react";
 import { getAuthenticatedGang } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import { ForcePinSetup } from "@/components/ForcePinSetup";
+import { setupRecoveryPin } from "@/actions/setup-pin";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const gang = await getAuthenticatedGang();
@@ -9,6 +11,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
 
   return (
     <div className="min-h-screen bg-[#080a0e] text-text-primary flex font-sans">
+      <ForcePinSetup requirePin={!gang.recoveryPin} setupAction={setupRecoveryPin} />
         {/* Sidebar */}
         <aside className="relative flex w-[280px] shrink-0 flex-col overflow-hidden border-r border-white/10 bg-[#0b0e13]">
           {/* Subtle background glow */}

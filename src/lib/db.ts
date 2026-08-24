@@ -27,6 +27,7 @@ export interface Gang {
   buttonShape?: string;
   createdAt?: string;
   creatorIp?: string;
+  recoveryPin?: string;
 }
 
 export interface Member {
@@ -68,6 +69,7 @@ const gangSchema = new mongoose.Schema({
   entryAnimation: { type: String, default: "fade" },
   buttonShape: { type: String, default: "square" },
   creatorIp: { type: String, default: "" },
+  recoveryPin: { type: String, default: "" },
 }, { timestamps: true });
 
 const memberSchema = new mongoose.Schema({
@@ -101,6 +103,9 @@ if (!GangModel.schema.path("backgroundImageUrl")) {
     facebookUrl: { type: String, default: "" },
     entryAnimation: { type: String, default: "fade" }
   });
+}
+if (!GangModel.schema.path("recoveryPin")) {
+  GangModel.schema.add({ recoveryPin: { type: String, default: "" } });
 }
 const MemberModel = mongoose.models.Member || mongoose.model("Member", memberSchema);
 // Dev hot reload can retain the pre-migration schema where department was required.
@@ -148,6 +153,7 @@ type GangDocument = {
   facebookUrl?: string;
   entryAnimation?: string;
   buttonShape?: string;
+  recoveryPin?: string;
 };
 
 type MemberDocument = {
@@ -181,6 +187,7 @@ function mapGang(doc: GangDocument): Gang {
     facebookUrl: doc.facebookUrl || "",
     entryAnimation: doc.entryAnimation || "fade",
     buttonShape: doc.buttonShape || "square",
+    recoveryPin: doc.recoveryPin || "",
     createdAt: (doc as any).createdAt instanceof Date ? (doc as any).createdAt.toISOString() : (doc as any).createdAt,
   };
 }

@@ -27,6 +27,7 @@ export default function GangAuth() {
     setStatus("idle");
     setMessage("");
   }
+  const [recoveryPin, setRecoveryPin] = useState("");
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -34,7 +35,7 @@ export default function GangAuth() {
     setMessage("");
     const endpoint = mode === "register" ? "/api/auth/register" : "/api/auth/login";
     const body = mode === "register" 
-      ? { pageTitle: name, subdomain: slug, cfTurnstileResponse: turnstileToken } 
+      ? { pageTitle: name, subdomain: slug, recoveryPin, cfTurnstileResponse: turnstileToken } 
       : { subdomain: slug, token: secret, cfTurnstileResponse: turnstileToken };
 
     try {
@@ -158,12 +159,22 @@ export default function GangAuth() {
           <form onSubmit={submit} className="w-full space-y-4 sm:space-y-5">
             <AnimatePresence initial={false} mode="wait">
             {mode === "register" && (
-              <motion.div key="website-name" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
-                <label className="block text-[9px] sm:text-[10px] font-[900] text-white/50 mb-2 ml-1 tracking-[1px] uppercase">Faction Name</label>
-                <div className="relative">
-                  <input aria-label="ชื่อเว็บไซต์" value={name} onChange={(e) => setName(e.target.value)} required maxLength={80} placeholder="ชื่อแก๊งของคุณ" className="w-full rounded-xl border border-white/10 bg-[#050505] px-4 py-3 sm:px-5 sm:py-4 text-[13px] sm:text-[14px] text-white outline-none transition-all focus:border-[#0084ff] focus:bg-[#0084ff]/5 placeholder:text-white/20 shadow-inner" />
-                </div>
-              </motion.div>
+              <>
+                <motion.div key="website-name" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
+                  <label className="block text-[9px] sm:text-[10px] font-[900] text-white/50 mb-2 ml-1 tracking-[1px] uppercase">Faction Name</label>
+                  <div className="relative">
+                    <input aria-label="ชื่อเว็บไซต์" value={name} onChange={(e) => setName(e.target.value)} required maxLength={80} placeholder="ชื่อแก๊งของคุณ" className="w-full rounded-xl border border-white/10 bg-[#050505] px-4 py-3 sm:px-5 sm:py-4 text-[13px] sm:text-[14px] text-white outline-none transition-all focus:border-[#0084ff] focus:bg-[#0084ff]/5 placeholder:text-white/20 shadow-inner" />
+                  </div>
+                </motion.div>
+                
+                <motion.div key="recovery-pin" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }}>
+                  <label className="block text-[9px] sm:text-[10px] font-[900] text-[#ff4444] mb-2 ml-1 tracking-[1px] uppercase mt-4">Recovery PIN (รหัสกู้คืน 6 หลัก)</label>
+                  <div className="relative">
+                    <input aria-label="รหัส PIN 6 หลัก" value={recoveryPin} onChange={(e) => setRecoveryPin(e.target.value.replace(/\D/g, '').slice(0, 6))} required pattern="\d{6}" placeholder="ตั้งรหัสตัวเลข 6 หลัก" className="w-full rounded-xl border border-[#ff4444]/30 bg-[#050505] px-4 py-3 sm:px-5 sm:py-4 text-[13px] sm:text-[14px] text-white text-center tracking-[0.5em] font-mono outline-none transition-all focus:border-[#ff4444] focus:bg-[#ff4444]/5 placeholder:text-white/20 placeholder:tracking-normal shadow-inner" />
+                  </div>
+                  <p className="text-[10px] text-white/40 mt-2 ml-1">* ใช้สำหรับกู้คืนเว็บไซต์กรณีที่คุณลืม Master Key ห้ามลืมเด็ดขาด</p>
+                </motion.div>
+              </>
             )}
             </AnimatePresence>
             

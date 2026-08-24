@@ -16,9 +16,10 @@ export async function POST(request: Request) {
     return Response.json({ error: "คุณสร้างแก๊งครบโควต้า 3 แก๊งต่อวันแล้ว กรุณารอ 24 ชั่วโมง" }, { status: 429 });
   }
 
-  const body = (await request.json().catch(() => ({}))) as { pageTitle?: string; subdomain?: string; cfTurnstileResponse?: string };
+  const body = (await request.json().catch(() => ({}))) as { pageTitle?: string; subdomain?: string; recoveryPin?: string; cfTurnstileResponse?: string };
   const subdomain = body.subdomain?.trim().toLowerCase() ?? "";
   const pageTitle = body.pageTitle?.trim() ?? "";
+  const recoveryPin = body.recoveryPin?.replace(/\D/g, '').slice(0, 6) ?? "";
 
   const isHuman = await verifyTurnstile(body.cfTurnstileResponse, ip);
   if (!isHuman) {
@@ -31,13 +32,16 @@ export async function POST(request: Request) {
   if (!SLUG_PATTERN.test(subdomain) || RESERVED.has(subdomain)) {
     return Response.json({ error: "ชื่อ slug นี้ไม่ถูกต้องหรือเป็นชื่อที่สงวนไว้" }, { status: 400 });
   }
+  if (recoveryPin.length !== 6) {
+    return Response.json({ error: "กรุณาตั้งรหัส Recovery PIN ให้ครบ 6 หลัก" }, { status: 400 });
+  }
 
   const existing = await getGangBySubdomain(subdomain);
   if (existing) return Response.json({ error: "ชื่อ slug นี้ถูกใช้งานแล้ว" }, { status: 409 });
 
   const token = createAdminToken();
   try {
-    await createGang({ subdomain, pageTitle, pageSubtitle: "EST. 2026", adminTokenHash: hashAdminToken(token), creatorIp: ip });
+    await createGang({ subdomain, pageTitle, pageSubtitle: "EST. 2026", adminTokenHash: hashAdminToken(token), creatorIp: ip, recoveryPin });
     return Response.json({ subdomain, token }, { status: 201 });
   } catch (error) {
     console.error("Gang registration failed", error);
