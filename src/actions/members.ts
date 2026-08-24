@@ -3,7 +3,7 @@
 import { createMemberInDB, updateMemberInDB, deleteMemberInDB, Role, getMember } from "@/lib/db";
 import { getAuthenticatedGang } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
-import { assertTrustedMutationOrigin } from "@/lib/security";
+import { assertTrustedMutationOrigin, sanitizeUrl } from "@/lib/security";
 
 export async function createMember(formData: FormData): Promise<{ ok: boolean; error?: string }> {
   try { await assertTrustedMutationOrigin(); } catch { return { ok: false, error: "คำขอไม่ปลอดภัย กรุณารีเฟรชหน้าแล้วลองใหม่" }; }
@@ -15,8 +15,8 @@ export async function createMember(formData: FormData): Promise<{ ok: boolean; e
       gangId: gang.id,
       name: formData.get("name") as string,
       role: formData.get("role") as Role,
-      avatar: formData.get("avatar") as string || "https://i.pravatar.cc/150",
-      facebookUrl: formData.get("facebookUrl") as string,
+      avatar: sanitizeUrl(formData.get("avatar") as string) || "https://i.pravatar.cc/150",
+      facebookUrl: sanitizeUrl(formData.get("facebookUrl") as string),
     });
   } catch (error) {
     console.error("Create member failed", error);
@@ -36,8 +36,8 @@ export async function updateMember(id: string, formData: FormData): Promise<{ ok
     await updateMemberInDB(id, {
       name: formData.get("name") as string,
       role: formData.get("role") as Role,
-      avatar: formData.get("avatar") as string,
-      facebookUrl: formData.get("facebookUrl") as string,
+      avatar: sanitizeUrl(formData.get("avatar") as string),
+      facebookUrl: sanitizeUrl(formData.get("facebookUrl") as string),
     });
   } catch (error) {
     console.error("Update member failed", error);

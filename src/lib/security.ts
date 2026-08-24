@@ -1,4 +1,4 @@
-import { headers } from "next/headers";
+﻿import { headers } from "next/headers";
 
 type RateEntry = { count: number; resetAt: number };
 const attempts = new Map<string, RateEntry>();
@@ -36,7 +36,7 @@ export async function verifyTurnstile(token?: string, ip?: string): Promise<bool
     const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: `secret=${encodeURIComponent(secretKey)}&response=${encodeURIComponent(token)}${ip ? `&remoteip=${encodeURIComponent(ip)}` : ''}`
+      body: `secret=${encodeURIComponent(secretKey)}&response=${encodeURIComponent(token)}${ip ? `&remoteip=${encodeURIComponent(ip)}` : ""}`
     });
     const outcome = await res.json();
     return !!outcome.success;
@@ -45,3 +45,19 @@ export async function verifyTurnstile(token?: string, ip?: string): Promise<bool
     return false;
   }
 }
+
+export function sanitizeUrl(url?: string | null): string {
+  if (!url) return "";
+  const trimmed = url.trim();
+  if (!trimmed) return "";
+  try {
+    const parsed = new URL(trimmed, "http://fallback.com");
+    if (["http:", "https:", "mailto:", "tel:"].includes(parsed.protocol)) {
+      return trimmed;
+    }
+    return "";
+  } catch {
+    return "";
+  }
+}
+

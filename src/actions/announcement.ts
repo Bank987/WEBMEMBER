@@ -1,9 +1,10 @@
-﻿"use server";
+"use server";
 
 import { isSuperAdminAuthenticated } from "@/lib/auth";
 import { connectDB } from "@/lib/db";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
+import { sanitizeUrl } from "@/lib/security";
 
 const globalConfigSchema = new mongoose.Schema({
   key: { type: String, required: true, unique: true },
@@ -34,11 +35,16 @@ export async function updateAnnouncement(data: { isActive: boolean; imageUrl: st
   const isAuthenticated = await isSuperAdminAuthenticated();
   if (!isAuthenticated) return { success: false, error: "Unauthorized" };
 
+  const sanitizedData = {
+    ...data,
+    imageUrl: sanitizeUrl(data.imageUrl),
+  };
+
   await connectDB();
   const GlobalConfigModel = getGlobalConfigModel();
   await GlobalConfigModel.findOneAndUpdate(
     { key: "MAIN_ANNOUNCEMENT" },
-    { $set: data },
+    { $set: sanitizedData },
     { upsert: true }
   );
 
