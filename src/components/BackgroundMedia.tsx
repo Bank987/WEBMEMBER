@@ -1,11 +1,15 @@
 ﻿"use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import ReactPlayer from "react-player";
+import { useEffect, useState, useRef } from "react";
+import dynamic from "next/dynamic";
+
+const ReactPlayer = dynamic(() => import("react-player"), { ssr: false });
 
 export function BackgroundMedia({ url, className = "" }: { url?: string; className?: string }) {
   const [mounted, setMounted] = useState(false);
+  const playerRef = useRef<any>(null);
+  
   useEffect(() => setMounted(true), []);
 
   if (!url) return null;
@@ -20,13 +24,20 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
       <div className={`absolute inset-0 z-[1] overflow-hidden bg-black ${className}`}>
         {mounted && (
           <ReactPlayer
+            ref={playerRef}
             url={`https://www.youtube.com/watch?v=${videoId}`}
             playing={true}
             muted={true}
-            loop={true}
             controls={false}
             width="100vw"
             height="56.25vw"
+            onEnded={() => {
+              if (playerRef.current) {
+                playerRef.current.seekTo(0);
+                // Also force play again in case seekTo pauses
+                playerRef.current.getInternalPlayer()?.playVideo?.();
+              }
+            }}
             style={{
               position: "absolute",
               top: "50%",
@@ -57,7 +68,7 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
     );
   }
 
-  // Fallback to Image (works for GIF, JPG, PNG)
+  // Fallback to Image
   return (
     <div className={`absolute inset-0 z-[1] ${className}`}>
       <Image 
@@ -67,9 +78,8 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
         priority
         quality={100} 
         className="object-cover" 
-        unoptimized={url.toLowerCase().endsWith(".gif")} // Next.js optimizes gifs by taking the first frame sometimes, unoptimized prevents it from breaking animation
+        unoptimized={url.toLowerCase().endsWith(".gif")}
       />
     </div>
   );
 }
-
