@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+﻿import mongoose from 'mongoose';
 
 export type Role = "FOUNDER" | "LEADER" | "MEMBER";
 
@@ -15,6 +15,7 @@ export interface Gang {
   adminSessionHash?: string;
   theme?: string;
   backgroundImageUrl?: string;
+  membersBackgroundImageUrl?: string;
   textColor?: string;
   fontFamily?: string;
   particleEffect?: string;
@@ -58,6 +59,7 @@ const gangSchema = new mongoose.Schema({
   adminSessionHash: { type: String, select: false },
   theme: { type: String, default: "default" },
   backgroundImageUrl: { type: String, default: "" },
+  membersBackgroundImageUrl: { type: String, default: "" },
   textColor: { type: String, default: "" },
   fontFamily: { type: String, default: "sans" },
   particleEffect: { type: String, default: "none" },
@@ -91,8 +93,10 @@ if (!GangModel.schema.path("adminSessionHash")) {
   GangModel.schema.add({ adminSessionHash: { type: String, select: false } });
 }
 if (!GangModel.schema.path("backgroundImageUrl")) {
+  if (!GangModel.schema.path("membersBackgroundImageUrl")) { GangModel.schema.add({ membersBackgroundImageUrl: { type: String, default: "" } }); }
   GangModel.schema.add({ 
-    backgroundImageUrl: { type: String, default: "" }, 
+    backgroundImageUrl: { type: String, default: "" },
+  membersBackgroundImageUrl: { type: String, default: "" }, 
     textColor: { type: String, default: "" }, 
     fontFamily: { type: String, default: "sans" },
     particleEffect: { type: String, default: "none" },
@@ -143,6 +147,7 @@ type GangDocument = {
   adminSessionHash?: string;
   theme?: string;
   backgroundImageUrl?: string;
+  membersBackgroundImageUrl?: string;
   textColor?: string;
   fontFamily?: string;
   particleEffect?: string;
@@ -177,6 +182,7 @@ function mapGang(doc: GangDocument): Gang {
     pageSubtitle: doc.pageSubtitle || "EST. 2024",
     theme: doc.theme || "default",
     backgroundImageUrl: doc.backgroundImageUrl || "",
+    membersBackgroundImageUrl: doc.membersBackgroundImageUrl || "",
     textColor: doc.textColor || "",
     fontFamily: doc.fontFamily || "sans",
     particleEffect: doc.particleEffect || "none",
@@ -302,3 +308,5 @@ export async function deleteMemberInDB(id: string) {
   await connectDB();
   await MemberModel.findByIdAndDelete(id);
 }
+
+

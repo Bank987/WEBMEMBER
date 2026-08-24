@@ -81,8 +81,13 @@ export default async function SettingsPage() {
                 <p className="text-[10px] text-[#666666] mt-[6px]">รองรับ PNG, JPG, WEBP หรือ ICO หลังบันทึกให้รีเฟรชหน้าเว็บไซต์หนึ่งครั้งเพื่อดูไอคอนใหม่บนแท็บ</p>
               </div>
               <div className="sm:col-span-2">
-                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปภาพ หรือ วิดีโอพื้นหลัง (รองรับลิงก์ YouTube และ GIF)</p>
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปภาพ หรือ วิดีโอพื้นหลัง (หน้า Gate)</p>
                 <input type="text" name="backgroundImageUrl" defaultValue={settings.backgroundImageUrl} placeholder="https://example.com/bg.jpg หรือ https://youtu.be/..." className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+              </div>
+              <div className="sm:col-span-2">
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปภาพ หรือ วิดีโอพื้นหลัง (หน้า Members)</p>
+                <input type="text" name="membersBackgroundImageUrl" defaultValue={settings.membersBackgroundImageUrl} placeholder="https://example.com/bg2.jpg หรือ https://youtu.be/..." className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+                <p className="text-[10px] text-[#666666] mt-[6px]">รองรับลิงก์ YouTube และ GIF หากเว้นว่างไว้จะใช้พื้นหลังสีเทาเริ่มต้น</p>
               </div>
               <div>
                 <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">สีข้อความ (Hex, rgba หรือเว้นว่างไว้)</p>
