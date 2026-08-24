@@ -14,7 +14,7 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
   const containerRef = useRef<HTMLDivElement>(null);
   const playerRef = useRef<any>(null);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-  const [showCover, setShowCover] = useState(true);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     if (!url) return;
@@ -57,8 +57,10 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
             if (event.data === window.YT.PlayerState.PLAYING) {
               if (!isVideoPlaying) {
                 setIsVideoPlaying(true);
-                // Wait 800ms for YouTube UI (pause button) to fade out before hiding our cover
-                setTimeout(() => setShowCover(false), 800);
+                // Wait 1.5 seconds to absolutely ensure the YouTube Pause UI has faded out completely
+                setTimeout(() => {
+                  setIsReady(true);
+                }, 1500);
               }
             }
             if (event.data === window.YT.PlayerState.ENDED) {
@@ -110,9 +112,9 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
     const videoId = url.match(ytRegex)?.[1];
     return (
       <div className={`absolute inset-0 z-[1] overflow-hidden bg-black ${className}`}>
-        {/* Thumbnail Cover to hide YouTube Pause Button flash */}
+        {/* Thumbnail Cover */}
         <div 
-          className={`absolute inset-0 z-[10] pointer-events-none transition-opacity duration-700 ease-in-out ${showCover ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 z-[10] pointer-events-none transition-opacity duration-1000 ease-in-out ${isReady ? "opacity-0" : "opacity-100"}`}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
@@ -125,7 +127,8 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
           />
         </div>
 
-        <div className="absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2 pointer-events-none">
+        {/* YouTube Iframe Container - Kept invisible until UI is gone */}
+        <div className={`absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-opacity duration-1000 ease-in-out ${isReady ? "opacity-100" : "opacity-0"}`}>
           <div ref={containerRef} className="w-full h-full" />
         </div>
       </div>
@@ -139,3 +142,4 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
     </div>
   );
 }
+
