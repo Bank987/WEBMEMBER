@@ -37,7 +37,7 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
         width: "100%",
         height: "100%",
         playerVars: {
-          autoplay: 1,
+          autoplay: 1, // Native autoplay
           controls: 0,
           disablekb: 1,
           fs: 0,
@@ -46,24 +46,26 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
           playsinline: 1,
           rel: 0,
           mute: 1,
-          showinfo: 0
+          showinfo: 0,
+          autohide: 1,
         },
         events: {
           onReady: (event: any) => {
+            // ONLY mute here, do NOT call playVideo() as it triggers the UI Pause/Play flash
             event.target.mute();
-            event.target.playVideo();
           },
           onStateChange: (event: any) => {
             if (event.data === window.YT.PlayerState.PLAYING) {
               if (!isVideoPlaying) {
                 setIsVideoPlaying(true);
-                // Wait 1.5 seconds to absolutely ensure the YouTube Pause UI has faded out completely
+                // Reveal immediately or very shortly, since there is no API play flash
                 setTimeout(() => {
                   setIsReady(true);
-                }, 1500);
+                }, 300);
               }
             }
             if (event.data === window.YT.PlayerState.ENDED) {
+              event.target.seekTo(0);
               event.target.playVideo();
             }
           }
@@ -112,9 +114,9 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
     const videoId = url.match(ytRegex)?.[1];
     return (
       <div className={`absolute inset-0 z-[1] overflow-hidden bg-black ${className}`}>
-        {/* Thumbnail Cover */}
+        {/* Thumbnail Cover - fades out very quickly once playing */}
         <div 
-          className={`absolute inset-0 z-[10] pointer-events-none transition-opacity duration-1000 ease-in-out ${isReady ? "opacity-0" : "opacity-100"}`}
+          className={`absolute inset-0 z-[10] pointer-events-none transition-opacity duration-500 ease-in-out ${isReady ? "opacity-0" : "opacity-100"}`}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img 
@@ -127,8 +129,8 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
           />
         </div>
 
-        {/* YouTube Iframe Container - Kept invisible until UI is gone */}
-        <div className={`absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-opacity duration-1000 ease-in-out ${isReady ? "opacity-100" : "opacity-0"}`}>
+        {/* YouTube Iframe Container */}
+        <div className={`absolute top-1/2 left-1/2 w-[100vw] h-[56.25vw] min-h-[100vh] min-w-[177.77vh] -translate-x-1/2 -translate-y-1/2 pointer-events-none transition-opacity duration-500 ease-in-out ${isReady ? "opacity-100" : "opacity-0"}`}>
           <div ref={containerRef} className="w-full h-full" />
         </div>
       </div>
@@ -142,4 +144,3 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
     </div>
   );
 }
-
