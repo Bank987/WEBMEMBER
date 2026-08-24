@@ -16,14 +16,20 @@ export const metadata = {
   },
 };
 
+import { getAnnouncement } from "@/actions/announcement";
+import { AnnouncementModal } from "@/components/AnnouncementModal";
+
 const packages = [
   { name: "เริ่มต้น", price: "ฟรี", detail: "พื้นที่สำหรับแก๊งที่ต้องการเริ่มต้นให้เร็วที่สุด", features: ["ซับโดเมนเฉพาะแก๊ง", "จัดการสมาชิก 50 คน", "หลังบ้านส่วนตัว"] },
   { name: "เอมไพร์", price: "89฿", detail: "พื้นที่เต็มรูปแบบสำหรับแก๊งที่ต้องการขยายตัว", features: ["เชื่อมต่อโดเมนของคุณเอง", "สมาชิกไม่จำกัด", "เอฟเฟกต์และเสียงพิเศษ"], featured: true },
 ];
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const announcement = await getAnnouncement();
+
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#030303] text-[#f5f7fa] selection:bg-[#0084ff] selection:text-white font-sans">
+      <AnnouncementModal data={announcement} />
       
       {/* Background (Blue, Black, White tone) */}
       <div className="fixed inset-0 z-0 pointer-events-none">
