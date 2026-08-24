@@ -224,6 +224,27 @@ export default function GangAuth() {
               </Alert>
             )}
           </div>
+
+          <AnimatePresence>
+            {mode === "login" && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                exit={{ opacity: 0, y: 10 }}
+                className="mt-6 text-center border-t border-white/10 pt-6"
+              >
+                <p className="text-[11px] text-[#777] font-[900] tracking-[0.5px]">
+                  ลืม MASTER KEY?
+                </p>
+                <p className="mt-2 text-[10px] text-white/40 leading-relaxed max-w-[280px] mx-auto">
+                  หากคุณเป็นเจ้าของเว็บไซต์และลืมรหัสผ่าน โปรดติดต่อฝ่ายสนับสนุน (SUPPORT) เพื่อยืนยันตัวตนและขอรับรหัสใหม่
+                </p>
+                <a href="#" className="inline-block mt-4 rounded-xl bg-white/5 border border-white/10 px-5 py-2.5 text-[10px] font-[900] text-[#0084ff] transition hover:bg-[#0084ff]/10 hover:border-[#0084ff]/30">
+                  ติดต่อ SUPPORT
+                </a>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </div>
