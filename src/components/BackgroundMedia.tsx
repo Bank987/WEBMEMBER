@@ -108,7 +108,7 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
 
   const ytRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i;
   const isYoutube = ytRegex.test(url);
-  const isDirectVideo = url.toLowerCase().match(/\.(mp4|webm|ogg)$/i);
+  const isDirectVideo = url.toLowerCase().match(/\.(mp4|webm|ogg)(\?.*)?$/i);
 
   if (isDirectVideo) {
     return (
@@ -159,3 +159,4 @@ export function BackgroundMedia({ url, className = "" }: { url?: string; classNa
     </div>
   );
 }
+
