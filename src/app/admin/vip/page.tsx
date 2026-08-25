@@ -1,8 +1,8 @@
 ﻿"use client";
 
 import { useState } from "react";
-import { Crown, CheckCircle2, AlertCircle, KeyRound } from "lucide-react";
-import { motion } from "framer-motion";
+import { Crown, CheckCircle2, AlertCircle, KeyRound, ShoppingCart, MessageSquare, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
 
 export default function VipPage() {
@@ -10,9 +10,9 @@ export default function VipPage() {
   const [status, setStatus] = useState<"idle" | "checking" | "valid" | "invalid">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [redeeming, setRedeeming] = useState(false);
+  const [showBuyModal, setShowBuyModal] = useState(false);
   const router = useRouter();
   
-  // Extract subdomain from host
   const getSubdomain = () => {
     if (typeof window === "undefined") return "";
     const hostname = window.location.hostname;
@@ -51,7 +51,6 @@ export default function VipPage() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       
-      // Success, maybe redirect or show success
       router.refresh();
       alert("ยินดีด้วย! แก๊งของคุณได้รับการอัปเกรดเป็น VIP แล้ว!");
       setKey("");
@@ -83,10 +82,19 @@ export default function VipPage() {
 
         <div className="space-y-6">
           <div className="space-y-2">
-            <label className="text-xs font-bold text-yellow-500/70 uppercase tracking-widest flex items-center gap-2">
-              <KeyRound className="size-3" />
-              VIP KEY CODE
-            </label>
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold text-yellow-500/70 uppercase tracking-widest flex items-center gap-2">
+                <KeyRound className="size-3" />
+                VIP KEY CODE
+              </label>
+              <button 
+                onClick={() => setShowBuyModal(true)}
+                className="text-xs font-bold text-[#0084ff] hover:text-[#339cff] flex items-center gap-1 bg-[#0084ff]/10 hover:bg-[#0084ff]/20 px-3 py-1 rounded-full transition"
+              >
+                <ShoppingCart className="size-3" />
+                สั่งซื้อ VIP Key
+              </button>
+            </div>
             <input
               type="text"
               value={key}
@@ -133,7 +141,49 @@ export default function VipPage() {
           </div>
         </div>
       </motion.div>
+
+      {/* Buy Modal */}
+      <AnimatePresence>
+        {showBuyModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-5 bg-black/80 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="relative w-full max-w-md bg-[#0c0f16] border border-white/10 rounded-2xl overflow-hidden shadow-2xl"
+            >
+              <div className="absolute -top-20 -right-20 size-40 bg-[#0084ff]/20 rounded-full blur-[40px] pointer-events-none" />
+              
+              <div className="p-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                    <ShoppingCart className="size-5 text-[#0084ff]" />
+                    สั่งซื้อ VIP Key
+                  </h3>
+                  <button onClick={() => setShowBuyModal(false)} className="text-white/40 hover:text-white transition">
+                    <X className="size-5" />
+                  </button>
+                </div>
+
+                <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-center space-y-4">
+                  <MessageSquare className="size-12 text-[#5865F2] mx-auto" />
+                  <div>
+                    <p className="text-white font-bold text-lg">ติดต่อซื้อที่ DISCORD SUPPORT</p>
+                    <p className="text-white/50 text-sm mt-2">กรุณาเปิดทิคเก็ตในเซิร์ฟเวอร์ Discord ของเราเพื่อทำการสั่งซื้อ VIP Key ครับ แอดมินจะทำการส่งโค้ดให้หลังจากชำระเงินเรียบร้อยแล้ว</p>
+                  </div>
+                </div>
+
+                <button 
+                  onClick={() => setShowBuyModal(false)}
+                  className="w-full mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-3 rounded-xl transition"
+                >
+                  ปิดหน้าต่าง
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
-
