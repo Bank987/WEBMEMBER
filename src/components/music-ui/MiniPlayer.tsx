@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useRef, useEffect } from "react";
 import YouTube, { YouTubePlayer } from "react-youtube";
@@ -119,10 +119,10 @@ export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, a
     <>
       {/* Hidden YouTube IFrame */}
       {videoId && (
-        <div className="hidden">
+        <div className="absolute w-[1px] h-[1px] opacity-0 pointer-events-none -z-50 overflow-hidden">
           <YouTube 
             videoId={videoId}
-            opts={{ height: '0', width: '0', playerVars: { autoplay: autoPlay ? 1 : 0, controls: 0, disablekb: 1, fs: 0 } }}
+            opts={{ height: '1', width: '1', playerVars: { autoplay: autoPlay ? 1 : 0, controls: 0, disablekb: 1, fs: 0 } }}
             onReady={handleReady}
             onStateChange={handleStateChange}
           />
@@ -241,3 +241,4 @@ export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, a
     </>
   );
 }
+

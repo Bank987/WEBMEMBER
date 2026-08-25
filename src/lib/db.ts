@@ -75,7 +75,7 @@ const gangSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const memberSchema = new mongoose.Schema({
-  gangId: { type: mongoose.Schema.Types.ObjectId, ref: 'Gang', required: true },
+  gangId: { type: mongoose.Schema.Types.ObjectId, ref: 'Gang', required: true, index: true },
   name: { type: String, required: true },
   role: { type: String, required: true, enum: ["FOUNDER", "LEADER", "MEMBER"] },
   avatar: { type: String, required: true },
@@ -117,18 +117,24 @@ const departmentPath = MemberModel.schema.path("department");
 if (departmentPath) departmentPath.required(false);
 
 // Cache connection state
-let isConnected = false;
+let cached = (global as any).mongoose;
+if (!cached) {
+  cached = (global as any).mongoose = { conn: null, promise: null };
+}
 
 export async function connectDB() {
-  if (isConnected) return;
+  if (cached.conn) return cached.conn;
   if (!MONGODB_URI) throw new Error("MONGODB_URI is not configured");
   
+  if (!cached.promise) {
+    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => mongoose);
+  }
+  
   try {
-    await mongoose.connect(MONGODB_URI);
-    isConnected = true;
-    console.log("MongoDB connected");
+    cached.conn = await cached.promise;
+    return cached.conn;
   } catch (error) {
-    console.error("MongoDB connection error:", error);
+    cached.promise = null;
     throw error;
   }
 }
@@ -308,5 +314,7 @@ export async function deleteMemberInDB(id: string) {
   await connectDB();
   await MemberModel.findByIdAndDelete(id);
 }
+
+
 
 
