@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { createMemberInDB, updateMemberInDB, deleteMemberInDB, Role, getMember } from "@/lib/db";
 import { getAuthenticatedGang } from "@/lib/auth";
@@ -57,3 +57,4 @@ export async function deleteMember(id: string) {
   
   revalidatePath("/", "layout");
 }
+

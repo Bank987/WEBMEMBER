@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Plus, Edit, Trash2, Search, ArrowUpRight } from "lucide-react";
 import { deleteMember } from "@/actions/members";
+import { AddMemberButton } from "@/components/AddMemberButton";
 
 export default async function AdminMembersPage() {
   const gang = await getAuthenticatedGang();
@@ -22,13 +23,7 @@ export default async function AdminMembersPage() {
           </p>
         </div>
         
-        <Link 
-          href="/admin/members/new" 
-          className="group relative flex items-center gap-[9px] bg-[#0084ff]/10 border border-[#0084ff]/30 text-[#0084ff] hover:bg-[#0084ff] hover:text-white px-[24px] py-[12px] rounded-full text-[10.5px] font-[900] uppercase tracking-[1.8px] transition-all duration-300 shadow-[0_0_15px_rgba(0,132,255,0.15)] hover:shadow-[0_0_25px_rgba(0,132,255,0.4)]"
-        >
-          <Plus className="w-[14px] h-[14px]" />
-          เพิ่มสมาชิก
-        </Link>
+        <AddMemberButton isVip={gang.isVip || false} memberCount={members.length} />
       </div>
 
       <div className="bg-[#050505] border border-[#111111] rounded-[18px] overflow-hidden shadow-2xl relative">
