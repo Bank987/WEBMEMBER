@@ -1,7 +1,8 @@
-"use client";
+﻿"use client";
 
 import { MiniPlayer } from "@/components/music-ui/MiniPlayer";
 import { Track } from "@/types/music";
+import { usePathname } from "next/navigation";
 
 interface MusicWrapperProps {
   youtubeUrl: string;
@@ -9,6 +10,9 @@ interface MusicWrapperProps {
 }
 
 export function MusicWrapper({ youtubeUrl, ytData }: MusicWrapperProps) {
+  const pathname = usePathname();
+  const isGatePage = !pathname || pathname === '/';
+
   if (!youtubeUrl) return null;
 
   const currentTrack: Track = {
@@ -21,7 +25,7 @@ export function MusicWrapper({ youtubeUrl, ytData }: MusicWrapperProps) {
   };
 
   return (
-    <div className="fixed bottom-[36px] right-[36px] z-50">
+    <div className={`fixed bottom-[36px] right-[36px] z-50 ${isGatePage ? "opacity-0 pointer-events-none" : ""}`}>
       <MiniPlayer 
         track={currentTrack} 
         autoPlay={true}
@@ -29,3 +33,5 @@ export function MusicWrapper({ youtubeUrl, ytData }: MusicWrapperProps) {
     </div>
   );
 }
+
+

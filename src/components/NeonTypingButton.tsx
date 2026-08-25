@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -43,7 +43,7 @@ export function NeonTypingButton({
   const [useProxy, setUseProxy] = useState(false);
 
   return (
-    <Link href={href} className={className}>
+    <Link href={href} className={className} onClick={() => window.dispatchEvent(new Event('force-play-music'))}>
       <motion.button
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
@@ -114,3 +114,4 @@ export function NeonTypingButton({
     </Link>
   );
 }
+

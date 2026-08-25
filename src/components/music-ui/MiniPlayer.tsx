@@ -112,6 +112,19 @@ export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, a
   };
 
   const [isExpanded, setIsExpanded] = useState(false);
+  useEffect(() => {
+    const handleForcePlay = () => {
+      if (playerRef.current) {
+        playerRef.current.unMute();
+        playerRef.current.setVolume(50);
+        playerRef.current.playVideo();
+        setIsPlaying(true);
+        setIsMuted(false);
+      }
+    };
+    window.addEventListener('force-play-music', handleForcePlay);
+    return () => window.removeEventListener('force-play-music', handleForcePlay);
+  }, []);
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
 
   useEffect(() => {
@@ -260,6 +273,7 @@ export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, a
     </>
   );
 }
+
 
 
 
