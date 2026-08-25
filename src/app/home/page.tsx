@@ -1,4 +1,4 @@
-import { ShieldCheck, Command, ArrowDownRight, Check, Target, Crosshair } from "lucide-react";
+﻿import { ShieldCheck, Command, ArrowDownRight, Check, Target, Crosshair } from "lucide-react";
 import Link from "next/link";
 import GangAuth from "@/components/GangAuth";
 import { Reveal } from "@/components/LandingMotion";
@@ -22,7 +22,7 @@ import { AnnouncementModal } from "@/components/AnnouncementModal";
 
 const packages = [
   { name: "เริ่มต้น", price: "ฟรี", detail: "พื้นที่สำหรับแก๊งที่ต้องการเริ่มต้นให้เร็วที่สุด", features: ["ซับโดเมนเฉพาะแก๊ง", "จัดการสมาชิก 50 คน", "หลังบ้านส่วนตัว"] },
-  { name: "เอมไพร์", price: "89฿", detail: "พื้นที่เต็มรูปแบบสำหรับแก๊งที่ต้องการขยายตัว", features: ["เชื่อมต่อโดเมนของคุณเอง", "สมาชิกไม่จำกัด", "เอฟเฟกต์และเสียงพิเศษ"], featured: true },
+  { name: "เอมไพร์", price: "89฿", detail: "พื้นที่เต็มรูปแบบสำหรับแก๊งที่ต้องการขยายตัว", features: ["สมาชิกไม่จำกัด", "เอฟเฟกต์และเสียงพิเศษ"], featured: true },
 ];
 
 export default async function LandingPage() {
@@ -208,3 +208,4 @@ export default async function LandingPage() {
     </div>
   );
 }
+
