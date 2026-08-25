@@ -5,7 +5,7 @@ import { MusicWrapper } from "./MusicWrapper";
 async function getYoutubeData(url: string) {
   if (!url) return null;
   try {
-    const res = await fetch("https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json");
+    const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`);
     if (!res.ok) return null;
     const data = await res.json();
     return {
@@ -35,3 +35,6 @@ export default async function DomainLayout({ children, params }: { children: Rea
     </>
   );
 }
+
+
+
