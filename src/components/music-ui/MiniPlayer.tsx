@@ -112,6 +112,18 @@ export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, a
   };
 
   const [isExpanded, setIsExpanded] = useState(false);
+  const [autoplayBlocked, setAutoplayBlocked] = useState(false);
+
+  useEffect(() => {
+    if (autoPlay && isMounted) {
+      const timer = setTimeout(() => {
+        if (!isPlaying && playerRef.current) {
+          setAutoplayBlocked(true);
+        }
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [isPlaying, autoPlay, isMounted]);
 
   if (!isMounted) return null;
 
@@ -132,8 +144,15 @@ export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, a
       {!isExpanded ? (
         <div className={`relative group ${className}`}>
           <button 
-            onClick={() => setIsExpanded(true)}
-            className="relative w-[54px] h-[54px] rounded-full p-[3px] bg-gradient-to-tr from-[#0084ff] to-[#888888] shadow-[0_0_20px_rgba(0,132,255,0.4)] hover:scale-110 hover:shadow-[0_0_30px_rgba(0,132,255,0.6)] transition-all duration-300 animate-in slide-in-from-bottom-5 fade-in"
+            onClick={() => {
+    if (autoplayBlocked && !isPlaying) {
+      handlePlayPause();
+      setAutoplayBlocked(false);
+    } else {
+      setIsExpanded(true);
+    }
+  }}
+            className={`relative w-[54px] h-[54px] rounded-full p-[3px] bg-gradient-to-tr from-[#0084ff] to-[#888888] shadow-[0_0_20px_rgba(0,132,255,0.4)] hover:scale-110 hover:shadow-[0_0_30px_rgba(0,132,255,0.6)] transition-all duration-300 animate-in slide-in-from-bottom-5 fade-in ${autoplayBlocked ? "animate-bounce ring-4 ring-white/50" : ""}`}
           >
             <div className="w-full h-full rounded-full overflow-hidden bg-black flex items-center justify-center relative">
               {track.albumArt ? (
@@ -241,4 +260,6 @@ export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, a
     </>
   );
 }
+
+
 
