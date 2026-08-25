@@ -147,7 +147,7 @@ export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, a
         <div className="absolute w-[1px] h-[1px] opacity-0 pointer-events-none -z-50 overflow-hidden">
           <YouTube 
             videoId={videoId}
-            opts={{ height: '1', width: '1', playerVars: { autoplay: autoPlay ? 1 : 0, controls: 0, disablekb: 1, fs: 0 } }}
+            opts={{ height: '1', width: '1', playerVars: { autoplay: autoPlay ? 1 : 0, controls: 0, disablekb: 1, fs: 0, loop: 1, playlist: videoId } }}
             onReady={handleReady}
             onStateChange={handleStateChange}
           />
