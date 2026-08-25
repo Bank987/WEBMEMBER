@@ -58,13 +58,23 @@ export default async function SettingsPage() {
               const disabled = isVipLocked && !isCurrentTheme;
 
               return (
-                <label key={key} className={`group ${disabled ? "cursor-not-allowed opacity-50 grayscale" : "cursor-pointer"}`}>
+                <label key={key} className={`group ${disabled ? "cursor-not-allowed opacity-90" : "cursor-pointer"}`}>
                   <input type="radio" name="theme" value={key} defaultChecked={isCurrentTheme} className="peer sr-only" disabled={disabled} />
-                  <span className="block rounded-2xl border border-white/10 bg-[#0a0a0a] p-3 transition group-hover:border-white/25 peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10">
-                    <span className="block h-20 rounded-xl" style={{ background: theme.preview }} />
+                  <span className={`block rounded-2xl border bg-[#0a0a0a] p-3 transition ${
+                    disabled 
+                      ? "border-yellow-500/40 bg-yellow-500/5 shadow-[0_0_15px_rgba(234,179,8,0.1)]" 
+                      : "border-white/10 group-hover:border-white/25 peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10"
+                  }`}>
+                    <span className="relative flex h-20 items-center justify-center overflow-hidden rounded-xl" style={{ background: theme.preview }}>
+                      {disabled && (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 backdrop-blur-[2px]">
+                          <Crown className="size-8 text-yellow-400 drop-shadow-[0_0_10px_rgba(234,179,8,0.8)]" />
+                        </div>
+                      )}
+                    </span>
                     <span className="mt-3 flex items-center gap-1.5 text-[11px] font-[900] text-white">
                       {theme.name}
-                      {key === "mono" && <Crown className="w-3 h-3 text-yellow-500" />}
+                      {key === "mono" && <Crown className="size-3 text-yellow-500" />}
                     </span>
                     <span className="mt-1 block text-[10px] text-[#777]">
                       {isVipLocked ? (isCurrentTheme ? "เฉพาะ VIP (คุณได้รับสิทธิ์ใช้งานต่อ)" : "ล็อคเฉพาะ VIP เท่านั้น") : theme.description}
