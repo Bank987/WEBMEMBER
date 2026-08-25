@@ -165,7 +165,7 @@ export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, a
       setIsExpanded(true);
     }
   }}
-            className={`relative w-[54px] h-[54px] rounded-full p-[3px] bg-gradient-to-tr from-[#0084ff] to-[#888888] shadow-[0_0_20px_rgba(0,132,255,0.4)] hover:scale-110 hover:shadow-[0_0_30px_rgba(0,132,255,0.6)] transition-all duration-300 animate-in slide-in-from-bottom-5 fade-in ${autoplayBlocked ? "animate-bounce ring-4 ring-white/50" : ""}`}
+            className={`relative w-[54px] h-[54px] rounded-full p-[3px] bg-gradient-to-tr from-[#0084ff] to-[#888888] shadow-[0_0_20px_rgba(0,132,255,0.4)] hover:scale-110 hover:shadow-[0_0_30px_rgba(0,132,255,0.6)] transition-all duration-300 animate-in slide-in-from-bottom-5 fade-in ${autoplayBlocked ? "" : ""}`}
           >
             <div className="w-full h-full rounded-full overflow-hidden bg-black flex items-center justify-center relative">
               {track.albumArt ? (
