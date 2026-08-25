@@ -1,4 +1,4 @@
-import { Sliders, Music } from "lucide-react";
+﻿import { Sliders, Music, Crown } from "lucide-react";
 import { getAuthenticatedGang } from "@/lib/auth";
 import { saveSettings } from "@/actions/settings";
 import { redirect } from "next/navigation";
@@ -51,7 +51,29 @@ export default async function SettingsPage() {
             
         <div id="theme" className="scroll-mt-8 bg-[#050505] border border-[#111111] rounded-[18px] overflow-hidden">
           <div className="bg-[#0a0a0a] p-[18px] border-b border-[#111111] flex items-center justify-between"><div><h3 className="text-[14px] font-[900] text-text-inverse">ธีมเว็บไซต์</h3><p className="mt-1 text-[10px] text-[#777]">เลือกสไตล์หลักสำหรับหน้า Gate และรายชื่อสมาชิก</p></div></div>
-          <div className="grid grid-cols-1 gap-3 p-5 sm:grid-cols-2 lg:grid-cols-4">{Object.entries(gangThemes).map(([key, theme]) => <label key={key} className="group cursor-pointer"><input type="radio" name="theme" value={key} defaultChecked={settings.theme === key || (!settings.theme && key === "default")} className="peer sr-only" /><span className="block rounded-2xl border border-white/10 bg-[#0a0a0a] p-3 transition group-hover:border-white/25 peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10"><span className="block h-20 rounded-xl" style={{ background: theme.preview }} /><span className="mt-3 block text-[11px] font-[900] text-white">{theme.name}</span><span className="mt-1 block text-[10px] text-[#777]">{theme.description}</span></span></label>)}</div>
+          <div className="grid grid-cols-1 gap-3 p-5 sm:grid-cols-2 lg:grid-cols-4">
+            {Object.entries(gangThemes).map(([key, theme]) => {
+              const isVipLocked = key === "mono" && !settings.isVip;
+              const isCurrentTheme = settings.theme === key || (!settings.theme && key === "default");
+              const disabled = isVipLocked && !isCurrentTheme;
+
+              return (
+                <label key={key} className={`group ${disabled ? "cursor-not-allowed opacity-50 grayscale" : "cursor-pointer"}`}>
+                  <input type="radio" name="theme" value={key} defaultChecked={isCurrentTheme} className="peer sr-only" disabled={disabled} />
+                  <span className="block rounded-2xl border border-white/10 bg-[#0a0a0a] p-3 transition group-hover:border-white/25 peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10">
+                    <span className="block h-20 rounded-xl" style={{ background: theme.preview }} />
+                    <span className="mt-3 flex items-center gap-1.5 text-[11px] font-[900] text-white">
+                      {theme.name}
+                      {key === "mono" && <Crown className="w-3 h-3 text-yellow-500" />}
+                    </span>
+                    <span className="mt-1 block text-[10px] text-[#777]">
+                      {isVipLocked ? (isCurrentTheme ? "เฉพาะ VIP (คุณได้รับสิทธิ์ใช้งานต่อ)" : "ล็อคเฉพาะ VIP เท่านั้น") : theme.description}
+                    </span>
+                  </span>
+                </label>
+              );
+            })}
+          </div>
         </div>
 
         {/* Platform Configuration */}
@@ -196,3 +218,5 @@ export default async function SettingsPage() {
     </div>
   );
 }
+
+
