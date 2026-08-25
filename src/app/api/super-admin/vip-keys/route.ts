@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+﻿import { NextResponse } from 'next/server';
 import { generateVipKey, getAllVipKeys } from '@/lib/db';
 import { cookies } from 'next/headers';
 
@@ -25,7 +25,7 @@ export async function POST() {
     // Generate a secure random VIP key: VIP-XXXX-XXXX-XXXX
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const generateSegment = () => Array.from({length: 4}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-    const newKey = `VIP-${generateSegment()}-${generateSegment()}-${generateSegment()}`;
+    const newKey = `GANGLIST-${generateSegment()}-${generateSegment()}`;
     
     await generateVipKey(newKey);
     return NextResponse.json({ success: true, key: newKey });
@@ -33,3 +33,4 @@ export async function POST() {
     return NextResponse.json({ error: 'Failed to generate VIP key' }, { status: 500 });
   }
 }
+

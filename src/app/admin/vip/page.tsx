@@ -96,7 +96,7 @@ export default function VipPage() {
                 setErrorMsg("");
               }}
               disabled={status === "checking" || redeeming}
-              placeholder="VIP-XXXX-XXXX-XXXX"
+              placeholder="GANGLIST-XXXX-XXXX"
               className="w-full rounded-xl border border-white/10 bg-black/50 px-5 py-4 text-center text-lg font-mono font-bold tracking-widest text-white placeholder-white/20 outline-none transition focus:border-yellow-500/50 focus:bg-white/5 focus:ring-1 focus:ring-yellow-500/50"
             />
           </div>
@@ -136,3 +136,4 @@ export default function VipPage() {
     </div>
   );
 }
+
