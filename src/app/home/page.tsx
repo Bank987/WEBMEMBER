@@ -3,6 +3,7 @@ import Link from "next/link";
 import GangAuth from "@/components/GangAuth";
 import { Reveal } from "@/components/LandingMotion";
 import { DiscordSupportButton } from "@/components/DiscordSupportButton";
+import { BuyVipButton } from "@/components/BuyVipButton";
 import { BackgroundEffects } from "@/components/BackgroundEffects";
 import { GuideButton } from "@/components/GuideButton";
 
@@ -173,9 +174,7 @@ export default async function LandingPage() {
 
                     <div className="relative z-10 mt-auto pt-10">
                       {item.featured ? (
-                        <div className="flex items-center justify-center gap-2 rounded-2xl bg-[#0084ff]/10 border border-[#0084ff]/30 px-6 py-4 text-[11px] font-[900] tracking-[1px] text-[#0084ff]">
-                          <span className="size-2 animate-pulse rounded-full bg-[#0084ff]" /> กำลังปิดปรับปรุง
-                        </div>
+                        <BuyVipButton />
                       ) : (
                         <a href="#auth" className="flex items-center justify-between rounded-2xl bg-white/5 border border-white/10 px-6 py-4 text-[11px] font-[900] tracking-[1px] text-white hover:bg-white/10 hover:border-white/20 transition-all">
                           เลือกแพ็กเกจนี้ <ArrowDownRight className="size-4" />
