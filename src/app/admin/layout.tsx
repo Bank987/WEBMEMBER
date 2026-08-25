@@ -1,5 +1,5 @@
-import Link from "next/link";
-import { Users, LayoutDashboard, Settings, LogOut, Palette } from "lucide-react";
+﻿import Link from "next/link";
+import { Users, LayoutDashboard, Settings, LogOut, Palette, Crown } from "lucide-react";
 import { getAuthenticatedGang } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ForcePinSetup } from "@/components/ForcePinSetup";
@@ -39,6 +39,10 @@ export default async function AdminLayout({ children }: { children: React.ReactN
               <Settings className="w-[16px] h-[16px] text-[#0084ff] group-hover:scale-110 transition-transform" />
               ตั้งค่าเว็บไซต์
             </Link>
+            <Link href="/admin/vip" className="group flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3.5 text-[11px] font-[900] tracking-[0.5px] text-[#eab308] transition hover:border-[#eab308]/20 hover:bg-[#eab308]/10 hover:text-yellow-400">
+              <Crown className="w-[16px] h-[16px] text-[#eab308] group-hover:scale-110 transition-transform" />
+              VIP Upgrade
+            </Link>
             <Link href="/admin/settings#theme" className="group flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3.5 text-[11px] font-[900] tracking-[0.5px] text-[#8996a5] transition hover:border-white/10 hover:bg-white/[0.05] hover:text-white">
               <Palette className="w-[16px] h-[16px] text-[#0084ff] group-hover:scale-110 transition-transform" />
               ธีมเว็บไซต์
@@ -70,3 +74,4 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     </div>
   );
 }
+

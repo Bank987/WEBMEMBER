@@ -29,6 +29,7 @@ export interface Gang {
   createdAt?: string;
   creatorIp?: string;
   recoveryPin?: string;
+  isVip?: boolean;
 }
 
 export interface Member {
@@ -70,6 +71,7 @@ const gangSchema = new mongoose.Schema({
   facebookUrl: { type: String, default: "" },
   entryAnimation: { type: String, default: "fade" },
   buttonShape: { type: String, default: "square" },
+  isVip: { type: Boolean, default: false },
   creatorIp: { type: String, default: "" },
   recoveryPin: { type: String, default: "" },
 }, { timestamps: true });
@@ -111,6 +113,19 @@ if (!GangModel.schema.path("backgroundImageUrl")) {
 if (!GangModel.schema.path("recoveryPin")) {
   GangModel.schema.add({ recoveryPin: { type: String, default: "" } });
 }
+if (!GangModel.schema.path("isVip")) {
+  GangModel.schema.add({ isVip: { type: Boolean, default: false } });
+}
+
+const vipKeySchema = new mongoose.Schema({
+  key: { type: String, required: true, unique: true },
+  isUsed: { type: Boolean, default: false },
+  usedByGangId: { type: mongoose.Schema.Types.ObjectId, ref: "Gang" },
+  usedAt: { type: Date }
+}, { timestamps: true });
+
+const VipKeyModel = mongoose.models.VipKey || mongoose.model("VipKey", vipKeySchema);
+
 const MemberModel = mongoose.models.Member || mongoose.model("Member", memberSchema);
 // Dev hot reload can retain the pre-migration schema where department was required.
 const departmentPath = MemberModel.schema.path("department");
@@ -165,6 +180,7 @@ type GangDocument = {
   entryAnimation?: string;
   buttonShape?: string;
   recoveryPin?: string;
+  isVip?: boolean;
 };
 
 type MemberDocument = {
@@ -200,6 +216,7 @@ function mapGang(doc: GangDocument): Gang {
     entryAnimation: doc.entryAnimation || "fade",
     buttonShape: doc.buttonShape || "square",
     recoveryPin: doc.recoveryPin || "",
+    isVip: doc.isVip || false,
     createdAt: (doc as any).createdAt instanceof Date ? (doc as any).createdAt.toISOString() : (doc as any).createdAt,
   };
 }
@@ -318,3 +335,41 @@ export async function deleteMemberInDB(id: string) {
 
 
 
+
+// VIP Operations
+export async function generateVipKey(key: string) {
+  await connectDB();
+  await VipKeyModel.create({ key });
+}
+
+export async function getAllVipKeys() {
+  await connectDB();
+  return await VipKeyModel.find().populate("usedByGangId", "subdomain pageTitle").sort({ createdAt: -1 }).lean();
+}
+
+export async function checkVipKey(key: string) {
+  await connectDB();
+  return await VipKeyModel.findOne({ key, isUsed: false }).lean();
+}
+
+export async function redeemVipKey(key: string, gangId: string) {
+  await connectDB();
+  const session = await mongoose.startSession();
+  session.startTransaction();
+  try {
+    const vipKey = await VipKeyModel.findOneAndUpdate(
+      { key, isUsed: false },
+      { isUsed: true, usedByGangId: gangId, usedAt: new Date() },
+      { session, new: true }
+    );
+    if (!vipKey) throw new Error("Key invalid or already used");
+    await GangModel.findByIdAndUpdate(gangId, { isVip: true }, { session });
+    await session.commitTransaction();
+    return true;
+  } catch (error) {
+    await session.abortTransaction();
+    throw error;
+  } finally {
+    session.endSession();
+  }
+}

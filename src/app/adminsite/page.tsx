@@ -1,8 +1,10 @@
-import { ShieldCheck } from "lucide-react";
+﻿import { ShieldCheck } from "lucide-react";
 import { isSuperAdminAuthenticated } from "@/lib/auth";
 import { getAllGangsForSuperAdmin } from "@/lib/db";
 import { SuperAdminDashboard } from "@/components/SuperAdminDashboard";
 import { SuperAdminLogin } from "@/components/SuperAdminLogin";
+import { SuperAdminVipKeys } from "@/components/SuperAdminVipKeys";
+import { getAllVipKeys } from "@/lib/db";
 
 import { getAnnouncement } from "@/actions/announcement";
 import { AnnouncementSettings } from "@/components/AnnouncementSettings";
@@ -15,6 +17,7 @@ export default async function SuperAdminPage() {
   
   const gangs = await getAllGangsForSuperAdmin();
   const announcement = await getAnnouncement();
+  const vipKeys = await getAllVipKeys();
 
   return <main className="relative min-h-screen overflow-hidden bg-[#080a0e] px-5 py-8 text-white md:px-10 md:py-12">
     <div className="pointer-events-none absolute -right-40 -top-40 size-[560px] rounded-full bg-[#157fd3]/10 blur-[130px]" />
@@ -33,7 +36,8 @@ export default async function SuperAdminPage() {
       </header>
       
       <AnnouncementSettings initialData={announcement} />
-      <SuperAdminDashboard gangs={gangs} />
+      <SuperAdminDashboard gangs={gangs} />`n      <SuperAdminVipKeys initialKeys={JSON.parse(JSON.stringify(vipKeys))} />
     </div>
   </main>;
 }
+
