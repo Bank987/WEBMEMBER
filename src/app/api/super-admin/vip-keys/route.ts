@@ -1,23 +1,33 @@
 ﻿import { NextResponse } from 'next/server';
 import { generateVipKey, getAllVipKeys } from '@/lib/db';
-import { isSuperAdminAuthenticated } from '@/lib/auth';
+import { isSuperAdminAuthenticated, SUPER_ADMIN_SESSION_COOKIE } from '@/lib/auth';
+import { cookies } from 'next/headers';
 
 export async function GET() {
   try {
-    if (!(await isSuperAdminAuthenticated())) {
+    const auth = await isSuperAdminAuthenticated();
+    if (!auth) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     const keys = await getAllVipKeys();
     return NextResponse.json(keys);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to get VIP keys' }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
 
 export async function POST() {
   try {
-    if (!(await isSuperAdminAuthenticated())) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    const cookieStore = await cookies();
+    const sessionCookie = cookieStore.get(SUPER_ADMIN_SESSION_COOKIE)?.value;
+    
+    if (!sessionCookie) {
+      return NextResponse.json({ error: 'Unauthorized: No session cookie' }, { status: 401 });
+    }
+    
+    const auth = await isSuperAdminAuthenticated();
+    if (!auth) {
+      return NextResponse.json({ error: 'Unauthorized: Invalid session' }, { status: 401 });
     }
     
     // Generate a secure random VIP key: VIP-XXXX-XXXX-XXXX
@@ -27,8 +37,7 @@ export async function POST() {
     
     await generateVipKey(newKey);
     return NextResponse.json({ success: true, key: newKey });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to generate VIP key' }, { status: 500 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
-
