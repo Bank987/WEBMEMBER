@@ -1,5 +1,6 @@
 import { getGangBySubdomain } from "@/lib/db";
 import GateClient from "./GateClient";
+import { GangAnnouncement } from "@/components/GangAnnouncement";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
@@ -33,6 +34,11 @@ export default async function Page({ params }: { params: Promise<{ domain: strin
   }
   
   return (
-    <GateClient settings={gang} />
+    <>
+      <GateClient settings={gang} />
+      {gang.announcementEnabled && gang.announcementMessage && (
+        <GangAnnouncement message={gang.announcementMessage} gangId={gang.id} />
+      )}
+    </>
   );
 }

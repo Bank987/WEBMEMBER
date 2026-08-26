@@ -34,9 +34,7 @@ export default async function DomainLayout({ children, params }: { children: Rea
         />
       )}
     
-      {gang && gang.announcementEnabled && gang.announcementMessage && (
-        <GangAnnouncement message={gang.announcementMessage} gangId={gang.id} />
-      )}
+      
     </>
   );
 }

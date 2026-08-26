@@ -1,5 +1,6 @@
 import { getMembersByGang, getGangBySubdomain } from "@/lib/db";
 import MembersClient from "./MembersClient";
+import { GangAnnouncementModal } from "@/components/GangAnnouncementModal";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { getGangTheme } from "@/lib/themes";
@@ -33,12 +34,17 @@ export default async function MembersPage({ params }: { params: Promise<{ domain
   const members = await getMembersByGang(gang.id);
 
   return (
-    <MembersClient 
+    <>
+      <MembersClient 
       initialMembers={members}
       pageTitle={gang.pageTitle}
       pageSubtitle={gang.pageSubtitle}
       theme={getGangTheme(gang.theme).className}
       backgroundImageUrl={gang.membersBackgroundImageUrl}
     />
+      {gang.announcementEnabled && gang.announcementMessage && (
+        <GangAnnouncementModal message={gang.announcementMessage} gangId={gang.id} />
+      )}
+    </>
   );
 }
