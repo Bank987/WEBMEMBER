@@ -1,11 +1,10 @@
 ﻿import { NextResponse } from 'next/server';
 import { generateVipKey, getAllVipKeys } from '@/lib/db';
-import { cookies } from 'next/headers';
+import { isSuperAdminAuthenticated } from '@/lib/auth';
 
 export async function GET() {
   try {
-    const cookieStore = await cookies();
-    if (cookieStore.get('super_admin_auth')?.value !== 'authenticated') {
+    if (!(await isSuperAdminAuthenticated())) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     const keys = await getAllVipKeys();
@@ -17,15 +16,14 @@ export async function GET() {
 
 export async function POST() {
   try {
-    const cookieStore = await cookies();
-    if (cookieStore.get('super_admin_auth')?.value !== 'authenticated') {
+    if (!(await isSuperAdminAuthenticated())) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
     
     // Generate a secure random VIP key: VIP-XXXX-XXXX-XXXX
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     const generateSegment = () => Array.from({length: 4}, () => chars[Math.floor(Math.random() * chars.length)]).join('');
-    const newKey = `GANGLIST-${generateSegment()}-${generateSegment()}`;
+    const newKey = 'GANGLIST-' + generateSegment() + '-' + generateSegment();
     
     await generateVipKey(newKey);
     return NextResponse.json({ success: true, key: newKey });
