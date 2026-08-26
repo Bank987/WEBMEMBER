@@ -11,13 +11,13 @@ export function GangAnnouncement({ message, gangId }: { message: string, gangId:
   useEffect(() => {
     if (!message) return;
     // Check localStorage if hidden recently
-    const hideUntilStr = localStorage.getItem("hide_announcement_" + gangId);
+    const hideUntilStr = localStorage.getItem("mute_announcement_gate_" + gangId);
     if (hideUntilStr) {
       const hideUntil = parseInt(hideUntilStr, 10);
       if (Date.now() < hideUntil) {
         return; // still hidden
       } else {
-        localStorage.removeItem("hide_announcement_" + gangId);
+        localStorage.removeItem("mute_announcement_gate_" + gangId);
       }
     }
     
@@ -30,7 +30,7 @@ export function GangAnnouncement({ message, gangId }: { message: string, gangId:
     setIsVisible(false);
     if (hideForHour) {
       // Hide for 1 hour (3600000 ms)
-      localStorage.setItem("hide_announcement_" + gangId, (Date.now() + 3600000).toString());
+      localStorage.setItem("mute_announcement_gate_" + gangId, (Date.now() + 3600000).toString());
     }
   };
 
