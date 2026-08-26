@@ -11,6 +11,7 @@ export default function VipPage() {
   const [errorMsg, setErrorMsg] = useState("");
   const [redeeming, setRedeeming] = useState(false);
   const [showBuyModal, setShowBuyModal] = useState(false);
+  const [successModalOpen, setSuccessModalOpen] = useState(false);
   const router = useRouter();
   
   const getSubdomain = () => {
@@ -52,7 +53,7 @@ export default function VipPage() {
       if (!res.ok) throw new Error(data.error);
       
       router.refresh();
-      alert("ยินดีด้วย! แก๊งของคุณได้รับการอัปเกรดเป็น VIP แล้ว!");
+      setSuccessModalOpen(true);
       setKey("");
       setStatus("idle");
     } catch (e: any) {
@@ -142,6 +143,40 @@ export default function VipPage() {
         </div>
       </motion.div>
 
+            {/* Success Modal */}
+      <AnimatePresence>
+        {successModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-5 bg-black/80 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: -20 }}
+              className="relative w-full max-w-sm bg-gradient-to-b from-[#1a1500] to-[#0c0f16] border border-yellow-500/30 rounded-[32px] overflow-hidden shadow-[0_30px_100px_rgba(234,179,8,0.2)] text-center p-8"
+            >
+              <div className="absolute top-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-yellow-500 to-transparent opacity-70" />
+              <div className="absolute -top-10 -left-10 size-40 bg-yellow-500/20 rounded-full blur-[40px] pointer-events-none" />
+              
+              <div className="mx-auto size-20 rounded-full bg-yellow-500/10 flex items-center justify-center mb-6 border border-yellow-500/20 relative">
+                <Crown className="size-10 text-yellow-400 relative z-10" />
+                <div className="absolute inset-0 bg-yellow-500/20 rounded-full animate-ping opacity-50" />
+              </div>
+              
+              <h3 className="text-2xl font-black text-white mb-2">ยินดีด้วย!</h3>
+              <p className="text-[#aeb9c8] text-[13px] leading-relaxed mb-8">
+                แก๊งของคุณได้รับการอัปเกรดเป็น <strong className="text-yellow-400">VIP</strong> เรียบร้อยแล้ว! ปลดล็อคทุกฟีเจอร์พรีเมียมเต็มรูปแบบได้ทันที
+              </p>
+              
+              <button 
+                onClick={() => setSuccessModalOpen(false)}
+                className="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 text-black font-black text-[13px] py-4 rounded-2xl transition hover:scale-[1.02] active:scale-95 shadow-[0_10px_30px_rgba(234,179,8,0.3)]"
+              >
+                สุดยอดไปเลย!
+              </button>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
       {/* Buy Modal */}
       <AnimatePresence>
         {showBuyModal && (
@@ -187,3 +222,4 @@ export default function VipPage() {
     </div>
   );
 }
+
