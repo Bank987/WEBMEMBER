@@ -1,6 +1,7 @@
 ﻿import { ReactNode } from "react";
 import { getGangBySubdomain } from "@/lib/db";
 import { MusicWrapper } from "./MusicWrapper";
+import { GangAnnouncement } from "@/components/GangAnnouncement";
 
 async function getYoutubeData(url: string) {
   if (!url) return null;
@@ -31,6 +32,10 @@ export default async function DomainLayout({ children, params }: { children: Rea
           youtubeUrl={gang.youtubeMusicUrl} 
           ytData={ytData}
         />
+      )}
+    
+      {gang && gang.announcementEnabled && gang.announcementMessage && (
+        <GangAnnouncement message={gang.announcementMessage} gangId={gang.id} />
       )}
     </>
   );

@@ -1,4 +1,4 @@
-"use server";
+﻿"use server";
 
 import { updateGang } from "@/lib/db";
 import { getAuthenticatedGang } from "@/lib/auth";
@@ -59,4 +59,21 @@ export async function deleteGangAction() {
   
   const { cookies } = await import("next/headers");
   (await cookies()).delete("admin_session");
+}
+
+export async function saveAnnouncementSettings(formData: FormData) {
+  await assertTrustedMutationOrigin();
+  const gang = await getAuthenticatedGang();
+  if (!gang) throw new Error("Unauthorized");
+  if (!gang.isVip) throw new Error("VIP Only");
+  
+  const announcementEnabled = formData.get("announcementEnabled") === "true";
+  const announcementMessage = formData.get("announcementMessage") as string;
+  
+  await updateGang(gang.id, {
+    announcementEnabled,
+    announcementMessage
+  });
+  
+  revalidatePath("/", "layout");
 }

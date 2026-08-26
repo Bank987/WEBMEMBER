@@ -7,6 +7,8 @@ export interface Gang {
   subdomain: string; // The URL slug e.g. "thunder"
   faviconUrl: string;
   youtubeMusicUrl: string;
+  announcementEnabled?: boolean;
+  announcementMessage?: string;
   buttonText: string;
   buttonImage: string;
   pageTitle: string;
@@ -52,6 +54,8 @@ const gangSchema = new mongoose.Schema({
   subdomain: { type: String, required: true, unique: true },
   faviconUrl: { type: String, default: "" },
   youtubeMusicUrl: { type: String, default: "" },
+  announcementEnabled: { type: Boolean, default: false },
+  announcementMessage: { type: String, default: "" },
   buttonText: { type: String, default: "ENTER" },
   buttonImage: { type: String, default: "" },
   pageTitle: { type: String, required: true },
@@ -160,6 +164,8 @@ type GangDocument = {
   subdomain: string;
   faviconUrl?: string;
   youtubeMusicUrl?: string;
+  announcementEnabled?: boolean;
+  announcementMessage?: string;
   buttonText?: string;
   buttonImage?: string;
   pageTitle: string;
@@ -198,6 +204,8 @@ function mapGang(doc: GangDocument): Gang {
     subdomain: doc.subdomain,
     faviconUrl: doc.faviconUrl || "",
     youtubeMusicUrl: doc.youtubeMusicUrl || "",
+    announcementEnabled: !!doc.announcementEnabled,
+    announcementMessage: doc.announcementMessage || "",
     buttonText: doc.buttonText || "ENTER",
     buttonImage: doc.buttonImage || "",
     pageTitle: doc.pageTitle,
@@ -373,3 +381,4 @@ export async function redeemVipKey(key: string, gangId: string) {
     session.endSession();
   }
 }
+

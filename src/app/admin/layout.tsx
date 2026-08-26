@@ -1,5 +1,5 @@
 ﻿import Link from "next/link";
-import { Users, LayoutDashboard, Settings, LogOut, Palette, Crown } from "lucide-react";
+import { Users, LayoutDashboard, Settings, LogOut, Palette, Crown, Bell } from "lucide-react";
 import { getAuthenticatedGang } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { ForcePinSetup } from "@/components/ForcePinSetup";
@@ -45,8 +45,19 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             </Link>
             <Link href="/admin/settings#theme" className="group flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3.5 text-[11px] font-[900] tracking-[0.5px] text-[#8996a5] transition hover:border-white/10 hover:bg-white/[0.05] hover:text-white">
               <Palette className="w-[16px] h-[16px] text-[#0084ff] group-hover:scale-110 transition-transform" />
-              ธีมเว็บไซต์
+              ปรับแต่งธีม
             </Link>
+            {gang.isVip ? (
+              <Link href="/admin/announcement" className="group flex items-center gap-3 rounded-2xl border border-transparent px-4 py-3.5 text-[11px] font-[900] tracking-[0.5px] text-[#8996a5] transition hover:border-white/10 hover:bg-white/[0.05] hover:text-white">
+                <Bell className="w-[16px] h-[16px] text-[#0084ff] group-hover:scale-110 transition-transform" />
+                ระบบประกาศ
+              </Link>
+            ) : (
+              <div className="group cursor-not-allowed flex items-center gap-3 rounded-2xl border border-[#eab308]/20 bg-[#eab308]/5 px-4 py-3.5 text-[11px] font-[900] tracking-[0.5px] text-yellow-500/50 opacity-70">
+                <Bell className="w-[16px] h-[16px] text-yellow-500/50" />
+                ระบบประกาศ <Crown className="ml-auto w-3 h-3 text-yellow-500" />
+              </div>
+            )}
             <div className="pt-2 mt-2 border-t border-white/10">
               <a href={`//${gang.subdomain}.lastname.site`} target="_blank" rel="noreferrer" className="group flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 text-[11px] font-[900] tracking-[0.5px] text-[#c9d8e5] transition hover:bg-white/10 hover:text-white">
                 เปิดหน้าเว็บไซต์
