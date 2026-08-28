@@ -1,4 +1,4 @@
-﻿import { ShieldCheck, Command, ArrowDownRight, Check, Target, Crosshair } from "lucide-react";
+import { ShieldCheck, Command, ArrowDownRight, Check, Target, Crosshair } from "lucide-react";
 import Link from "next/link";
 import GangAuth from "@/components/GangAuth";
 import { Reveal } from "@/components/LandingMotion";
@@ -105,7 +105,7 @@ export default async function LandingPage() {
                 </a>
                 
                 <span className="flex items-center gap-2 text-[11px] text-[#89909b] font-medium tracking-[0.5px]">
-                  <ShieldCheck className="size-4 text-[#0084ff]" /> ปลอดภัย ไม่ต้องใช้บัตรเครดิต
+                  <ShieldCheck className="size-4 text-[#0084ff]" /> ปลอดภัย 100%
                 </span>
               </div>
             </Reveal>
