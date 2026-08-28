@@ -91,13 +91,13 @@ export default function GangAuth() {
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-[11px] text-[#ef4444] font-bold flex items-center gap-1.5 tracking-wide"><ShieldAlert className="size-3" /> MASTER KEY (รหัสลับผู้ดูแล)</p>
                 </div>
-                <div className="bg-gradient-to-r from-[#ef4444]/10 to-transparent border border-[#ef4444]/20 rounded-2xl p-5 flex justify-between items-center relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-[#ef4444]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                  <code className="text-[#ef4444] font-mono text-[16px] tracking-[3px] relative z-10">{token}</code>
-                  <button type="button" onClick={() => navigator.clipboard.writeText(token)} className="text-[#ef4444]/80 hover:text-[#ef4444] p-2.5 bg-[#ef4444]/10 rounded-xl transition-colors relative z-10 hover:bg-[#ef4444]/20">
-                    <Copy className="size-4.5" />
-                  </button>
-                </div>
+                  <div className="bg-gradient-to-r from-[#ef4444]/10 to-transparent border border-[#ef4444]/20 rounded-2xl p-4 sm:p-5 flex gap-3 sm:gap-4 items-center justify-between relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-[#ef4444]/5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <code className="text-[#ef4444] font-mono text-[13px] sm:text-[15px] tracking-[1px] sm:tracking-[2px] relative z-10 break-all flex-1">{token}</code>
+                    <button type="button" onClick={() => navigator.clipboard.writeText(token)} className="text-[#ef4444]/80 hover:text-[#ef4444] p-2.5 bg-[#ef4444]/10 rounded-xl transition-colors relative z-10 hover:bg-[#ef4444]/20 shrink-0">
+                      <Copy className="size-4.5" />
+                    </button>
+                  </div>
                 <p className="text-[11px] text-[#ef4444]/70 mt-3 font-medium leading-relaxed">
                   * คัดลอกและเก็บรหัสนี้ไว้ในที่ปลอดภัย ระบบจะไม่แสดงรหัสนี้อีกครั้ง
                 </p>
