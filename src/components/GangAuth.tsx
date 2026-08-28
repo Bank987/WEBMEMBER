@@ -216,7 +216,7 @@ export default function GangAuth() {
             <button disabled={status === "loading" || !turnstileToken} type="submit" className="relative mt-8 flex w-full items-center justify-center gap-3 rounded-2xl bg-white px-8 py-5 text-[13px] font-black tracking-[1px] text-black transition-all hover:scale-[1.02] disabled:opacity-50 overflow-hidden group shadow-[0_0_30px_rgba(255,255,255,0.15)]">
               <div className="absolute inset-0 bg-gradient-to-r from-gray-100 to-white opacity-0 group-hover:opacity-100 transition-opacity" />
               <span className="relative z-10 flex items-center gap-2">
-                {status === "loading" ? "INITIALIZING..." : mode === "register" ? "INITIALIZE FACTION" : "AUTHENTICATE"}
+                {status === "loading" ? "กำลังดำเนินการ..." : mode === "register" ? "สมัครรับเว็บ" : "เข้าสู่ระบบหลังบ้าน"}
                 {status === "loading" ? <LoaderCircle className="size-4 animate-spin" /> : <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />}
               </span>
             </button>
