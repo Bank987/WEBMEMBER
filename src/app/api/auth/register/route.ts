@@ -4,7 +4,7 @@ import { checkRateLimit, getRequestIp, verifyTurnstile } from "@/lib/security";
 
 const RESERVED = new Set(["www", "admin", "api", "home"]);
 const SLUG_PATTERN = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
-const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1542896928633790464/Uz9nmAHQYZzl13WBqu-ZlbOxgc7TrjRZObNdbGkLDO2D53q32Abry_uN7FdpTzD2_A4K";
+const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 
 export async function POST(request: Request) {
   const ip = getRequestIp(request);
@@ -46,7 +46,7 @@ export async function POST(request: Request) {
     
     // Send Discord Webhook
     try {
-      await fetch(DISCORD_WEBHOOK_URL, {
+      if (DISCORD_WEBHOOK_URL) await fetch(DISCORD_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

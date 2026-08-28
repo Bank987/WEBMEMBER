@@ -5,7 +5,7 @@ import { getAuthenticatedGang } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { assertTrustedMutationOrigin, sanitizeUrl } from "@/lib/security";
 
-const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1542896928633790464/Uz9nmAHQYZzl13WBqu-ZlbOxgc7TrjRZObNdbGkLDO2D53q32Abry_uN7FdpTzD2_A4K";
+const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
 
 export async function createMember(formData: FormData): Promise<{ ok: boolean; error?: string }> {
   try { await assertTrustedMutationOrigin(); } catch { return { ok: false, error: "คำขอไม่ถูกต้องหรือหมดอายุ" }; }
@@ -28,7 +28,7 @@ export async function createMember(formData: FormData): Promise<{ ok: boolean; e
       const memberCount = members.length;
       const gangName = gang.pageTitle || gang.subdomain;
       
-      await fetch(DISCORD_WEBHOOK_URL, {
+      if (DISCORD_WEBHOOK_URL) await fetch(DISCORD_WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
