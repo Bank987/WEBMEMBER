@@ -2,6 +2,7 @@
 import { generateVipKey, getAllVipKeys } from '@/lib/db';
 import { isSuperAdminAuthenticated, SUPER_ADMIN_SESSION_COOKIE } from '@/lib/auth';
 import { cookies } from 'next/headers';
+import { assertTrustedMutationOrigin } from '@/lib/security';
 
 export async function GET() {
   try {
@@ -18,6 +19,7 @@ export async function GET() {
 
 export async function POST() {
   try {
+    await assertTrustedMutationOrigin();
     const cookieStore = await cookies();
     const sessionCookie = cookieStore.get(SUPER_ADMIN_SESSION_COOKIE)?.value;
     

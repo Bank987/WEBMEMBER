@@ -1,9 +1,18 @@
-﻿import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { redeemVipKey } from '@/lib/db';
 import { getAuthenticatedGang } from '@/lib/auth';
+import { assertTrustedMutationOrigin, checkRateLimit, getRequestIp } from '@/lib/security';
 
 export async function POST(req: Request) {
   try {
+    await assertTrustedMutationOrigin();
+    const ip = getRequestIp(req);
+    
+    // Prevent brute forcing VIP keys (Max 10 attempts per 15 minutes)
+    if (!checkRateLimit(`vip-redeem:${ip}`, 10, 15 * 60 * 1000)) {
+      return NextResponse.json({ error: 'Too many attempts, try again later' }, { status: 429 });
+    }
+
     const { key } = await req.json();
     if (!key) return NextResponse.json({ error: 'Key is required' }, { status: 400 });
     
