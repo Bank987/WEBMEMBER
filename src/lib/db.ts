@@ -331,6 +331,16 @@ export async function resetGangAdminToken(id: string, adminTokenHash: string) {
   return Boolean(result);
 }
 
+
+export async function changeGangSubdomain(id: string, newSubdomain: string) {
+  await connectDB();
+  const existing = await GangModel.findOne({ subdomain: newSubdomain }).lean();
+  if (existing && existing._id.toString() !== id) {
+    throw new Error("โดเมนนี้มีผู้ใช้งานแล้ว");
+  }
+  await GangModel.findByIdAndUpdate(id, { subdomain: newSubdomain });
+}
+
 // Member Operations (Now filtered by gangId)
 export async function getMembersByGang(gangId: string): Promise<Member[]> {
   await connectDB();
