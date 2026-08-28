@@ -1,4 +1,4 @@
-﻿"use server";
+"use server";
 
 import { updateGang } from "@/lib/db";
 import { getAuthenticatedGang } from "@/lib/auth";
@@ -50,7 +50,7 @@ export async function deleteGangAction() {
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24)); 
   
   if (diffDays < 3) {
-    throw new Error(`ต้องสร้างแก๊งมาแล้วอย่างน้อย 3 วันจึงจะสามารถยุบได้ (ปัจจุบัน: ${diffDays} วัน)`);
+    throw new Error(`ไม่สามารถลบเว็บไซต์ได้ ต้องมีอายุการใช้งานอย่างน้อย 3 วัน (ปัจจุบัน: ${diffDays} วัน)`);
   }
   
   // Need to import deleteGangInDB and cookies
@@ -58,7 +58,8 @@ export async function deleteGangAction() {
   await deleteGangInDB(gang.id);
   
   const { cookies } = await import("next/headers");
-  (await cookies()).delete("admin_session");
+  const { SESSION_COOKIE } = await import("@/lib/auth");
+  (await cookies()).delete(SESSION_COOKIE);
 }
 
 export async function saveAnnouncementSettings(formData: FormData) {

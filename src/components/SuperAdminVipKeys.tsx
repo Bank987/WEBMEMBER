@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { KeyRound, LoaderCircle, CheckCircle2, Crown, Copy } from "lucide-react";
@@ -13,11 +13,17 @@ export function SuperAdminVipKeys({ initialKeys }: { initialKeys: any[] }) {
     setGenerating(true);
     setError("");
     try {
-      const res = await fetch("/api/super-admin/vip-keys", { method: "POST" });
+      const res = await fetch("/api/super-admin/vip-keys", { 
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+      });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error);
       
-      const refresh = await fetch("/api/super-admin/vip-keys");
+      const refresh = await fetch("/api/super-admin/vip-keys", { credentials: "same-origin" });
       const refreshData = await refresh.json();
       setKeys(refreshData);
     } catch (e: any) {
