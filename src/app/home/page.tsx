@@ -137,9 +137,8 @@ export default async function LandingPage() {
                 <Target className="size-3 text-[#0084ff]" />
                 <span className="text-[10px] font-[900] tracking-[2px] text-white uppercase">แพ็กเกจบริการ</span>
               </div>
-              <h2 className="text-[42px] font-[900] leading-[1.1] text-white md:text-[56px] tracking-tight">
-                เล็กพอที่จะเริ่ม<br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0084ff] to-[#80c0ff]">ใหญ่พอที่จะเติบโต</span>
+              <h2 className="text-[42px] font-[900] leading-[1.1] text-transparent bg-clip-text bg-gradient-to-r from-[#0084ff] to-[#80c0ff] md:text-[56px] tracking-tight pb-2">
+                แพ็คเก็จ
               </h2>
             </Reveal>
 
