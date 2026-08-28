@@ -1,14 +1,16 @@
 import { Activity, ArrowUpRight, Crown, ExternalLink, HardDrive, Shield, Sparkles, Users, Zap } from "lucide-react";
 import Link from "next/link";
-import { getMembersByGang } from "@/lib/db";
+import { getMembersByGang, getActivityLogs } from "@/lib/db";
 import { getAuthenticatedGang } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { getGangUrl } from "@/lib/site-url";
+import { ActivityFeed } from "@/components/ActivityFeed";
 
 export default async function AdminDashboard() {
   const gang = await getAuthenticatedGang();
   if (!gang) redirect("/#auth");
   const members = await getMembersByGang(gang.id);
+  const logs = await getActivityLogs(gang.id, 15);
   const foundersCount = members.filter((member) => member.role === "FOUNDER").length;
   const leadersCount = members.filter((member) => member.role === "LEADER").length;
 
@@ -21,9 +23,25 @@ export default async function AdminDashboard() {
 
     <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"><Stat title="สมาชิกทั้งหมด" value={members.length} icon={<Users />} tone="blue" /><Stat title="ผู้ก่อตั้ง" value={foundersCount} icon={<Crown />} tone="yellow" /><Stat title="หัวหน้า" value={leadersCount} icon={<Shield />} tone="red" /><Stat title="เว็บไซต์ออนไลน์" value="พร้อม" icon={<Activity />} tone="green" /></section>
 
-    <section className="grid gap-5 lg:grid-cols-[1.25fr_0.75fr]"><div className="rounded-[28px] border border-white/10 bg-[#0c1016] p-6 sm:p-7"><div className="flex items-center justify-between gap-4"><div><p className="text-[10px] font-[900] tracking-[1.5px] text-[#82c8ff]">QUICK ACTIONS</p><h3 className="mt-2 text-[21px] font-[900] text-white">จัดการเว็บไซต์ของคุณ</h3></div><Sparkles className="size-5 text-[#82c8ff]" /></div><div className="mt-6 grid gap-3 sm:grid-cols-2"><QuickAction href="/admin/members/new" icon={<Users />} title="เพิ่มสมาชิก" detail="เพิ่มโปรไฟล์เข้าสู่ไดเรกทอรี" /><QuickAction href="/admin/members" icon={<ArrowUpRight />} title="ดูรายชื่อสมาชิก" detail="ตรวจสอบและจัดการข้อมูล" /><QuickAction href="/admin/settings" icon={<Zap />} title="ปรับแต่งเว็บไซต์" detail="เพลง รูปแบบ และ favicon" /><QuickAction href={getGangUrl(gang.subdomain)} external icon={<ExternalLink />} title="เปิดหน้าเว็บไซต์" detail="ดูผลลัพธ์แบบสาธารณะ" /></div></div><div className="relative overflow-hidden rounded-[28px] border border-white/10 bg-[#10151c] p-6 sm:p-7"><div className="absolute -bottom-16 -right-16 size-44 rounded-full bg-[#8b48ba]/15 blur-[45px]" /><div className="relative"><div className="flex items-center justify-between"><span className="grid size-10 place-items-center rounded-2xl bg-white/10"><HardDrive className="size-5 text-[#9bcfff]" /></span><span className="flex items-center gap-1.5 text-[10px] text-[#7de5a5]"><span className="size-1.5 rounded-full bg-[#4cdb86]" /> ปกติ</span></div><h3 className="mt-8 text-[20px] font-[900] text-white">ระบบพร้อมใช้งาน</h3><p className="mt-3 text-[12px] leading-[1.8] text-[#8e9aaa]">การเชื่อมต่อฐานข้อมูลทำงานปกติ ข้อมูลสมาชิกของคุณถูกจัดเก็บเรียบร้อย</p><div className="mt-7 flex items-center justify-between border-t border-white/10 pt-4 text-[10px] text-[#718092]"><span>สถานะฐานข้อมูล</span><span className="font-[900] text-[#c3d0dc]">เชื่อมต่อแล้ว</span></div></div></div></section>
+    <section className="grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
+      <div className="rounded-[28px] border border-white/10 bg-[#0c1016] p-6 sm:p-7">
+        <div className="flex items-center justify-between gap-4"><div><p className="text-[10px] font-[900] tracking-[1.5px] text-[#82c8ff]">QUICK ACTIONS</p><h3 className="mt-2 text-[21px] font-[900] text-white">จัดการเว็บไซต์ของคุณ</h3></div><Sparkles className="size-5 text-[#82c8ff]" /></div>
+        <div className="mt-6 grid gap-3 sm:grid-cols-2"><QuickAction href="/admin/members/new" icon={<Users />} title="เพิ่มสมาชิก" detail="เพิ่มโปรไฟล์เข้าสู่ไดเรกทอรี" /><QuickAction href="/admin/members" icon={<ArrowUpRight />} title="ดูรายชื่อสมาชิก" detail="ตรวจสอบและจัดการข้อมูล" /><QuickAction href="/admin/settings" icon={<Zap />} title="ปรับแต่งเว็บไซต์" detail="เพลง รูปแบบ และ favicon" /><QuickAction href={getGangUrl(gang.subdomain)} external icon={<ExternalLink />} title="เปิดหน้าเว็บไซต์" detail="ดูผลลัพธ์แบบสาธารณะ" /></div>
+      </div>
+
+      <div className="rounded-[28px] border border-white/10 bg-[#0c1016] p-6 sm:p-7">
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <p className="text-[10px] font-[900] tracking-[1.5px] text-[#82c8ff]">ACTIVITY LOG</p>
+            <h3 className="mt-2 text-[18px] font-[900] text-white">กิจกรรมล่าสุด</h3>
+          </div>
+          <Activity className="size-5 text-[#82c8ff]" />
+        </div>
+        <ActivityFeed logs={logs} />
+      </div>
+    </section>
   </div>;
 }
 
-function Stat({ title, value, icon, tone }: { title: string; value: number | string; icon: React.ReactNode; tone: "blue" | "yellow" | "red" | "green" }) { const styles = { blue: "border-[#65b8f0]/20 bg-[#0e1a25] text-[#83ceff]", yellow: "border-[#e9c75b]/20 bg-[#19170e] text-[#f4d875]", red: "border-[#ef7777]/20 bg-[#1c1114] text-[#ff9c9c]", green: "border-[#65dfa0]/20 bg-[#0d1c17] text-[#83e5aa]" }; return <div className={`flex items-center justify-between rounded-[23px] border p-5 ${styles[tone]}`}><div><p className="text-[10px] font-[900] text-[#8d9baa]">{title}</p><p className="mt-2 text-[28px] font-[900] text-white">{typeof value === "number" ? value.toLocaleString("th-TH") : value}</p></div><span className="grid size-11 place-items-center rounded-2xl bg-white/[0.07] [&>svg]:size-5">{icon}</span></div>; }
+function Stat({ title, value, icon, tone }: { title: string; value: number | string; icon: React.ReactNode; tone: "blue" | "yellow" | "red" | "green" }) { const styles = { blue: "border-[#65b8f0]/20 bg-[#0e1a25] text-[#83ceff]", yellow: "border-[#e9c75b]/20 bg-[#19170e] text-[#f4d875]", red: "border-[#ef7777]/20 bg-[#1c1114] text-[#ff9c9c]", green: "border-[#65dfa0]/20 bg-[#0d1c17] text-[#83e5aa]" }; return <div className={"flex items-center justify-between rounded-[23px] border p-5 " + styles[tone]}><div><p className="text-[10px] font-[900] text-[#8d9baa]">{title}</p><p className="mt-2 text-[28px] font-[900] text-white">{typeof value === "number" ? value.toLocaleString("th-TH") : value}</p></div><span className="grid size-11 place-items-center rounded-2xl bg-white/[0.07] [&>svg]:size-5">{icon}</span></div>; }
 function QuickAction({ href, icon, title, detail, external = false }: { href: string; icon: React.ReactNode; title: string; detail: string; external?: boolean }) { const content = <div className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.025] p-4 transition hover:border-[#398dca]/40 hover:bg-[#14202b]"><span className="grid size-10 place-items-center rounded-xl bg-[#238ddd]/10 text-[#80c9ff] [&>svg]:size-4">{icon}</span><span className="min-w-0 flex-1"><span className="block text-[12px] font-[900] text-white">{title}</span><span className="mt-1 block truncate text-[10px] text-[#7f8d9c]">{detail}</span></span><ArrowUpRight className="size-4 text-[#607386] transition group-hover:text-white" /></div>; return external ? <a href={href} target="_blank" rel="noreferrer">{content}</a> : <Link href={href}>{content}</Link>; }

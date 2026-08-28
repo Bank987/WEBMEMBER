@@ -1,6 +1,6 @@
 "use server";
 
-import { updateGang } from "@/lib/db";
+import { updateGang, logActivity } from "@/lib/db";
 import { getAuthenticatedGang } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { assertTrustedMutationOrigin, sanitizeUrl } from "@/lib/security";
@@ -32,6 +32,7 @@ export async function saveSettings(formData: FormData) {
   };
 
   await updateGang(gang.id, data);
+  await logActivity(gang.id, "settings_update", "ตั้งค่าเว็บไซต์");
   revalidatePath("/", "layout");
 }
 
@@ -75,6 +76,7 @@ export async function saveAnnouncementSettings(formData: FormData) {
     announcementEnabled,
     announcementMessage
   });
+  await logActivity(gang.id, "announcement_update", announcementEnabled ? "เปิดประกาศ" : "ปิดประกาศ");
   
   revalidatePath("/", "layout");
 }

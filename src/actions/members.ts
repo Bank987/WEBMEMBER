@@ -1,6 +1,6 @@
 "use server";
 
-import { createMemberInDB, updateMemberInDB, deleteMemberInDB, Role, getMember, getMembersByGang } from "@/lib/db";
+import { createMemberInDB, updateMemberInDB, deleteMemberInDB, Role, getMember, getMembersByGang, logActivity } from "@/lib/db";
 import { getAuthenticatedGang } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 import { assertTrustedMutationOrigin, sanitizeUrl } from "@/lib/security";

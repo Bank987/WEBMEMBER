@@ -1,4 +1,4 @@
-﻿import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 
 export type Role = "FOUNDER" | "LEADER" | "MEMBER";
 
@@ -45,6 +45,17 @@ export interface Member {
 
 export interface SuperAdminGang extends Gang {
   memberCount: number;
+  createdAt: string;
+}
+
+export type ActivityAction = "member_add" | "member_edit" | "member_delete" | "settings_update" | "announcement_update";
+
+export interface ActivityLog {
+  id: string;
+  gangId: string;
+  action: ActivityAction;
+  label: string;
+  detail?: string;
   createdAt: string;
 }
 
@@ -129,6 +140,15 @@ const vipKeySchema = new mongoose.Schema({
 }, { timestamps: true });
 
 const VipKeyModel = mongoose.models.VipKey || mongoose.model("VipKey", vipKeySchema);
+
+const activityLogSchema = new mongoose.Schema({
+  gangId: { type: mongoose.Schema.Types.ObjectId, ref: "Gang", required: true, index: true },
+  action: { type: String, required: true },
+  label: { type: String, required: true },
+  detail: { type: String, default: "" },
+}, { timestamps: true });
+
+const ActivityLogModel = mongoose.models.ActivityLog || mongoose.model("ActivityLog", activityLogSchema);
 
 const MemberModel = mongoose.models.Member || mongoose.model("Member", memberSchema);
 // Dev hot reload can retain the pre-migration schema where department was required.
@@ -382,3 +402,25 @@ export async function redeemVipKey(key: string, gangId: string) {
   }
 }
 
+// Activity Log Operations
+export async function logActivity(gangId: string, action: ActivityAction, label: string, detail?: string) {
+  try {
+    await connectDB();
+    await ActivityLogModel.create({ gangId, action, label, detail: detail || "" });
+  } catch (err) {
+    console.error("Failed to log activity", err);
+  }
+}
+
+export async function getActivityLogs(gangId: string, limit = 20): Promise<ActivityLog[]> {
+  await connectDB();
+  const docs = await ActivityLogModel.find({ gangId }).sort({ createdAt: -1 }).limit(limit).lean();
+  return docs.map((d: any) => ({
+    id: d._id.toString(),
+    gangId: d.gangId.toString(),
+    action: d.action,
+    label: d.label,
+    detail: d.detail || "",
+    createdAt: d.createdAt instanceof Date ? d.createdAt.toISOString() : String(d.createdAt),
+  }));
+}
