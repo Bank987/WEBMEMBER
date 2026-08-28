@@ -1,4 +1,4 @@
-﻿import { Sliders, Music, Crown } from "lucide-react";
+import { Sliders, Music, Crown } from "lucide-react";
 import { getAuthenticatedGang } from "@/lib/auth";
 import { saveSettings } from "@/actions/settings";
 import { redirect } from "next/navigation";
@@ -19,6 +19,15 @@ export default async function SettingsPage() {
         </h2>
         <p className="text-[10.5px] text-[#999999] tracking-[3px] uppercase mt-[6px]">
           จัดการรูปแบบเว็บไซต์และความปลอดภัย
+        </p>
+      </div>
+      
+      <div className="mb-[27px] rounded-2xl bg-[#0084ff]/10 border border-[#0084ff]/30 p-4 relative z-10">
+        <p className="text-[#4db0ff] text-[13px] font-bold mb-2">💡 แนะนำสำหรับการฝากรูปภาพ</p>
+        <p className="text-white/80 text-[12px] leading-relaxed">
+          เว็บฝากรูป : <a href="https://postimages.org/" target="_blank" rel="noreferrer" className="text-white hover:underline font-bold">https://postimages.org/</a> สำหรับใครที่รูปไม่ขึ้นโชว์ (ไม่แนะนำให้ก็อปลิงก์จาก Discord เพราะมี Timestamp)
+          <br/>
+          <span className="text-[#888888] mt-1 block">1. กด Uploads เลือกรูป &nbsp; 2. ก็อปปี้ลิงก์อันที่ 2 <strong>Direct link (ลิงก์ตรง)</strong> แล้วนำมาใส่ในช่อง</span>
         </p>
       </div>
 

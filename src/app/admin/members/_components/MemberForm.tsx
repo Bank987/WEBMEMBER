@@ -43,6 +43,15 @@ export default function MemberForm({ member }: { member?: Member }) {
       <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#0084ff] blur-[150px] opacity-10 pointer-events-none" />
       {error && <Alert variant="destructive" className="relative z-10 mb-6 rounded-2xl"><AlertCircle className="text-[#ef4444]" /><AlertTitle>บันทึกข้อมูลไม่สำเร็จ</AlertTitle><AlertDescription><span>{error}</span>{error.includes("เซสชัน") && <Link href="/#auth" className="mt-3 inline-flex rounded-lg bg-[#ef4444]/15 px-3 py-2 font-[900] text-[#ffb0b0] hover:bg-[#ef4444]/25">เข้าสู่ระบบ</Link>}</AlertDescription></Alert>}
       
+      <div className="mb-[27px] rounded-2xl bg-[#0084ff]/10 border border-[#0084ff]/30 p-4 relative z-10">
+        <p className="text-[#4db0ff] text-[13px] font-bold mb-2">💡 แนะนำสำหรับการฝากรูปภาพ</p>
+        <p className="text-white/80 text-[12px] leading-relaxed">
+          เว็บฝากรูป : <a href="https://postimages.org/" target="_blank" rel="noreferrer" className="text-white hover:underline font-bold">https://postimages.org/</a> สำหรับใครที่รูปไม่ขึ้นโชว์ (ไม่แนะนำให้ก็อปลิงก์จาก Discord เพราะมี Timestamp)
+          <br/>
+          <span className="text-[#888888] mt-1 block">1. กด Uploads เลือกรูป &nbsp; 2. ก็อปปี้ลิงก์อันที่ 2 <strong>Direct link (ลิงก์ตรง)</strong> แล้วนำมาใส่ในช่อง</span>
+        </p>
+      </div>
+      
       <div className="grid grid-cols-1 md:grid-cols-2 gap-[36px] relative z-10">
         
         {/* Left Column */}
