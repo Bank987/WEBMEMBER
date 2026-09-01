@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -98,6 +98,24 @@ export function GuideButton() {
                     <li className="flex items-start gap-2">
                       <CheckCircle2 className="size-4 text-[#0084ff] shrink-0 mt-0.5" />
                       <span><strong>เปลี่ยนหน้าตาเว็บ:</strong> เลือกธีมสี, ใส่เพลง YouTube, เปลี่ยนเอฟเฟกต์หิมะ/เมทริกซ์ หรือเปลี่ยนรูปร่างปุ่มทางเข้าเว็บได้อิสระ</span>
+                    </li>
+                  </ul>
+                </section>
+
+                {/* Step 4 */}
+                <section>
+                  <div className="flex items-center gap-2 mb-3">
+                    <CheckCircle2 className="size-4 text-[#0084ff]" />
+                    <h3 className="text-[14px] font-[900] text-white">4. อายุการใช้งานและการต่อสัญญา</h3>
+                  </div>
+                  <ul className="mt-2 space-y-2 ml-6 text-[12px] text-[#a0b2c3]">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#0084ff] font-bold mt-0.5">•</span>
+                      <span><strong>แพ็กเกจฟรี (เริ่มต้น):</strong> เว็บจะมีอายุการใช้งาน 1 เดือน แต่ไม่ต้องตกใจ! คุณสามารถกดปุ่ม "ต่อสัญญา" ในระบบหลังบ้านได้เรื่อยๆ โดยไม่มีค่าใช้จ่าย (ข้อมูลไม่หาย)</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#0084ff] font-bold mt-0.5">•</span>
+                      <span><strong>แพ็กเกจ VIP (เอมไพร์):</strong> ระบบจะทำการต่อสัญญาให้อัตโนมัติ เว็บจะไม่มีวันหมดอายุ หรือถูกระงับการใช้งานเลยตลอดไป</span>
                     </li>
                   </ul>
                 </section>

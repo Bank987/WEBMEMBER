@@ -21,8 +21,8 @@ import { getAnnouncement } from "@/actions/announcement";
 import { AnnouncementModal } from "@/components/AnnouncementModal";
 
 const packages = [
-  { name: "เริ่มต้น", price: "ฟรี", detail: "พื้นที่สำหรับแก๊งที่ต้องการเริ่มต้นให้เร็วที่สุด", features: ["ซับโดเมนเฉพาะแก๊ง", "จัดการสมาชิก 50 คน", "หลังบ้านส่วนตัว"] },
-  { name: "เอมไพร์", price: "89฿", detail: "พื้นที่เต็มรูปแบบสำหรับแก๊งที่ต้องการขยายตัว", features: ["สมาชิกไม่จำกัด", "ลูกเล่นบนเว็บ และ Theme Premium มากมาย ที่ไม่เหมือนใคร"], featured: true },
+  { name: "เริ่มต้น", price: "ฟรี", detail: "พื้นที่สำหรับแก๊งที่ต้องการเริ่มต้นให้เร็วที่สุด", features: ["ซับโดเมนเฉพาะแก๊ง", "จัดการสมาชิก 50 คน", "หลังบ้านส่วนตัว", "เช่าเว็บอายุ 1 เดือน (ต่อสัญญาได้ในหลังบ้าน)"] },
+  { name: "เอมไพร์", price: "89฿", detail: "พื้นที่เต็มรูปแบบสำหรับแก๊งที่ต้องการขยายตัว", features: ["สมาชิกไม่จำกัด", "ลูกเล่นบนเว็บ และ Theme Premium มากมาย ที่ไม่เหมือนใคร", "ต่อสัญญาอัตโนมัติ (ไม่มีวันหมดอายุ)"], featured: true },
 ];
 
 export default async function LandingPage() {
