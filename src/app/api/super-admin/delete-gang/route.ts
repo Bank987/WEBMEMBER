@@ -17,8 +17,8 @@ export async function POST(request: Request) {
       await deleteGangInDB(body.gangId);
       
       const { revalidateTag } = await import("next/cache");
-      revalidateTag(`gang-${gang.subdomain}`);
-      revalidateTag(`members-${body.gangId}`);
+      revalidateTag(`gang-${gang.subdomain}`, { expire: 0 });
+      revalidateTag(`members-${body.gangId}`, { expire: 0 });
     }
     
     return Response.json({ success: true });

@@ -109,7 +109,7 @@ const memberSchema = new mongoose.Schema({
   facebookUrl: { type: String }
 }, { timestamps: true });
 
-const GangModel = mongoose.models.Gang || mongoose.model("Gang", gangSchema);
+export const GangModel = mongoose.models.Gang || mongoose.model("Gang", gangSchema);
 if (!GangModel.schema.path("buttonShape")) {
   GangModel.schema.add({ buttonShape: { type: String, default: "square" } });
 }
