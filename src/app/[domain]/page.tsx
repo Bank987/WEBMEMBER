@@ -14,8 +14,24 @@ export async function generateMetadata({ params }: { params: Promise<{ domain: s
   const gang = await getGangBySubdomain(resolvedParams.domain);
   if (!gang) return { title: "ไม่พบเว็บไซต์" };
   
+  // Determine the best image for SEO (prioritize seoImageUrl, then logoUrl, then backgroundImageUrl)
+  const ogImage = gang.seoImageUrl || gang.logoUrl || gang.backgroundImageUrl || undefined;
+
   return {
     title: gang.pageTitle,
+    description: gang.pageSubtitle,
+    openGraph: {
+      title: gang.pageTitle,
+      description: gang.pageSubtitle,
+      type: "website",
+      images: ogImage ? [{ url: ogImage, width: 1200, height: 630, alt: gang.pageTitle }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: gang.pageTitle,
+      description: gang.pageSubtitle,
+      images: ogImage ? [ogImage] : undefined,
+    },
     robots: {
       index: false,
       follow: false,

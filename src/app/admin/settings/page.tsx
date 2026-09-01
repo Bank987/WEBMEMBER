@@ -130,6 +130,11 @@ export default async function SettingsPage() {
                 <input type="text" name="membersBackgroundImageUrl" defaultValue={settings.membersBackgroundImageUrl} placeholder="https://example.com/bg2.jpg หรือ https://youtu.be/..." className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
                 <p className="text-[10px] text-[#666666] mt-[6px]">รองรับลิงก์ YouTube และ GIF หากเว้นว่างไว้จะใช้พื้นหลังสีเทาเริ่มต้น</p>
               </div>
+              <div className="sm:col-span-2">
+                <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปปกแชร์เว็บ (SEO Image URL)</p>
+                <input type="text" name="seoImageUrl" defaultValue={settings.seoImageUrl} placeholder="https://example.com/seo-cover.jpg" className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
+                <p className="text-[10px] text-[#666666] mt-[6px]">รูปภาพที่จะแสดงเวลาเอาลิงก์เว็บไซต์ไปแชร์ลงใน Facebook, Discord, LINE ฯลฯ แนะนำขนาด 1200x630 px</p>
+              </div>
               <div>
                 <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">สีข้อความ (Hex, rgba หรือเว้นว่างไว้)</p>
                 <input type="text" name="textColor" defaultValue={settings.textColor} placeholder="#ffffff" className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
