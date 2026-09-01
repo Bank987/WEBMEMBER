@@ -108,8 +108,13 @@ export default async function Page({ params }: { params: Promise<{ domain: strin
   return (
     <>
       <GateClient settings={gang} />
-      {gang.announcementEnabled && gang.announcementMessage && (
-        <GangAnnouncement message={gang.announcementMessage} gangId={gang.id} />
+      {gang.announcementEnabled && (gang.announcementMessage || (gang.announcementImages && gang.announcementImages.length > 0)) && (
+        <GangAnnouncement 
+          message={gang.announcementMessage || ""} 
+          gangId={gang.id}
+          images={gang.announcementImages}
+          theme={gang.announcementTheme || "chromium"}
+        />
       )}
     </>
   );
