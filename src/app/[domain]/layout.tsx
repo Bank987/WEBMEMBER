@@ -5,25 +5,28 @@ import { GangAnnouncement } from "@/components/GangAnnouncement";
 
 import { unstable_cache } from "next/cache";
 
-const getYoutubeData = unstable_cache(
-  async (url: string) => {
-    if (!url) return null;
-    try {
-      const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`);
-      if (!res.ok) return null;
-      const data = await res.json();
-      return {
-        title: data.title,
-        artist: data.author_name,
-        thumbnail: data.thumbnail_url
-      };
-    } catch {
-      return null;
-    }
-  },
-  ["youtube-oembed-data"],
-  { revalidate: 86400 } // Cache for 1 day
-);
+const getYoutubeData = async (url: string) => {
+  const fetchCached = unstable_cache(
+    async (u: string) => {
+      if (!u) return null;
+      try {
+        const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(u)}&format=json`);
+        if (!res.ok) return null;
+        const data = await res.json();
+        return {
+          title: data.title,
+          artist: data.author_name,
+          thumbnail: data.thumbnail_url
+        };
+      } catch {
+        return null;
+      }
+    },
+    [`youtube-oembed-${url}`],
+    { revalidate: 86400 } // Cache for 1 day
+  );
+  return fetchCached(url);
+};
 
 export default async function DomainLayout({ children, params }: { children: ReactNode, params: Promise<{ domain: string }> }) {
   const resolvedParams = await params;
