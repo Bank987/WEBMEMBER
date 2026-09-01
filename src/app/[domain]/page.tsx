@@ -7,7 +7,10 @@ import { Metadata } from "next";
 import { AlertTriangle, Home } from "lucide-react";
 import Link from "next/link";
 
-export const dynamic = "force-dynamic";
+// ลบ force-dynamic ออก และใช้การ Cache แทน
+// ตั้งค่าให้จำหน้าเว็บไว้ 1 ชั่วโมง (3600 วินาที)
+// แต่เมื่อมีการกดเซฟตั้งค่า โค้ด revalidatePath ใน action จะล้าง cache ให้ทันที
+export const revalidate = 3600;
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
