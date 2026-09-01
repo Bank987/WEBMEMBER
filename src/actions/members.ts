@@ -2,7 +2,7 @@
 
 import { createMemberInDB, updateMemberInDB, deleteMemberInDB, Role, getMember, getMembersByGang, logActivity } from "@/lib/db";
 import { getAuthenticatedGang } from "@/lib/auth";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { assertTrustedMutationOrigin, sanitizeUrl } from "@/lib/security";
 
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
@@ -97,3 +97,4 @@ export async function deleteMember(id: string) {
   revalidateTag(`gang-${gang.subdomain}`);
   revalidateTag(`members-${gang.id}`);
 }
+

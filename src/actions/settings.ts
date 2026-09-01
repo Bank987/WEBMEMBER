@@ -2,7 +2,7 @@
 
 import { updateGang, logActivity } from "@/lib/db";
 import { getAuthenticatedGang } from "@/lib/auth";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { assertTrustedMutationOrigin, sanitizeUrl } from "@/lib/security";
 
 export async function saveSettings(formData: FormData) {

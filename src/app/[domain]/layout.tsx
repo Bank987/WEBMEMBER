@@ -48,7 +48,7 @@ export default async function DomainLayout({ children, params }: { children: Rea
           message={gang.announcementMessage} 
           gangId={gang.id}
           images={gang.announcementImages}
-          theme={gang.announcementTheme}
+          theme={gang.announcementTheme || "chromium"}
         />
       )}
     </>
