@@ -59,7 +59,7 @@ export const getAuthenticatedGang = cache(async (): Promise<Gang | null> => {
   if (parts.length === 2 && gang.adminTokenHash && hashAdminToken(sessionId) === gang.adminTokenHash) return gang;
   if (parts.length === 2 && gang.adminSessionHash && hashAdminToken(sessionId) === gang.adminSessionHash) return gang;
   return null;
-}
+});
 
 function getSuperAdminConfig() {
   const username = process.env.SUPER_ADMIN_USERNAME;
