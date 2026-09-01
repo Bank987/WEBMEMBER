@@ -54,7 +54,10 @@ export async function createMember(formData: FormData): Promise<{ ok: boolean; e
     return { ok: false, error: "ไม่สามารถบันทึกข้อมูลได้ กรุณาลองใหม่" };
   }
   
-  revalidatePath("/", "layout");
+  const { revalidateTag } = await import("next/cache");
+  revalidatePath("/admin", "layout");
+  revalidateTag(`gang-${gang.subdomain}`);
+  revalidateTag(`members-${gang.id}`);
   return { ok: true };
 }
 
@@ -75,7 +78,10 @@ export async function updateMember(id: string, formData: FormData): Promise<{ ok
     return { ok: false, error: "แก้ไขข้อมูลไม่สำเร็จ กรุณาลองใหม่" };
   }
   
-  revalidatePath("/", "layout");
+  const { revalidateTag } = await import("next/cache");
+  revalidatePath("/admin", "layout");
+  revalidateTag(`gang-${gang.subdomain}`);
+  revalidateTag(`members-${gang.id}`);
   return { ok: true };
 }
 
@@ -86,5 +92,8 @@ export async function deleteMember(id: string) {
   if (!gang || !member || member.gangId !== gang.id) throw new Error("Unauthorized");
   await deleteMemberInDB(id);
   
-  revalidatePath("/", "layout");
+  const { revalidateTag } = await import("next/cache");
+  revalidatePath("/admin", "layout");
+  revalidateTag(`gang-${gang.subdomain}`);
+  revalidateTag(`members-${gang.id}`);
 }
