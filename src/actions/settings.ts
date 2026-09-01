@@ -34,7 +34,9 @@ export async function saveSettings(formData: FormData) {
 
   await updateGang(gang.id, data);
   await logActivity(gang.id, "settings_update", "ตั้งค่าเว็บไซต์");
-  revalidatePath("/", "layout");
+  const { revalidateTag } = await import("next/cache");
+  revalidatePath("/admin", "layout");
+  revalidateTag(`gang-${gang.subdomain}`);
 }
 
 export async function deleteGangAction() {
@@ -79,5 +81,7 @@ export async function saveAnnouncementSettings(formData: FormData) {
   });
   await logActivity(gang.id, "announcement_update", announcementEnabled ? "เปิดประกาศ" : "ปิดประกาศ");
   
-  revalidatePath("/", "layout");
+  const { revalidateTag } = await import("next/cache");
+  revalidatePath("/admin", "layout");
+  revalidateTag(`gang-${gang.subdomain}`);
 }

@@ -1,6 +1,7 @@
 import { createHash, createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 import { cookies } from "next/headers";
 import { getGangBySubdomainWithTokenHash, type Gang } from "@/lib/db";
+import { cache } from "react";
 
 export const SESSION_COOKIE = "gang_session";
 export const SUPER_ADMIN_SESSION_COOKIE = "super_admin_session";
@@ -35,7 +36,7 @@ export function createSignedOwnerSession(subdomain: string, adminTokenHash: stri
   return `${subdomain}.${sessionId}.${ownerSessionSignature(subdomain, sessionId, adminTokenHash)}`;
 }
 
-export async function getAuthenticatedGang(): Promise<Gang | null> {
+export const getAuthenticatedGang = cache(async (): Promise<Gang | null> => {
   const session = (await cookies()).get(SESSION_COOKIE)?.value;
   if (!session) return null;
 
@@ -90,3 +91,4 @@ export async function isSuperAdminAuthenticated() {
   const expectedValue = Buffer.from(expected);
   return received.length === expectedValue.length && timingSafeEqual(received, expectedValue);
 }
+

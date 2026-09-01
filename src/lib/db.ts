@@ -293,11 +293,18 @@ export async function countRecentGangsByIp(ip: string): Promise<number> {
     createdAt: { $gte: twentyFourHoursAgo } 
   });
 }
-export async function getGangBySubdomain(subdomain: string): Promise<Gang | null> {
-  await connectDB();
-  const doc = await GangModel.findOne({ subdomain }).lean();
-  if (!doc) return null;
-  return mapGang(doc);
+export const getGangBySubdomain = async (subdomain: string): Promise<Gang | null> => {
+  const fetchCached = unstable_cache(
+    async (sd: string) => {
+      await connectDB();
+      const doc = await GangModel.findOne({ subdomain: sd }).lean();
+      if (!doc) return null;
+      return mapGang(doc as any);
+    },
+    [`gang-${subdomain}`],
+    { tags: [`gang-${subdomain}`], revalidate: 3600 }
+  );
+  return fetchCached(subdomain);
 }
 
 export async function getGangBySubdomainWithTokenHash(subdomain: string) {
@@ -365,10 +372,17 @@ export async function changeGangSubdomain(id: string, newSubdomain: string) {
 }
 
 // Member Operations (Now filtered by gangId)
-export async function getMembersByGang(gangId: string): Promise<Member[]> {
-  await connectDB();
-  const docs = await MemberModel.find({ gangId }).lean();
-  return docs.map(mapMember);
+export const getMembersByGang = async (gangId: string): Promise<Member[]> => {
+  const fetchCached = unstable_cache(
+    async (id: string) => {
+      await connectDB();
+      const docs = await MemberModel.find({ gangId: id }).lean();
+      return docs.map(doc => mapMember(doc as any));
+    },
+    [`members-${gangId}`],
+    { tags: [`members-${gangId}`], revalidate: 3600 }
+  );
+  return fetchCached(gangId);
 }
 
 export async function getMember(id: string): Promise<Member | null> {
@@ -479,3 +493,4 @@ export async function markRenewalAnnouncementSeen(id: string) {
     renewalAnnouncementSeen: true,
   });
 }
+

@@ -1,23 +1,29 @@
-﻿import { ReactNode } from "react";
+import { ReactNode } from "react";
 import { getGangBySubdomain } from "@/lib/db";
 import { MusicWrapper } from "./MusicWrapper";
 import { GangAnnouncement } from "@/components/GangAnnouncement";
 
-async function getYoutubeData(url: string) {
-  if (!url) return null;
-  try {
-    const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`);
-    if (!res.ok) return null;
-    const data = await res.json();
-    return {
-      title: data.title,
-      artist: data.author_name,
-      thumbnail: data.thumbnail_url
-    };
-  } catch {
-    return null;
-  }
-}
+import { unstable_cache } from "next/cache";
+
+const getYoutubeData = unstable_cache(
+  async (url: string) => {
+    if (!url) return null;
+    try {
+      const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(url)}&format=json`);
+      if (!res.ok) return null;
+      const data = await res.json();
+      return {
+        title: data.title,
+        artist: data.author_name,
+        thumbnail: data.thumbnail_url
+      };
+    } catch {
+      return null;
+    }
+  },
+  ["youtube-oembed-data"],
+  { revalidate: 86400 } // Cache for 1 day
+);
 
 export default async function DomainLayout({ children, params }: { children: ReactNode, params: Promise<{ domain: string }> }) {
   const resolvedParams = await params;
