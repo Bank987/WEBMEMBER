@@ -45,14 +45,13 @@ export default async function AdminDashboard() {
           เปิดเว็บไซต์ <ExternalLink className="size-4" />
         </a>
       </div>
-      <div className="relative mt-8 flex flex-wrap gap-2">
+      <div className="relative mt-8 flex flex-wrap items-center gap-2">
         <span className="rounded-full border border-white/10 bg-black/15 px-3 py-2 text-[10px] text-[#b8c8d6]">{gang.subdomain}.lastname.site</span>
         <span className={`rounded-full border px-3 py-2 text-[10px] ${isSiteActive ? 'border-[#65dfa0]/20 bg-[#65dfa0]/10 text-[#8debb2]' : 'border-[#ef7777]/20 bg-[#ef7777]/10 text-[#ff9c9c]'}`}>
           {isSiteActive ? "พร้อมเผยแพร่" : "หมดอายุการใช้งาน"}
         </span>
+        <RentalCountdown expiresAt={rental.expiresAt.toISOString()} isVip={!!gang.isVip} />
       </div>
-
-      <RentalCountdown expiresAt={rental.expiresAt.toISOString()} isVip={!!gang.isVip} />
     </section>
 
     <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">

@@ -41,68 +41,49 @@ export function RentalCountdown({ expiresAt, isVip }: { expiresAt: Date | string
 
   if (isVip) {
     return (
-      <div className="relative mt-8 sm:mt-12 flex flex-col sm:flex-row items-start sm:items-center gap-6 p-6 sm:p-8 rounded-3xl border border-[#ffd700]/30 bg-[linear-gradient(135deg,rgba(255,215,0,0.1),rgba(0,0,0,0)_60%)] shadow-[0_20px_50px_rgba(255,215,0,0.05)] overflow-hidden">
-        <div className="absolute -top-20 -right-20 w-48 h-48 bg-[#ffd700]/20 blur-[60px] rounded-full pointer-events-none" />
-        
-        <div className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-[#ffd700]/20 text-[#ffd700] border border-[#ffd700]/40 shadow-[0_0_20px_rgba(255,215,0,0.3)] relative z-10">
-          <Crown className="size-6" />
-        </div>
-        
-        <div className="relative z-10">
-          <h3 className="text-[11px] font-[900] tracking-[2px] text-[#ffd700] uppercase mb-2">
-            แพ็คเกจ เอมไพร์ (VIP)
-          </h3>
-          <div className="flex items-center gap-2">
-            <Infinity className="size-6 text-white/80" />
-            <span className="text-[20px] sm:text-[24px] font-[900] text-white tracking-wide">อายุการใช้งานตลอดชีพ</span>
-          </div>
-          <p className="text-[#a0a0a0] text-[11px] mt-2 font-medium">ต่อสัญญาอัตโนมัติ 100% ไม่มีวันหมดอายุ ข้อมูลไม่สูญหาย</p>
-        </div>
+      <div className="flex items-center gap-2 rounded-full border border-[#ffd700]/30 bg-[#ffd700]/10 px-4 py-2">
+        <Crown className="size-3.5 text-[#ffd700]" />
+        <span className="text-[10px] font-[900] tracking-[1px] text-[#ffd700] uppercase">
+          แพ็คเกจ VIP : ตลอดชีพ (ต่อสัญญาอัตโนมัติ)
+        </span>
       </div>
     );
   }
 
   const isDanger = timeLeft.days < 3;
+  const colorClass = isDanger ? "text-[#ff4444]" : "text-[#82c8ff]";
+  const bgClass = isDanger ? "bg-[#ff4444]/10 border-[#ff4444]/30" : "bg-[#0084ff]/10 border-[#0084ff]/30";
 
   return (
-    <div className={`relative mt-8 sm:mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-6 p-6 sm:p-8 rounded-[24px] border transition-colors ${isDanger ? 'border-[#ff4444]/30 bg-gradient-to-br from-[#1a0505] to-black shadow-[0_20px_50px_rgba(255,68,68,0.1)]' : 'border-[#0084ff]/30 bg-gradient-to-br from-[#05101a] to-black shadow-[0_20px_50px_rgba(0,132,255,0.08)]'} overflow-hidden`}>
-      <div className={`absolute -top-20 -left-20 w-48 h-48 blur-[60px] rounded-full pointer-events-none ${isDanger ? 'bg-[#ff4444]/20' : 'bg-[#0084ff]/20'}`} />
+    <div className={`flex items-center gap-3 rounded-full border px-4 py-1.5 backdrop-blur-md ${bgClass}`}>
+      <Clock className={`size-3.5 animate-pulse ${colorClass}`} />
+      <span className={`text-[9px] sm:text-[10px] font-[900] tracking-[1px] uppercase mr-1 hidden sm:inline-block ${colorClass}`}>
+        {isExpired ? "หมดอายุ" : "เวลาคงเหลือ"}
+      </span>
       
-      <div className={`flex size-14 shrink-0 items-center justify-center rounded-2xl border relative z-10 ${isDanger ? 'bg-[#ff4444]/20 text-[#ff4444] border-[#ff4444]/40 shadow-[0_0_20px_rgba(255,68,68,0.3)]' : 'bg-[#0084ff]/20 text-[#0084ff] border-[#0084ff]/40 shadow-[0_0_20px_rgba(0,132,255,0.3)]'}`}>
-        <Clock className="size-6 animate-pulse" />
-      </div>
-      
-      <div className="relative z-10 flex-1 w-full">
-        <h3 className={`text-[11px] font-[900] tracking-[2px] uppercase mb-4 ${isDanger ? 'text-[#ff4444]' : 'text-[#0084ff]'}`}>
-          {isExpired ? "เว็บไซต์ถูกระงับ (หมดอายุ)" : "เวลาเช่าที่เหลืออยู่"}
-        </h3>
-        
-        <div className="flex items-center gap-2 sm:gap-4">
-          <TimeBlock value={timeLeft.days} label="วัน" isDanger={isDanger} />
-          <span className="text-white/20 text-xl font-bold animate-pulse -translate-y-3">:</span>
-          <TimeBlock value={timeLeft.hours} label="ชั่วโมง" isDanger={isDanger} />
-          <span className="text-white/20 text-xl font-bold animate-pulse -translate-y-3">:</span>
-          <TimeBlock value={timeLeft.minutes} label="นาที" isDanger={isDanger} />
-          <span className="text-white/20 text-xl font-bold animate-pulse -translate-y-3">:</span>
-          <TimeBlock value={timeLeft.seconds} label="วินาที" isDanger={isDanger} />
-        </div>
+      <div className="flex items-center gap-1.5">
+        <MiniTime value={timeLeft.days} label="วัน" isDanger={isDanger} />
+        <span className={`text-[12px] font-bold ${isDanger ? 'text-[#ff4444]/50' : 'text-[#82c8ff]/50'}`}>:</span>
+        <MiniTime value={timeLeft.hours} label="ชม" isDanger={isDanger} />
+        <span className={`text-[12px] font-bold ${isDanger ? 'text-[#ff4444]/50' : 'text-[#82c8ff]/50'}`}>:</span>
+        <MiniTime value={timeLeft.minutes} label="น" isDanger={isDanger} />
+        <span className={`text-[12px] font-bold ${isDanger ? 'text-[#ff4444]/50' : 'text-[#82c8ff]/50'}`}>:</span>
+        <MiniTime value={timeLeft.seconds} label="วิ" isDanger={isDanger} />
       </div>
     </div>
   );
 }
 
-function TimeBlock({ value, label, isDanger = false }: { value: number, label: string, isDanger?: boolean }) {
-  const colorClass = isDanger ? "text-[#ff4444]" : "text-white";
-  const bgClass = isDanger ? "bg-[#ff4444]/10 border-[#ff4444]/20" : "bg-white/5 border-white/10";
-  
+function MiniTime({ value, label, isDanger }: { value: number, label: string, isDanger: boolean }) {
+  const color = isDanger ? "text-[#ff4444]" : "text-white";
   return (
-    <div className="flex flex-col items-center gap-2">
-      <div className={`w-[52px] h-[60px] sm:w-[68px] sm:h-[76px] rounded-xl flex items-center justify-center border backdrop-blur-md shadow-inner ${bgClass}`}>
-        <span className={`text-[24px] sm:text-[34px] font-[900] font-mono tracking-tighter ${colorClass}`}>
-          {value.toString().padStart(2, '0')}
-        </span>
-      </div>
-      <span className="text-[9px] sm:text-[10px] font-bold text-[#6b7c8f] uppercase tracking-[1px]">{label}</span>
+    <div className="flex items-baseline gap-1">
+      <span className={`text-[13px] sm:text-[15px] font-[900] font-mono tracking-tighter ${color}`}>
+        {value.toString().padStart(2, '0')}
+      </span>
+      <span className={`text-[8px] font-bold uppercase tracking-wider ${isDanger ? 'text-[#ff4444]/70' : 'text-[#82c8ff]/70'}`}>
+        {label}
+      </span>
     </div>
   );
 }
