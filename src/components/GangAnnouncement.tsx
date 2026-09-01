@@ -70,6 +70,16 @@ export function GangAnnouncement({
   const nextImg = () => setCurrentImgIndex(i => (i + 1) % images.length);
   const prevImg = () => setCurrentImgIndex(i => (i - 1 + images.length) % images.length);
 
+  // Auto slide
+  useEffect(() => {
+    if (images && images.length > 1) {
+      const timer = setInterval(() => {
+        setCurrentImgIndex(i => (i + 1) % images.length);
+      }, 4000); // เปลี่ยนรูปทุก 4 วินาที
+      return () => clearInterval(timer);
+    }
+  }, [images]);
+
   return (
     <AnimatePresence>
       {isVisible && (
@@ -108,11 +118,18 @@ export function GangAnnouncement({
                 <div className="overflow-y-auto overflow-x-hidden flex-1 no-scrollbar relative z-10">
                   {images.length > 0 && (
                     <div className="relative w-full bg-black/10 aspect-video group">
-                      <img 
-                        src={images[currentImgIndex]} 
-                        alt="Announcement" 
-                        className="w-full h-full object-cover"
-                      />
+                      <AnimatePresence mode="wait">
+                        <motion.img 
+                          key={currentImgIndex}
+                          src={images[currentImgIndex]} 
+                          alt="Announcement" 
+                          initial={{ opacity: 0, scale: 0.95, filter: "blur(5px)" }}
+                          animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                          exit={{ opacity: 0, scale: 1.05, filter: "blur(5px)" }}
+                          transition={{ duration: 0.5, ease: "easeInOut" }}
+                          className="absolute inset-0 w-full h-full object-cover"
+                        />
+                      </AnimatePresence>
                       {images.length > 1 && (
                         <>
                           <button onClick={prevImg} className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 text-white opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black/70 backdrop-blur-md">
