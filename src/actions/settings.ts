@@ -2,7 +2,7 @@
 
 import { updateGang, logActivity } from "@/lib/db";
 import { getAuthenticatedGang } from "@/lib/auth";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { assertTrustedMutationOrigin, sanitizeUrl } from "@/lib/security";
 
 export async function saveSettings(formData: FormData) {
@@ -36,7 +36,7 @@ export async function saveSettings(formData: FormData) {
   await logActivity(gang.id, "settings_update", "ตั้งค่าเว็บไซต์");
   const { revalidateTag } = await import("next/cache");
   revalidatePath("/admin", "layout");
-  revalidateTag(`gang-${gang.subdomain}`);
+  updateTag(`gang-${gang.subdomain}`);
 }
 
 export async function deleteGangAction() {
@@ -93,5 +93,6 @@ export async function saveAnnouncementSettings(formData: FormData) {
   
   const { revalidateTag } = await import("next/cache");
   revalidatePath("/admin", "layout");
-  revalidateTag(`gang-${gang.subdomain}`);
+  updateTag(`gang-${gang.subdomain}`);
 }
+

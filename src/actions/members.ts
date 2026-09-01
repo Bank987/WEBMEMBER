@@ -2,7 +2,7 @@
 
 import { createMemberInDB, updateMemberInDB, deleteMemberInDB, Role, getMember, getMembersByGang, logActivity } from "@/lib/db";
 import { getAuthenticatedGang } from "@/lib/auth";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { assertTrustedMutationOrigin, sanitizeUrl } from "@/lib/security";
 
 const DISCORD_WEBHOOK_URL = process.env.DISCORD_WEBHOOK_URL;
@@ -56,8 +56,8 @@ export async function createMember(formData: FormData): Promise<{ ok: boolean; e
   
   const { revalidateTag } = await import("next/cache");
   revalidatePath("/admin", "layout");
-  revalidateTag(`gang-${gang.subdomain}`);
-  revalidateTag(`members-${gang.id}`);
+  updateTag(`gang-${gang.subdomain}`);
+  updateTag(`members-${gang.id}`);
   return { ok: true };
 }
 
@@ -80,8 +80,8 @@ export async function updateMember(id: string, formData: FormData): Promise<{ ok
   
   const { revalidateTag } = await import("next/cache");
   revalidatePath("/admin", "layout");
-  revalidateTag(`gang-${gang.subdomain}`);
-  revalidateTag(`members-${gang.id}`);
+  updateTag(`gang-${gang.subdomain}`);
+  updateTag(`members-${gang.id}`);
   return { ok: true };
 }
 
@@ -94,7 +94,8 @@ export async function deleteMember(id: string) {
   
   const { revalidateTag } = await import("next/cache");
   revalidatePath("/admin", "layout");
-  revalidateTag(`gang-${gang.subdomain}`);
-  revalidateTag(`members-${gang.id}`);
+  updateTag(`gang-${gang.subdomain}`);
+  updateTag(`members-${gang.id}`);
 }
+
 
