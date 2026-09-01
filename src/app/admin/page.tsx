@@ -10,6 +10,7 @@ import { RenewalModal } from "@/components/RenewalModal";
 
 // Since RenewalModal requires useState and context, we'll extract the client part
 import { RenewalDashboardCard } from "./_components/RenewalDashboardCard";
+import { RentalCountdown } from "./_components/RentalCountdown";
 
 export default async function AdminDashboard() {
   const gang = await getAuthenticatedGang();
@@ -50,6 +51,8 @@ export default async function AdminDashboard() {
           {isSiteActive ? "พร้อมเผยแพร่" : "หมดอายุการใช้งาน"}
         </span>
       </div>
+
+      <RentalCountdown expiresAt={rental.expiresAt.toISOString()} isVip={!!gang.isVip} />
     </section>
 
     <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
