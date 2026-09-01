@@ -1,10 +1,20 @@
-﻿"use client";
+"use client";
 
 import { useState } from "react";
 import { saveAnnouncementSettings } from "@/actions/settings";
 import { LoaderCircle, CheckCircle2, AlertCircle } from "lucide-react";
 
-export function AnnouncementForm({ enabled, message }: { enabled: boolean; message: string }) {
+export function AnnouncementForm({ 
+  enabled, 
+  message,
+  images = [],
+  theme = "chromium"
+}: { 
+  enabled: boolean; 
+  message: string;
+  images?: string[];
+  theme?: string;
+}) {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
@@ -50,8 +60,34 @@ export function AnnouncementForm({ enabled, message }: { enabled: boolean; messa
             name="announcementMessage" 
             defaultValue={message}
             placeholder="เช่น ยินดีต้อนรับสมาชิกใหม่! คืนนี้มีกิจกรรม..."
-            className="w-full h-[120px] bg-black/50 border border-white/10 rounded-[16px] p-[16px] text-[13px] text-white focus:border-[#0084ff] outline-none transition-colors resize-none"
+            className="w-full h-[100px] bg-black/50 border border-white/10 rounded-[16px] p-[16px] text-[13px] text-white focus:border-[#0084ff] outline-none transition-colors resize-none"
           />
+        </div>
+
+        {/* Images Input */}
+        <div className="space-y-3">
+          <label className="text-[12px] font-[900] text-white uppercase tracking-widest flex items-center gap-2">
+            รูปภาพประกอบ (ลิงก์ URL)
+          </label>
+          <p className="text-[11px] text-[#777]">ใส่ลิงก์รูปภาพ (1 บรรทัดต่อ 1 รูป) หากมีการใส่รูป ระบบจะปรับประกาศเป็นแบบ 'กล่องใหญ่' ให้อัตโนมัติ</p>
+          <textarea 
+            name="announcementImages" 
+            defaultValue={images.join('\n')}
+            placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg"
+            className="w-full h-[100px] bg-black/50 border border-white/10 rounded-[16px] p-[16px] text-[13px] text-white focus:border-[#0084ff] outline-none transition-colors resize-none"
+          />
+        </div>
+
+        {/* Theme Select */}
+        <div className="space-y-3">
+          <label className="text-[12px] font-[900] text-white uppercase tracking-widest flex items-center gap-2">
+            ธีมของกล่องประกาศ (แสดงผลเมื่อเป็นกล่องใหญ่)
+          </label>
+          <select name="announcementTheme" defaultValue={theme} className="w-full bg-black/50 border border-white/10 rounded-[16px] p-[16px] text-[13px] text-white focus:border-[#0084ff] outline-none transition-colors">
+            <option value="chromium">Chromium (กระจกใส เรียบหรู)</option>
+            <option value="dark">Dark (ดำด้าน ดุดัน)</option>
+            <option value="light">Light (ขาว สว่างคลีน)</option>
+          </select>
         </div>
 
       </div>

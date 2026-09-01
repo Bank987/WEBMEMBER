@@ -74,10 +74,20 @@ export async function saveAnnouncementSettings(formData: FormData) {
   
   const announcementEnabled = formData.get("announcementEnabled") === "true";
   const announcementMessage = formData.get("announcementMessage") as string;
+  const announcementTheme = formData.get("announcementTheme") as string || "chromium";
+  
+  // Parse images (newline separated)
+  const imagesRaw = formData.get("announcementImages") as string || "";
+  const announcementImages = imagesRaw
+    .split("\n")
+    .map(url => url.trim())
+    .filter(url => url.length > 0);
   
   await updateGang(gang.id, {
     announcementEnabled,
-    announcementMessage
+    announcementMessage,
+    announcementTheme,
+    announcementImages
   });
   await logActivity(gang.id, "announcement_update", announcementEnabled ? "เปิดประกาศ" : "ปิดประกาศ");
   

@@ -36,6 +36,8 @@ export interface Gang {
   renewalNotifiedAt?: string;
   renewalAnnouncementSeen?: boolean;
   seoImageUrl?: string;
+  announcementImages?: string[];
+  announcementTheme?: string;
 }
 
 export interface Member {
@@ -146,6 +148,12 @@ if (!GangModel.schema.path("renewalAnnouncementSeen")) {
 }
 if (!GangModel.schema.path("seoImageUrl")) {
   GangModel.schema.add({ seoImageUrl: { type: String, default: "" } });
+}
+if (!GangModel.schema.path("announcementImages")) {
+  GangModel.schema.add({ announcementImages: { type: [String], default: [] } });
+}
+if (!GangModel.schema.path("announcementTheme")) {
+  GangModel.schema.add({ announcementTheme: { type: String, default: "chromium" } });
 }
 
 const vipKeySchema = new mongoose.Schema({
@@ -268,6 +276,8 @@ function mapGang(doc: GangDocument): Gang {
     renewalNotifiedAt: (doc as any).renewalNotifiedAt instanceof Date ? (doc as any).renewalNotifiedAt.toISOString() : (doc as any).renewalNotifiedAt || undefined,
     renewalAnnouncementSeen: doc.renewalAnnouncementSeen || false,
     seoImageUrl: (doc as any).seoImageUrl || "",
+    announcementImages: (doc as any).announcementImages || [],
+    announcementTheme: (doc as any).announcementTheme || "chromium",
     createdAt: (doc as any).createdAt instanceof Date ? (doc as any).createdAt.toISOString() : (doc as any).createdAt,
   };
 }

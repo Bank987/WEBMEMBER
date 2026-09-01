@@ -1,4 +1,4 @@
-﻿import { getAuthenticatedGang } from "@/lib/auth";
+import { getAuthenticatedGang } from "@/lib/auth";
 import { redirect } from "next/navigation";
 import { AnnouncementForm } from "./AnnouncementForm";
 import { Crown } from "lucide-react";
@@ -24,6 +24,8 @@ export default async function AnnouncementPage() {
       <AnnouncementForm 
         enabled={!!gang.announcementEnabled} 
         message={gang.announcementMessage || ""} 
+        images={gang.announcementImages || []}
+        theme={gang.announcementTheme || "chromium"}
       />
     </div>
   );
