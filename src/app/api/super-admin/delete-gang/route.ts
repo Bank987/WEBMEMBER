@@ -1,4 +1,4 @@
-﻿import { isSuperAdminAuthenticated } from "@/lib/auth";
+import { isSuperAdminAuthenticated } from "@/lib/auth";
 import { deleteGangInDB } from "@/lib/db";
 
 export async function POST(request: Request) {
@@ -9,7 +9,18 @@ export async function POST(request: Request) {
   if (!body.gangId) return Response.json({ error: "Missing gangId" }, { status: 400 });
 
   try {
-    await deleteGangInDB(body.gangId);
+    const { GangModel, connectDB } = await import("@/lib/db");
+    await connectDB();
+    const gang = await GangModel.findById(body.gangId);
+    
+    if (gang) {
+      await deleteGangInDB(body.gangId);
+      
+      const { revalidateTag } = await import("next/cache");
+      revalidateTag(`gang-${gang.subdomain}`);
+      revalidateTag(`members-${body.gangId}`);
+    }
+    
     return Response.json({ success: true });
   } catch (error) {
     console.error("Delete gang failed", error);

@@ -57,9 +57,11 @@ export async function deleteGangAction() {
     throw new Error(`ไม่สามารถลบเว็บไซต์ได้ ต้องมีอายุการใช้งานอย่างน้อย 3 วัน (ปัจจุบัน: ${diffDays} วัน)`);
   }
   
-  // Need to import deleteGangInDB and cookies
   const { deleteGangInDB } = await import("@/lib/db");
   await deleteGangInDB(gang.id);
+  
+  updateTag(`gang-${gang.subdomain}`);
+  updateTag(`members-${gang.id}`);
   
   const { cookies } = await import("next/headers");
   const { SESSION_COOKIE } = await import("@/lib/auth");
