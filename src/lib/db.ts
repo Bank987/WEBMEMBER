@@ -34,6 +34,7 @@ export interface Gang {
   isVip?: boolean;
   renewedAt?: string;
   renewalNotifiedAt?: string;
+  renewalAnnouncementSeen?: boolean;
 }
 
 export interface Member {
@@ -89,10 +90,11 @@ const gangSchema = new mongoose.Schema({
   entryAnimation: { type: String, default: "fade" },
   buttonShape: { type: String, default: "square" },
   isVip: { type: Boolean, default: false },
-  renewedAt: { type: Date },
-  renewalNotifiedAt: { type: Date },
   creatorIp: { type: String, default: "" },
   recoveryPin: { type: String, default: "" },
+  renewedAt: { type: Date },
+  renewalNotifiedAt: { type: Date },
+  renewalAnnouncementSeen: { type: Boolean, default: false },
 }, { timestamps: true });
 
 const memberSchema = new mongoose.Schema({
@@ -137,6 +139,9 @@ if (!GangModel.schema.path("isVip")) {
 }
 if (!GangModel.schema.path("renewedAt")) {
   GangModel.schema.add({ renewedAt: { type: Date }, renewalNotifiedAt: { type: Date } });
+}
+if (!GangModel.schema.path("renewalAnnouncementSeen")) {
+  GangModel.schema.add({ renewalAnnouncementSeen: { type: Boolean, default: false } });
 }
 
 const vipKeySchema = new mongoose.Schema({
@@ -216,6 +221,7 @@ type GangDocument = {
   isVip?: boolean;
   renewedAt?: Date;
   renewalNotifiedAt?: Date;
+  renewalAnnouncementSeen?: boolean;
 };
 
 type MemberDocument = {
@@ -256,6 +262,7 @@ function mapGang(doc: GangDocument): Gang {
     isVip: doc.isVip || false,
     renewedAt: (doc as any).renewedAt instanceof Date ? (doc as any).renewedAt.toISOString() : (doc as any).renewedAt || undefined,
     renewalNotifiedAt: (doc as any).renewalNotifiedAt instanceof Date ? (doc as any).renewalNotifiedAt.toISOString() : (doc as any).renewalNotifiedAt || undefined,
+    renewalAnnouncementSeen: doc.renewalAnnouncementSeen || false,
     createdAt: (doc as any).createdAt instanceof Date ? (doc as any).createdAt.toISOString() : (doc as any).createdAt,
   };
 }
@@ -458,5 +465,12 @@ export async function markRenewalNotified(id: string) {
   await connectDB();
   await GangModel.findByIdAndUpdate(id, {
     renewalNotifiedAt: new Date(),
+  });
+}
+
+export async function markRenewalAnnouncementSeen(id: string) {
+  await connectDB();
+  await GangModel.findByIdAndUpdate(id, {
+    renewalAnnouncementSeen: true,
   });
 }

@@ -4,6 +4,7 @@ import { ForcePinSetup } from "@/components/ForcePinSetup";
 import { setupRecoveryPin } from "@/actions/setup-pin";
 import { AdminSidebar } from "@/components/AdminSidebar";
 import { RenewalBanner } from "@/components/RenewalBanner";
+import { RenewalAnnouncementModal } from "@/components/RenewalAnnouncementModal";
 import { getRentalStatus } from "@/lib/rental";
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -13,8 +14,18 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // Calculate rental status
   const rental = getRentalStatus(gang);
 
+  // Formatting date for Thai display
+  const expiresAtStr = rental.expiresAt.toLocaleDateString('th-TH', { 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric' 
+  });
+
   // Show banner only in grace period AND not yet notified (dismiss = once only)
   const showRenewalBanner = rental.status === "grace" && !gang.renewalNotifiedAt;
+
+  // Show announcement modal only if they haven't seen it yet
+  const showAnnouncement = !gang.renewalAnnouncementSeen;
 
   // Pass necessary gang data to Client Component
   const gangData = {
@@ -26,6 +37,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   return (
     <div className="min-h-screen bg-[#080a0e] text-text-primary flex font-sans">
       <ForcePinSetup requirePin={!gang.recoveryPin} setupAction={setupRecoveryPin} />
+      {showAnnouncement && <RenewalAnnouncementModal expiresAtStr={expiresAtStr} isVip={!!gang.isVip} />}
       
       <AdminSidebar gang={gangData} />
 

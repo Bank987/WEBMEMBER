@@ -59,3 +59,17 @@ export async function dismissRenewalNotification(): Promise<{ success: boolean }
     return { success: false };
   }
 }
+
+export async function dismissRenewalAnnouncement(): Promise<{ success: boolean }> {
+  try {
+    await assertTrustedMutationOrigin();
+    const gang = await getAuthenticatedGang();
+    if (!gang) return { success: false };
+
+    const { markRenewalAnnouncementSeen } = await import("@/lib/db");
+    await markRenewalAnnouncementSeen(gang.id);
+    return { success: true };
+  } catch {
+    return { success: false };
+  }
+}
