@@ -217,6 +217,7 @@ type GangDocument = {
   customDomain?: string;
   faviconUrl?: string;
   youtubeMusicUrl?: string;
+  musicPlayerStyle?: string;
   announcementEnabled?: boolean;
   announcementMessage?: string;
   buttonText?: string;
