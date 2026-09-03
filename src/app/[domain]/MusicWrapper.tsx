@@ -1,15 +1,17 @@
-﻿"use client";
+"use client";
 
 import { MiniPlayer } from "@/components/music-ui/MiniPlayer";
+import { PremiumPlayer } from "@/components/music-ui/PremiumPlayer";
 import { Track } from "@/types/music";
 import { usePathname } from "next/navigation";
 
 interface MusicWrapperProps {
   youtubeUrl: string;
   ytData: { title: string; artist: string; thumbnail: string } | null;
+  playerStyle?: string;
 }
 
-export function MusicWrapper({ youtubeUrl, ytData }: MusicWrapperProps) {
+export function MusicWrapper({ youtubeUrl, ytData, playerStyle = "classic" }: MusicWrapperProps) {
   const pathname = usePathname();
   const isGatePage = !pathname || pathname === '/';
 
@@ -26,10 +28,11 @@ export function MusicWrapper({ youtubeUrl, ytData }: MusicWrapperProps) {
 
   return (
     <div className={`fixed bottom-[36px] right-[36px] z-50 ${isGatePage ? "opacity-0 pointer-events-none" : ""}`}>
-      <MiniPlayer 
-        track={currentTrack} 
-        autoPlay={true}
-      />
+      {playerStyle === "premium" ? (
+        <PremiumPlayer track={currentTrack} autoPlay={true} />
+      ) : (
+        <MiniPlayer track={currentTrack} autoPlay={true} />
+      )}
     </div>
   );
 }

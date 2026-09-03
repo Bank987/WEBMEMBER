@@ -9,6 +9,7 @@ export interface Gang {
   customDomain?: string; // Optional custom domain e.g. "xxx.com"
   faviconUrl: string;
   youtubeMusicUrl: string;
+  musicPlayerStyle?: string;
   announcementEnabled?: boolean;
   announcementMessage?: string;
   buttonText: string;
@@ -74,6 +75,7 @@ const gangSchema = new mongoose.Schema({
   customDomain: { type: String, unique: true, sparse: true },
   faviconUrl: { type: String, default: "" },
   youtubeMusicUrl: { type: String, default: "" },
+  musicPlayerStyle: { type: String, default: "classic", enum: ["classic", "premium"] },
   announcementEnabled: { type: Boolean, default: false },
   announcementMessage: { type: String, default: "" },
   buttonText: { type: String, default: "ENTER" },
@@ -114,6 +116,9 @@ const memberSchema = new mongoose.Schema({
 export const GangModel = mongoose.models.Gang || mongoose.model("Gang", gangSchema);
 if (!GangModel.schema.path("buttonShape")) {
   GangModel.schema.add({ buttonShape: { type: String, default: "square" } });
+}
+if (!GangModel.schema.path("musicPlayerStyle")) {
+  GangModel.schema.add({ musicPlayerStyle: { type: String, default: "classic", enum: ["classic", "premium"] } });
 }
 if (!GangModel.schema.path("theme")) {
   GangModel.schema.add({ theme: { type: String, default: "default" } });
@@ -256,6 +261,7 @@ function mapGang(doc: GangDocument): Gang {
     customDomain: doc.customDomain,
     faviconUrl: doc.faviconUrl || "",
     youtubeMusicUrl: doc.youtubeMusicUrl || "",
+    musicPlayerStyle: doc.musicPlayerStyle || "classic",
     announcementEnabled: !!doc.announcementEnabled,
     announcementMessage: doc.announcementMessage || "",
     buttonText: doc.buttonText || "ENTER",

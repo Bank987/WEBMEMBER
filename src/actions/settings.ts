@@ -30,7 +30,11 @@ export async function saveSettings(formData: FormData) {
     facebookUrl: sanitizeUrl(formData.get("facebookUrl") as string),
     entryAnimation: formData.get("entryAnimation") as string || "fade",
     buttonShape: formData.get("buttonShape") as string || "square",
-  };
+  } as any;
+
+  if (gang.isVip && formData.has("musicPlayerStyle")) {
+    data.musicPlayerStyle = formData.get("musicPlayerStyle") as string;
+  }
 
   await updateGang(gang.id, data);
   await logActivity(gang.id, "settings_update", "ตั้งค่าเว็บไซต์");

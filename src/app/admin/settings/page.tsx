@@ -42,21 +42,45 @@ export default async function SettingsPage() {
             </div>
           </div>
           <div className="p-[27px] space-y-[24px] relative z-10">
-            <div className="flex items-center justify-between gap-[24px]">
-              <div className="flex-1">
-                <p className="text-[12px] font-[700] text-text-inverse mb-[3px]">เพลงพื้นหลัง (ลิงก์ YouTube)</p>
-                <p className="text-[10.5px] text-[#888888]">เพลงนี้จะเล่นเมื่อผู้เข้าชมเปิดไดเรกทอรี</p>
+              <div className="flex items-center justify-between gap-[24px]">
+                <div className="flex-1">
+                  <p className="text-[12px] font-[700] text-text-inverse mb-[3px]">ลิงก์เพลงประกอบ (ลิงก์ YouTube)</p>
+                  <p className="text-[10.5px] text-[#888888]">ใส่ลิงก์เพลงที่จะเล่นเมื่อมีคนเข้าเว็บ</p>
+                </div>
+                <input 
+                  type="url" 
+                  name="youtubeMusicUrl"
+                  defaultValue={settings.youtubeMusicUrl} 
+                  placeholder="https://www.youtube.com/watch?v=..."
+                  className="bg-black/50 border border-white/10 rounded-[12px] px-[18px] py-[12px] text-[12px] text-white focus:border-[#0084ff] outline-none w-[400px] max-w-full"
+                />
               </div>
-              <input 
-                type="url" 
-                name="youtubeMusicUrl"
-                defaultValue={settings.youtubeMusicUrl} 
-                placeholder="https://www.youtube.com/watch?v=..."
-                className="bg-black/50 border border-white/10 rounded-[12px] px-[18px] py-[12px] text-[12px] text-white focus:border-[#0084ff] outline-none w-[400px] max-w-full"
-              />
+
+              <div className="flex items-center justify-between gap-[24px] pt-4 border-t border-white/5">
+                <div className="flex-1">
+                  <div className="flex items-center gap-2 mb-[3px]">
+                    <p className="text-[12px] font-[700] text-text-inverse">รูปแบบ Miniplay</p>
+                    {settings.isVip ? (
+                      <span className="text-[#facc15] text-[9px] font-bold uppercase border border-[#facc15]/30 bg-[#facc15]/10 px-2 py-0.5 rounded-full flex items-center gap-1"><Crown className="w-3 h-3" /> VIP</span>
+                    ) : (
+                      <span className="text-[#888888] text-[9px] font-bold uppercase border border-white/10 bg-white/5 px-2 py-0.5 rounded-full flex items-center gap-1"><Crown className="w-3 h-3" /> VIP Only</span>
+                    )}
+                  </div>
+                  <p className="text-[10.5px] text-[#888888]">เลือกสไตล์ของกล่องเล่นเพลงที่มุมขวาล่าง</p>
+                </div>
+                <select
+                  name="musicPlayerStyle"
+                  defaultValue={settings.musicPlayerStyle || "classic"}
+                  disabled={!settings.isVip}
+                  className="bg-black/50 border border-white/10 rounded-[12px] px-[18px] py-[12px] text-[12px] text-white focus:border-[#0084ff] outline-none w-[400px] max-w-full disabled:opacity-50 appearance-none"
+                >
+                  <option value="classic">Classic Miniplay (แบบเดิม)</option>
+                  {settings.isVip && <option value="premium">Premium Miniplay (แบบใหม่)</option>}
+                  {!settings.isVip && <option value="premium" disabled>Premium Miniplay (เฉพาะ VIP)</option>}
+                </select>
+              </div>
             </div>
           </div>
-        </div>
             
         <div id="theme" className="scroll-mt-8 bg-[#050505] border border-[#111111] rounded-[18px] overflow-hidden">
           <div className="bg-[#0a0a0a] p-[18px] border-b border-[#111111] flex items-center justify-between"><div><h3 className="text-[14px] font-[900] text-text-inverse">ธีมเว็บไซต์</h3><p className="mt-1 text-[10px] text-[#777]">เลือกสไตล์หลักสำหรับหน้า Gate และรายชื่อสมาชิก</p></div></div>

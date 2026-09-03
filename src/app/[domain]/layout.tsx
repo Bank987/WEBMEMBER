@@ -40,6 +40,7 @@ export default async function DomainLayout({ children, params }: { children: Rea
         <MusicWrapper 
           youtubeUrl={gang.youtubeMusicUrl} 
           ytData={ytData}
+          playerStyle={gang.musicPlayerStyle}
         />
       )}
     </>
