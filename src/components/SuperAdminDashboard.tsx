@@ -160,7 +160,7 @@ export function SuperAdminDashboard({ gangs }: { gangs: SuperAdminGang[] }) {
                 </div>
                 <div className="min-w-0">
                   <p className="truncate text-[14px] font-[900] text-white">{gang.pageTitle}</p>
-                  <div className="mt-1 flex items-center gap-2">
+                  <div className="mt-1 flex flex-wrap items-center gap-2">
                     <a href={getGangUrl(gang.subdomain)} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-[11px] text-[#79bfff] hover:underline">
                       {gang.subdomain}.lastname.site <ExternalLink className="size-3" />
                     </a>
@@ -175,7 +175,26 @@ export function SuperAdminDashboard({ gangs }: { gangs: SuperAdminGang[] }) {
                       }}
                       className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[9px] font-[900] text-white/60 transition hover:bg-white/10 hover:text-white"
                     >
-                      เปลี่ยน
+                      แก้ Sub
+                    </button>
+                    
+                    {gang.customDomain ? (
+                      <a href={`https://${gang.customDomain}`} target="_blank" rel="noreferrer" className="flex items-center gap-1 text-[11px] text-[#ffd700] hover:underline ml-2">
+                        {gang.customDomain} <ExternalLink className="size-3" />
+                      </a>
+                    ) : null}
+                    <button 
+                      onClick={() => {
+                        if (editingDomain === gang.id + "_custom") {
+                          setEditingDomain(null);
+                        } else {
+                          setEditingDomain(gang.id + "_custom");
+                          setNewDomain(gang.customDomain || "");
+                        }
+                      }}
+                      className="rounded-md border border-white/10 bg-white/5 px-2 py-0.5 text-[9px] font-[900] text-white/60 transition hover:bg-white/10 hover:text-white"
+                    >
+                      {gang.customDomain ? "แก้ Custom" : "+ เพิ่ม Domain"}
                     </button>
                   </div>
                 </div>
@@ -228,6 +247,52 @@ export function SuperAdminDashboard({ gangs }: { gangs: SuperAdminGang[] }) {
                     className="rounded-xl bg-white px-5 py-3 text-[12px] font-[900] text-black transition hover:bg-gray-200 disabled:opacity-50 flex items-center justify-center min-w-[100px]"
                   >
                     {savingDomain ? <LoaderCircle className="size-4 animate-spin" /> : "บันทึกและเปลี่ยนโดเมน"}
+                  </button>
+                </div>
+              </motion.div>
+            )}
+
+            {editingDomain === gang.id + "_custom" && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }} 
+                animate={{ opacity: 1, height: "auto" }} 
+                className="w-full border-t border-[#ffd700]/10 pt-4 pb-2"
+              >
+                <label className="block text-[11px] font-[900] text-[#ffd700] mb-2 uppercase tracking-[1px]">เชื่อมต่อ Custom Domain (เช่น xxx.com)</label>
+                <p className="text-[10px] text-[#8290a0] mb-3">ลูกค้าต้องชี้ DNS A Record มาที่ <strong className="text-white">76.76.21.21</strong> และคุณต้องเพิ่มโดเมนใน Vercel Dashboard ด้วย</p>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <div className="flex flex-1 items-center rounded-xl border border-[#ffd700]/20 bg-black/40 overflow-hidden focus-within:border-[#ffd700]/50 transition-colors">
+                    <span className="px-3 py-3 text-[13px] text-[#ffd700]/50 border-r border-[#ffd700]/10 bg-[#ffd700]/5 whitespace-nowrap">https://</span>
+                    <input 
+                      value={newDomain}
+                      onChange={(e) => setNewDomain(e.target.value.toLowerCase())}
+                      placeholder="www.customer.com (เว้นว่างเพื่อลบออก)"
+                      className="w-full bg-transparent px-4 py-3 text-[13px] text-white outline-none"
+                    />
+                  </div>
+                  <button 
+                    disabled={savingDomain}
+                    onClick={async () => {
+                      setSavingDomain(true);
+                      setError("");
+                      try {
+                        const res = await fetch("/api/super-admin/custom-domain", {
+                          method: "POST",
+                          headers: { "Content-Type": "application/json" },
+                          body: JSON.stringify({ gangId: gang.id, customDomain: newDomain })
+                        });
+                        const data = await res.json();
+                        if (!res.ok) throw new Error(data.error);
+                        window.location.reload();
+                      } catch (e: any) {
+                        setError(e.message || "เกิดข้อผิดพลาด");
+                      } finally {
+                        setSavingDomain(false);
+                      }
+                    }}
+                    className="rounded-xl bg-[#ffd700] px-5 py-3 text-[12px] font-[900] text-black transition hover:bg-[#ffed4a] disabled:opacity-50 flex items-center justify-center min-w-[100px]"
+                  >
+                    {savingDomain ? <LoaderCircle className="size-4 animate-spin" /> : "บันทึกโดเมน"}
                   </button>
                 </div>
               </motion.div>

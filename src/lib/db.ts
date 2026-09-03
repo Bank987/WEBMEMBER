@@ -6,6 +6,7 @@ export type Role = "FOUNDER" | "LEADER" | "MEMBER";
 export interface Gang {
   id: string;
   subdomain: string; // The URL slug e.g. "thunder"
+  customDomain?: string; // Optional custom domain e.g. "xxx.com"
   faviconUrl: string;
   youtubeMusicUrl: string;
   announcementEnabled?: boolean;
@@ -70,6 +71,7 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 const gangSchema = new mongoose.Schema({
   subdomain: { type: String, required: true, unique: true },
+  customDomain: { type: String, unique: true, sparse: true },
   faviconUrl: { type: String, default: "" },
   youtubeMusicUrl: { type: String, default: "" },
   announcementEnabled: { type: Boolean, default: false },
@@ -250,6 +252,7 @@ function mapGang(doc: GangDocument): Gang {
   return {
     id: doc._id.toString(),
     subdomain: doc.subdomain,
+    customDomain: doc.customDomain,
     faviconUrl: doc.faviconUrl || "",
     youtubeMusicUrl: doc.youtubeMusicUrl || "",
     announcementEnabled: !!doc.announcementEnabled,
@@ -304,30 +307,36 @@ export async function countRecentGangsByIp(ip: string): Promise<number> {
     createdAt: { $gte: twentyFourHoursAgo } 
   });
 }
-export const getGangBySubdomain = async (subdomain: string): Promise<Gang | null> => {
+export const getGangBySubdomain = async (domain: string): Promise<Gang | null> => {
   const fetchCached = unstable_cache(
     async (sd: string) => {
       await connectDB();
-      const doc = await GangModel.findOne({ subdomain: sd }).lean();
+      const doc = await GangModel.findOne({ 
+        $or: [{ subdomain: sd }, { customDomain: sd }] 
+      }).lean();
       if (!doc) return null;
       return mapGang(doc as any);
     },
-    [`gang-${subdomain}`],
-    { tags: [`gang-${subdomain}`], revalidate: 3600 }
+    [`gang-${domain}`],
+    { tags: [`gang-${domain}`], revalidate: 3600 }
   );
-  return fetchCached(subdomain);
+  return fetchCached(domain);
 }
 
-export async function getGangBySubdomainWithTokenHash(subdomain: string) {
+export async function getGangBySubdomainWithTokenHash(domain: string) {
   await connectDB();
-  const doc = await GangModel.findOne({ subdomain }).select("+adminTokenHash").lean();
+  const doc = await GangModel.findOne({ 
+    $or: [{ subdomain: domain }, { customDomain: domain }] 
+  }).select("+adminTokenHash").lean();
   if (!doc) return null;
   return { ...mapGang(doc as GangDocument), adminTokenHash: doc.adminTokenHash as string };
 }
 
-export async function getGangBySubdomainWithSession(subdomain: string) {
+export async function getGangBySubdomainWithSession(domain: string) {
   await connectDB();
-  const doc = await GangModel.findOne({ subdomain }).select("+adminTokenHash +adminSessionHash").lean();
+  const doc = await GangModel.findOne({ 
+    $or: [{ subdomain: domain }, { customDomain: domain }] 
+  }).select("+adminTokenHash +adminSessionHash").lean();
   if (!doc) return null;
   return { ...mapGang(doc as GangDocument), adminTokenHash: doc.adminTokenHash as string, adminSessionHash: doc.adminSessionHash as string | undefined };
 }

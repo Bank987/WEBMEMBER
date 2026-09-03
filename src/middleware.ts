@@ -35,15 +35,23 @@ export default function middleware(req: NextRequest) {
   // For local testing, we might use thunder.localhost:3000 
   // and the hostname will be 'thunder.localhost'
   
-  let subdomain = null;
-  if (currentHost !== rootDomain) {
+  let isTenant = false;
+  let tenantKey = '';
+
+  if (currentHost === rootDomain || currentHost === `www.${rootDomain}`) {
+    isTenant = false;
+  } else {
+    isTenant = true;
     if (currentHost.endsWith(`.${rootDomain}`)) {
-      subdomain = currentHost.replace(`.${rootDomain}`, '');
+      tenantKey = currentHost.replace(`.${rootDomain}`, '');
+    } else {
+      // Custom Domain (e.g., xxx.com or www.xxx.com)
+      tenantKey = currentHost.replace(/^www\./, '');
     }
   }
 
   // 1. Root Domain -> Route to marketing/home page
-  if (!subdomain || subdomain === 'www') {
+  if (!isTenant) {
     if (url.pathname === '/favicon.ico') {
       return NextResponse.next();
     }
@@ -55,13 +63,13 @@ export default function middleware(req: NextRequest) {
     return NextResponse.rewrite(new URL(`/home${url.pathname}`, req.url));
   }
 
-  // 2. Tenant Subdomain -> Route to tenant pages
+  // 2. Tenant Subdomain or Custom Domain -> Route to tenant pages
   if (url.pathname === '/favicon.ico') {
-    const response = NextResponse.rewrite(new URL(`/${subdomain}/favicon`, req.url));
+    const response = NextResponse.rewrite(new URL(`/${tenantKey}/favicon`, req.url));
     response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
     return response;
   }
-  const response = NextResponse.rewrite(new URL(`/${subdomain}${url.pathname === '/' ? '' : url.pathname}`, req.url));
+  const response = NextResponse.rewrite(new URL(`/${tenantKey}${url.pathname === '/' ? '' : url.pathname}`, req.url));
   response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
   return response;
 }
