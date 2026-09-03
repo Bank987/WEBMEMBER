@@ -72,7 +72,7 @@ export default function GateClient({ settings }: { settings: Settings }) {
 
   return (
     <div 
-      className={`min-h-screen overflow-hidden relative flex flex-col items-center justify-center ${fontClass} ${theme.className} ${cursorClass}`} 
+      className={`fixed inset-0 overflow-hidden ${fontClass} ${theme.className} ${cursorClass}`} 
       style={{ 
         backgroundColor: theme.background,
         ["--gang-accent" as string]: settings.customAccentColor || theme.accent,
@@ -80,15 +80,17 @@ export default function GateClient({ settings }: { settings: Settings }) {
       }}
     >
       {settings.backgroundImageUrl && (
-        <div className="fixed inset-0 z-[1] pointer-events-none">
+        <div className="absolute inset-0 z-[1] pointer-events-none">
           <BackgroundMedia url={settings.backgroundImageUrl} />
           <div className="absolute inset-0 z-[2] bg-gradient-to-b from-black/60 to-black/90" />
         </div>
       )}
 
-      <div className="absolute inset-0 z-[3]">
+      <div className="absolute inset-0 z-[3] pointer-events-none">
         <BackgroundEffects type={settings.particleEffect} />
       </div>
+
+      <div className="absolute inset-0 z-10 overflow-y-auto overflow-x-hidden flex flex-col items-center justify-center min-h-full">
       
       {settings.customCursor === 'glow' && (
         <div className="pointer-events-none fixed inset-0 z-[50] mix-blend-screen hidden md:block">
@@ -195,6 +197,7 @@ export default function GateClient({ settings }: { settings: Settings }) {
           LASTNAME.SITE BY. ganglist
         </p>
       </motion.div>
+      </div>
     </div>
   );
 }
