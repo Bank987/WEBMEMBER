@@ -35,15 +35,15 @@ export default function MembersClient({
       
       {/* Dynamic Background Media (Image or YouTube) */}
       {backgroundImageUrl && (
-        <>
+        <div className="fixed inset-0 z-[1] pointer-events-none">
           <BackgroundMedia url={backgroundImageUrl} />
           <div className="absolute inset-0 z-[2] bg-black/75 backdrop-blur-[2px]" />
-        </>
+        </div>
       )}
 
       {/* Pattern overlay */}
       <div 
-        className="absolute inset-0 z-[3] pointer-events-none opacity-[0.04]" 
+        className="fixed inset-0 z-[1] pointer-events-none opacity-[0.04]" 
         style={{ 
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='36' height='36' viewBox='0 0 36 36' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M18 12v12M12 18h12' stroke='%23ffffff' stroke-width='2' fill='none' /%3E%3C/svg%3E")` 
         }}

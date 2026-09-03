@@ -80,10 +80,10 @@ export default function GateClient({ settings }: { settings: Settings }) {
       }}
     >
       {settings.backgroundImageUrl && (
-        <>
+        <div className="fixed inset-0 z-[1] pointer-events-none">
           <BackgroundMedia url={settings.backgroundImageUrl} />
           <div className="absolute inset-0 z-[2] bg-gradient-to-b from-black/60 to-black/90" />
-        </>
+        </div>
       )}
 
       <div className="absolute inset-0 z-[3]">
