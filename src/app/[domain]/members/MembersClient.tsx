@@ -37,7 +37,7 @@ export default function MembersClient({
       {backgroundImageUrl && (
         <div className="absolute inset-0 z-[1] pointer-events-none">
           <BackgroundMedia url={backgroundImageUrl} />
-          <div className="absolute inset-0 z-[2] bg-black/75 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 z-[2] bg-black/75" />
         </div>
       )}
 
