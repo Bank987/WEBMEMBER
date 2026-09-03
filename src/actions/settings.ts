@@ -36,7 +36,7 @@ export async function saveSettings(formData: FormData) {
   await logActivity(gang.id, "settings_update", "ตั้งค่าเว็บไซต์");
   const { revalidateTag } = await import("next/cache");
   revalidatePath("/admin", "layout");
-  updateTag(`gang-${gang.subdomain}`);
+  updateTag(`gang-${gang.subdomain}`); if (gang.customDomain) { updateTag(`gang-${gang.customDomain}`); }
 }
 
 export async function deleteGangAction() {
@@ -60,7 +60,7 @@ export async function deleteGangAction() {
   const { deleteGangInDB } = await import("@/lib/db");
   await deleteGangInDB(gang.id);
   
-  updateTag(`gang-${gang.subdomain}`);
+  updateTag(`gang-${gang.subdomain}`); if (gang.customDomain) { updateTag(`gang-${gang.customDomain}`); }
   updateTag(`members-${gang.id}`);
   
   const { cookies } = await import("next/headers");
@@ -95,6 +95,6 @@ export async function saveAnnouncementSettings(formData: FormData) {
   
   const { revalidateTag } = await import("next/cache");
   revalidatePath("/admin", "layout");
-  updateTag(`gang-${gang.subdomain}`);
+  updateTag(`gang-${gang.subdomain}`); if (gang.customDomain) { updateTag(`gang-${gang.customDomain}`); }
 }
 

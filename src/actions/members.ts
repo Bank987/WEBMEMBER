@@ -56,7 +56,7 @@ export async function createMember(formData: FormData): Promise<{ ok: boolean; e
   
   const { revalidateTag } = await import("next/cache");
   revalidatePath("/admin", "layout");
-  updateTag(`gang-${gang.subdomain}`);
+  updateTag(`gang-${gang.subdomain}`); if (gang.customDomain) { updateTag(`gang-${gang.customDomain}`); }
   updateTag(`members-${gang.id}`);
   return { ok: true };
 }
@@ -80,7 +80,7 @@ export async function updateMember(id: string, formData: FormData): Promise<{ ok
   
   const { revalidateTag } = await import("next/cache");
   revalidatePath("/admin", "layout");
-  updateTag(`gang-${gang.subdomain}`);
+  updateTag(`gang-${gang.subdomain}`); if (gang.customDomain) { updateTag(`gang-${gang.customDomain}`); }
   updateTag(`members-${gang.id}`);
   return { ok: true };
 }
@@ -94,7 +94,7 @@ export async function deleteMember(id: string) {
   
   const { revalidateTag } = await import("next/cache");
   revalidatePath("/admin", "layout");
-  updateTag(`gang-${gang.subdomain}`);
+  updateTag(`gang-${gang.subdomain}`); if (gang.customDomain) { updateTag(`gang-${gang.customDomain}`); }
   updateTag(`members-${gang.id}`);
 }
 
