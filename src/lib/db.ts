@@ -209,6 +209,7 @@ export async function connectDB() {
 type GangDocument = {
   _id: { toString(): string };
   subdomain: string;
+  customDomain?: string;
   faviconUrl?: string;
   youtubeMusicUrl?: string;
   announcementEnabled?: boolean;
