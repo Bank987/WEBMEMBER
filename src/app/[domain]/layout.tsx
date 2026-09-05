@@ -6,12 +6,21 @@ import { GangAnnouncement } from "@/components/GangAnnouncement";
 import { unstable_cache } from "next/cache";
 
 const getYoutubeData = async (url: string) => {
+  const extractId = (u: string) => {
+    const match = u.match(/^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/);
+    return (match && match[7].length === 11) ? match[7] : null;
+  };
+
+  const vid = extractId(url);
+  if (!vid) return null;
+  
+  const cleanUrl = `https://www.youtube.com/watch?v=${vid}`;
+
   const fetchCached = unstable_cache(
     async (u: string) => {
-      if (!u) return null;
       try {
         const res = await fetch(`https://www.youtube.com/oembed?url=${encodeURIComponent(u)}&format=json`);
-        if (!res.ok) return null;
+        if (!res.ok) throw new Error("OEmbed failed");
         const data = await res.json();
         return {
           title: data.title,
@@ -19,13 +28,18 @@ const getYoutubeData = async (url: string) => {
           thumbnail: data.thumbnail_url
         };
       } catch {
-        return null;
+        // Fallback to predictible thumbnail if OEmbed fails (e.g. video is private, unlisted, or age restricted)
+        return {
+          title: "YouTube Audio Stream",
+          artist: "System Background",
+          thumbnail: `https://i.ytimg.com/vi/${vid}/hqdefault.jpg`
+        };
       }
     },
-    [`youtube-oembed-${url}`],
-    { revalidate: 86400 } // Cache for 1 day
+    [`youtube-oembed-${vid}`],
+    { revalidate: 86400 }
   );
-  return fetchCached(url);
+  return fetchCached(cleanUrl);
 };
 
 export default async function DomainLayout({ children, params }: { children: ReactNode, params: Promise<{ domain: string }> }) {
