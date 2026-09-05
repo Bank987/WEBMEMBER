@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { unstable_cache } from 'next/cache';
 
-export type Role = "FOUNDER" | "LEADER" | "SUPPORT" | "MEMBER";
+export type Role = "FOUNDER" | "LEADER" | "MEMBER";
 
 export interface Gang {
   id: string;
@@ -108,7 +108,7 @@ const gangSchema = new mongoose.Schema({
 const memberSchema = new mongoose.Schema({
   gangId: { type: mongoose.Schema.Types.ObjectId, ref: 'Gang', required: true, index: true },
   name: { type: String, required: true },
-  role: { type: String, required: true, enum: ["FOUNDER", "LEADER", "SUPPORT", "MEMBER"] },
+  role: { type: String, required: true, enum: ["FOUNDER", "LEADER", "MEMBER"] },
   avatar: { type: String, required: true },
   facebookUrl: { type: String }
 }, { timestamps: true });

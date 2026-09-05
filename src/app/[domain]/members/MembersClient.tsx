@@ -28,7 +28,7 @@ export default function MembersClient({
 
   const founders = filteredMembers.filter(m => m.role === "FOUNDER");
   const leaders = filteredMembers.filter(m => m.role === "LEADER");
-  const supports = filteredMembers.filter(m => m.role === "SUPPORT");
+
   const members = filteredMembers.filter(m => m.role === "MEMBER");
 
   return (
@@ -138,23 +138,7 @@ export default function MembersClient({
             </motion.div>
           )}
 
-          {supports.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.65, ease: "easeOut" }}
-            >
-              <MemberSection 
-                title="SUPPORT" 
-                members={supports} 
-                role="SUPPORT" 
-                gridCols="grid-cols-1 md:grid-cols-2 lg:grid-cols-3" 
-                colorClass="text-[#f9a8d4]" // Light pink
-                borderClass="border-[#f9a8d4]/20 bg-gradient-to-r from-surface-base to-[#f9a8d4]/5" 
-              />
-            </motion.div>
-          )}
-          
+
           {members.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -209,7 +193,7 @@ function MemberSection({
   const getIcon = () => {
     if (role === "FOUNDER") return <Crown className="w-[10px] h-[10px]" />;
     if (role === "LEADER") return <Shield className="w-[10px] h-[10px]" />;
-    if (role === "SUPPORT") return <Heart className="w-[10px] h-[10px]" />;
+
     return <User className="w-[10px] h-[10px]" />;
   };
 

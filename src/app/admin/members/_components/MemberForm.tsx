@@ -84,7 +84,6 @@ export default function MemberForm({ member }: { member?: Member }) {
               >
                 <option value="FOUNDER">ผู้ก่อตั้ง (เทียร์ 4)</option>
                 <option value="LEADER">ผู้นำ (เทียร์ 3)</option>
-                <option value="SUPPORT">ซัพพอร์ต (เทียร์ 2)</option>
                 <option value="MEMBER">สมาชิก (เทียร์ 1)</option>
               </select>
               <div className="absolute right-[24px] top-1/2 -translate-y-1/2 pointer-events-none">
