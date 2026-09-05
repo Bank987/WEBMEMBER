@@ -21,7 +21,7 @@ export function VinylPlayer({ track, initialExpanded = false }: VinylPlayerProps
   const playerRef = useRef<any>(null);
   const progressInterval = useRef<NodeJS.Timeout | null>(null);
 
-  const extractVideoId = (url: string) => {
+  const extractVideoId = (url?: string) => {
     if (!url) return null;
     const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
     const match = url.match(regExp);
