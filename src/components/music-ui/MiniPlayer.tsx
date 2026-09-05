@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useRef, useEffect } from "react";
 import YouTube, { YouTubePlayer } from "react-youtube";
@@ -113,17 +113,36 @@ export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, a
 
   const [isExpanded, setIsExpanded] = useState(false);
   useEffect(() => {
+    let retryInt: NodeJS.Timeout;
     const handleForcePlay = () => {
       if (playerRef.current) {
-        playerRef.current.unMute();
-        playerRef.current.setVolume(50);
-        playerRef.current.playVideo();
-        setIsPlaying(true);
-        setIsMuted(false);
+        try {
+          playerRef.current.unMute();
+          playerRef.current.setVolume(50);
+          playerRef.current.playVideo();
+          setIsPlaying(true);
+          setIsMuted(false);
+        } catch (e) {}
+      } else {
+        retryInt = setInterval(() => {
+          if (playerRef.current) {
+            try {
+              playerRef.current.unMute();
+              playerRef.current.setVolume(50);
+              playerRef.current.playVideo();
+              setIsPlaying(true);
+              setIsMuted(false);
+              clearInterval(retryInt);
+            } catch (e) {}
+          }
+        }, 500);
       }
     };
     window.addEventListener('force-play-music', handleForcePlay);
-    return () => window.removeEventListener('force-play-music', handleForcePlay);
+    return () => {
+      window.removeEventListener('force-play-music', handleForcePlay);
+      if (retryInt) clearInterval(retryInt);
+    };
   }, []);
   const [autoplayBlocked, setAutoplayBlocked] = useState(false);
 

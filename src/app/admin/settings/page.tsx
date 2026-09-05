@@ -1,4 +1,4 @@
-import { Sliders, Music, Crown } from "lucide-react";
+import { Sliders, Music, Crown, Users } from "lucide-react";
 import { getAuthenticatedGang } from "@/lib/auth";
 import { saveSettings } from "@/actions/settings";
 import { redirect } from "next/navigation";

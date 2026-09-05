@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -47,11 +47,10 @@ export function NeonTypingButton({
       <motion.button
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
-        className={`w-full h-full relative group flex flex-col items-center justify-center overflow-hidden transition-all duration-300 border ${
-          isHovered ? "border-[#0084ff] bg-[#0084ff]/5" : "border-[rgba(255,255,255,0.1)] bg-black/20 backdrop-blur-sm"
-        } ${imageSrc && !imageError && shape === 'square' ? 'p-0' : 'gap-[9px] p-[16px]'} ${
+        className={`w-full h-full relative group flex flex-col items-center justify-center transition-all duration-300 ${imageSrc && !imageError && shape === 'square' ? 'p-0' : 'gap-[9px] p-[16px]'} ${
           shape === 'parallelogram' ? 'rounded-none -skew-x-[15deg]' :
           shape === 'rectangle' ? 'rounded-[16px]' :
+          shape === 'trapezoid' ? 'rounded-none [clip-path:polygon(10%_0,90%_0,100%_100%,0%_100%)]' :
           'rounded-[16px]'
         }`}
         style={{
@@ -62,9 +61,32 @@ export function NeonTypingButton({
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
+        {/* 1. Base Layer (Blur and BG) */}
+        <div className={`absolute inset-0 rounded-[inherit] pointer-events-none transition-all duration-300 ${
+          isHovered ? 'bg-[color:var(--gang-accent)]/5' : 'bg-black/10 backdrop-blur-sm'
+        }`} />
+
+        {/* 2. Animated Spinning Border (Masked to 1px) */}
+        <div 
+          className="absolute inset-0 rounded-[inherit] overflow-hidden pointer-events-none z-0"
+          style={{
+            padding: '1.5px', // Border thickness
+            background: 'transparent',
+            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+            WebkitMaskComposite: 'xor',
+            maskComposite: 'exclude',
+          }}
+        >
+          <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square animate-spin transition-colors duration-500 ${
+            isHovered 
+              ? 'bg-[conic-gradient(from_0deg,transparent_0%,transparent_80%,var(--gang-accent)_80%,var(--gang-accent)_100%)]' 
+              : 'bg-[conic-gradient(from_0deg,transparent_0%,transparent_80%,white_80%,white_100%)]'
+          }`} style={{ animationDuration: '2s', willChange: 'transform' }} />
+        </div>
+
         {imageSrc && !imageError && shape === 'square' ? (
           /* Image Mode - Smart Auto Fit */
-          <div className="relative w-full h-full flex items-center justify-center p-[8px]">
+          <div className="relative w-full h-full flex items-center justify-center p-[8px] z-10">
             <Image 
               src={useProxy ? `/api/image-proxy?url=${encodeURIComponent(imageSrc)}` : imageSrc} 
               alt={label}

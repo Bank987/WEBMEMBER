@@ -76,16 +76,34 @@ export function PremiumPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded
   };
 
   useEffect(() => {
+    let retryInt: NodeJS.Timeout;
     const handleForcePlay = () => {
       if (playerRef.current) {
-        playerRef.current.unMute();
-        playerRef.current.setVolume(50);
-        playerRef.current.playVideo();
-        setIsPlaying(true);
+        try {
+          playerRef.current.unMute();
+          playerRef.current.setVolume(50);
+          playerRef.current.playVideo();
+          setIsPlaying(true);
+        } catch(e) {}
+      } else {
+        retryInt = setInterval(() => {
+          if (playerRef.current) {
+            try {
+              playerRef.current.unMute();
+              playerRef.current.setVolume(50);
+              playerRef.current.playVideo();
+              setIsPlaying(true);
+              clearInterval(retryInt);
+            } catch(e) {}
+          }
+        }, 500);
       }
     };
     window.addEventListener("force-play-music", handleForcePlay);
-    return () => window.removeEventListener("force-play-music", handleForcePlay);
+    return () => {
+      window.removeEventListener("force-play-music", handleForcePlay);
+      if (retryInt) clearInterval(retryInt);
+    };
   }, []);
 
   useEffect(() => {

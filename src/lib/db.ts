@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { unstable_cache } from 'next/cache';
 
-export type Role = "FOUNDER" | "LEADER" | "MEMBER";
+export type Role = "FOUNDER" | "LEADER" | "MEMBER" | "SUPPORT";
 
 export interface Gang {
   id: string;
@@ -41,6 +41,8 @@ export interface Gang {
   seoImageUrl?: string;
   announcementImages?: string[];
   announcementTheme?: string;
+  partnersEnabled?: boolean;
+  partners?: { name: string; url: string }[];
 }
 
 export interface Member {
@@ -48,6 +50,7 @@ export interface Member {
   gangId: string; // The Gang this member belongs to
   name: string;
   role: Role;
+  supportPosition?: number;
   avatar: string;
   facebookUrl?: string;
 }
@@ -108,7 +111,8 @@ const gangSchema = new mongoose.Schema({
 const memberSchema = new mongoose.Schema({
   gangId: { type: mongoose.Schema.Types.ObjectId, ref: 'Gang', required: true, index: true },
   name: { type: String, required: true },
-  role: { type: String, required: true, enum: ["FOUNDER", "LEADER", "MEMBER"] },
+  role: { type: String, required: true, enum: ["FOUNDER", "LEADER", "MEMBER", "SUPPORT"] },
+  supportPosition: { type: Number, enum: [2, 3] },
   avatar: { type: String, required: true },
   facebookUrl: { type: String }
 }, { timestamps: true });
@@ -163,6 +167,12 @@ if (!GangModel.schema.path("announcementImages")) {
 if (!GangModel.schema.path("announcementTheme")) {
   GangModel.schema.add({ announcementTheme: { type: String, default: "chromium" } });
 }
+if (!GangModel.schema.path("partnersEnabled")) {
+  GangModel.schema.add({ partnersEnabled: { type: Boolean, default: false } });
+}
+if (!GangModel.schema.path("partners")) {
+  GangModel.schema.add({ partners: [{ name: String, url: String }] });
+}
 
 const vipKeySchema = new mongoose.Schema({
   key: { type: String, required: true, unique: true },
@@ -183,6 +193,16 @@ const activityLogSchema = new mongoose.Schema({
 const ActivityLogModel = mongoose.models.ActivityLog || mongoose.model("ActivityLog", activityLogSchema);
 
 const MemberModel = mongoose.models.Member || mongoose.model("Member", memberSchema);
+if (!MemberModel.schema.path("supportPosition")) {
+  MemberModel.schema.add({ supportPosition: { type: Number, enum: [2, 3] } });
+}
+
+// Ensure "SUPPORT" is in the role enum for cached dev models
+const rolePath = MemberModel.schema.path("role") as any;
+if (rolePath && rolePath.enumValues && !rolePath.enumValues.includes("SUPPORT")) {
+  rolePath.enumValues.push("SUPPORT");
+}
+
 // Dev hot reload can retain the pre-migration schema where department was required.
 const departmentPath = MemberModel.schema.path("department");
 if (departmentPath) departmentPath.required(false);
@@ -251,6 +271,7 @@ type MemberDocument = {
   gangId: { toString(): string };
   name: string;
   role: Role;
+  supportPosition?: number;
   avatar: string;
   facebookUrl?: string;
 };
@@ -290,6 +311,8 @@ function mapGang(doc: GangDocument): Gang {
     seoImageUrl: (doc as any).seoImageUrl || "",
     announcementImages: (doc as any).announcementImages || [],
     announcementTheme: (doc as any).announcementTheme || "chromium",
+    partnersEnabled: (doc as any).partnersEnabled || false,
+    partners: (doc as any).partners ? (doc as any).partners.map((p: any) => ({ name: p.name, url: p.url })) : [],
     createdAt: (doc as any).createdAt instanceof Date ? (doc as any).createdAt.toISOString() : (doc as any).createdAt,
   };
 }
@@ -300,6 +323,7 @@ function mapMember(doc: MemberDocument): Member {
     gangId: doc.gangId.toString(),
     name: doc.name,
     role: doc.role,
+    supportPosition: doc.supportPosition,
     avatar: doc.avatar,
     facebookUrl: doc.facebookUrl,
   };

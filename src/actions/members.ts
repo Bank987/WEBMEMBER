@@ -18,6 +18,7 @@ export async function createMember(formData: FormData): Promise<{ ok: boolean; e
       gangId: gang.id,
       name: memberName,
       role: formData.get("role") as Role,
+      supportPosition: formData.get("role") === "SUPPORT" && formData.get("supportPosition") ? parseInt(formData.get("supportPosition") as string) : undefined,
       avatar: sanitizeUrl(formData.get("avatar") as string) || "https://i.pravatar.cc/150",
       facebookUrl: sanitizeUrl(formData.get("facebookUrl") as string),
     });
@@ -36,9 +37,9 @@ export async function createMember(formData: FormData): Promise<{ ok: boolean; e
             {
               color: 3447003,
               fields: [
-                { name: "แก๊ง", value: gangName, inline: true },
-                { name: "เพิ่มรายชื่อ", value: memberName, inline: true },
-                { name: "คนที่", value: memberCount.toString(), inline: true }
+                { name: "ชื่อแก๊ง", value: gangName, inline: true },
+                { name: "ชื่อสมาชิก", value: memberName, inline: true },
+                { name: "คนทั้งหมด", value: memberCount.toString(), inline: true }
               ],
               timestamp: new Date().toISOString()
             }
@@ -62,14 +63,15 @@ export async function createMember(formData: FormData): Promise<{ ok: boolean; e
 }
 
 export async function updateMember(id: string, formData: FormData): Promise<{ ok: boolean; error?: string }> {
-  try { await assertTrustedMutationOrigin(); } catch { return { ok: false, error: "คำขอไม่ถูกต้องหรือหมดอายุ" }; }
+  try { await assertTrustedMutationOrigin(); } catch { return { ok: false, error: "คำขอไม่ถูกต้อง" }; }
   const gang = await getAuthenticatedGang();
   const member = await getMember(id);
-  if (!gang || !member || member.gangId !== gang.id) return { ok: false, error: !gang ? "ไม่พบเซสชัน" : "ข้อมูลไม่ถูกต้อง" };
+  if (!gang || !member || member.gangId !== gang.id) return { ok: false, error: !gang ? "ไม่พบเซสชั่น" : "ข้อมูลไม่ถูกต้อง" };
   try {
     await updateMemberInDB(id, {
       name: formData.get("name") as string,
       role: formData.get("role") as Role,
+      supportPosition: formData.get("role") === "SUPPORT" && formData.get("supportPosition") ? parseInt(formData.get("supportPosition") as string) : undefined,
       avatar: sanitizeUrl(formData.get("avatar") as string),
       facebookUrl: sanitizeUrl(formData.get("facebookUrl") as string),
     });

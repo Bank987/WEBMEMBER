@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Test and Mock Templates (Local Only)
+src/app/[domain]/test/
+src/app/[domain]/members/MembersTemplate*.tsx

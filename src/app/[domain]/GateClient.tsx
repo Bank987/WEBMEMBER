@@ -26,6 +26,8 @@ type Settings = {
   facebookUrl?: string;
   entryAnimation?: string;
   buttonShape?: string;
+  partnersEnabled?: boolean;
+  partners?: { name: string; url: string }[];
 };
 
 const getAnimationProps = (type?: string, index: number = 0): any => {
@@ -149,23 +151,55 @@ export default function GateClient({ settings }: { settings: Settings }) {
           transition={{ duration: 0.8, delay: 1.8, ease: "easeOut" }}
           className="flex flex-col items-center justify-center gap-[18px] mt-[24px] w-full"
         >
-          <div className={
-            settings.buttonShape === 'rectangle' ? "w-[240px] h-[64px] sm:w-[320px] sm:h-[72px]" :
-            settings.buttonShape === 'parallelogram' ? "w-[240px] h-[64px] sm:w-[320px] sm:h-[72px]" :
-            "w-[200px] h-[200px] sm:w-[240px] sm:h-[240px]"
-          }>
-            <NeonTypingButton 
-              label={settings.buttonText} 
-              loadingText={`ACCESSING_${settings.buttonText}...`} 
-              href="/members" 
-              className="block w-full h-full"
-              textClassName="text-[16px] text-center"
-              imageSrc={settings.buttonImage || undefined}
-              shape={settings.buttonShape}
-            />
-          </div>
+            <div className={
+              settings.buttonShape === 'rectangle' ? "w-[240px] h-[64px] sm:w-[320px] sm:h-[72px]" :
+              settings.buttonShape === 'parallelogram' ? "w-[240px] h-[64px] sm:w-[320px] sm:h-[72px]" :
+              settings.buttonShape === 'trapezoid' ? "w-[280px] h-[64px] sm:w-[340px] sm:h-[72px]" :
+              "w-[200px] h-[200px] sm:w-[240px] sm:h-[240px]"
+            }>
+              <NeonTypingButton 
+                label={settings.buttonText} 
+                loadingText={`ACCESSING_${settings.buttonText}...`} 
+                href="/members" 
+                className="block w-full h-full"
+                textClassName="text-[16px] text-center"
+                imageSrc={settings.buttonImage || undefined}
+                shape={settings.buttonShape}
+              />
+            </div>
 
-          {(settings.discordUrl || settings.facebookUrl) && (
+            {settings.partnersEnabled && settings.partners && settings.partners.length > 0 && (
+              <>
+                <div className="flex items-center justify-center w-full max-w-[400px] mt-[32px] opacity-60">
+                  <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent to-white/20"></div>
+                  <span className="px-[12px] text-[12px] font-[800] tracking-[0.3em] text-white/50 uppercase">
+                    Partner
+                  </span>
+                  <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent to-white/20"></div>
+                </div>
+
+                <div className="flex flex-row justify-center gap-[16px] mt-[16px] w-full max-w-[600px]">
+                  {settings.partners.map((partner, idx) => (
+                    <a href={partner.url} key={idx} className="w-full max-w-[180px] group">
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="w-full py-[28px] flex flex-col items-center justify-center rounded-[20px] bg-[#0a0a0a]/50 border border-white/5 hover:border-white/10 hover:bg-[#1a1a1a]/60 transition-all duration-300 backdrop-blur-md group-hover:shadow-[0_0_15px_rgba(255,255,255,0.05)]"
+                      >
+                        <span className="text-[16px] font-[900] text-[#a0a0a0] group-hover:text-white uppercase tracking-wide leading-none mb-[8px] transition-colors line-clamp-1">
+                          {partner.name}
+                        </span>
+                        <span className="text-[11px] font-[800] text-[#666666] group-hover:text-[#888888] uppercase tracking-[0.2em] leading-none transition-colors">
+                          Partner
+                        </span>
+                      </motion.div>
+                    </a>
+                  ))}
+                </div>
+              </>
+            )}
+
+            {(settings.discordUrl || settings.facebookUrl) && (
             <div className="flex items-center justify-center gap-[18px] mt-[18px]">
               {settings.discordUrl && (
                 <a href={settings.discordUrl} target="_blank" rel="noopener noreferrer" className="p-[12px] rounded-full border border-white/10 hover:border-[#5865F2] hover:bg-[#5865F2] text-white/50 hover:text-white transition-all z-20 group">

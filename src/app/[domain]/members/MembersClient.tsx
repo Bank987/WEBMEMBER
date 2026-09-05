@@ -27,8 +27,9 @@ export default function MembersClient({
   );
 
   const founders = filteredMembers.filter(m => m.role === "FOUNDER");
+  const supportsLevel2 = filteredMembers.filter(m => m.role === "SUPPORT" && m.supportPosition === 2);
   const leaders = filteredMembers.filter(m => m.role === "LEADER");
-
+  const supportsLevel3 = filteredMembers.filter(m => m.role === "SUPPORT" && m.supportPosition !== 2); // Default to 3
   const members = filteredMembers.filter(m => m.role === "MEMBER");
 
   return (
@@ -50,93 +51,127 @@ export default function MembersClient({
         }}
       />
 
-      <div className="absolute inset-0 z-10 overflow-y-auto overflow-x-hidden">
-        <motion.main 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-        className="max-w-6xl mx-auto px-[36px] py-[45px] pb-[72px] relative z-10"
+      <div className="absolute inset-0 z-[2] overflow-y-auto overflow-x-hidden custom-scrollbar">
+      <motion.main 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1 }}
+      className="max-w-6xl mx-auto px-[36px] py-[45px] pb-[72px] relative z-10"
+    >
+      {/* Header Section */}
+      <motion.div 
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+        className="flex flex-col items-center justify-center mb-[45px] text-center mt-[18px]"
       >
-        {/* Header Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-          className="flex flex-col items-center justify-center mb-[45px] text-center mt-[18px]"
-        >
-          <h1 className="text-[45px] font-[900] tracking-[-1.125px] uppercase text-text-inverse mb-[9px]">
-            {pageTitle}
-          </h1>
-          <div className="flex items-center gap-[18px] text-text-primary/40 text-[10.5px] tracking-[3.15px] uppercase">
-            <span className="w-[45px] h-[1px] bg-text-primary/20"></span>
-            {pageSubtitle}
-            <span className="w-[45px] h-[1px] bg-text-primary/20"></span>
-          </div>
-        </motion.div>
+        <h1 className="text-[45px] font-[900] tracking-[-1.125px] uppercase text-text-inverse mb-[9px]">
+          {pageTitle}
+        </h1>
+        <div className="flex items-center gap-[18px] text-text-primary/40 text-[10.5px] tracking-[3.15px] uppercase">
+          <span className="w-[45px] h-[1px] bg-text-primary/20"></span>
+          {pageSubtitle}
+          <span className="w-[45px] h-[1px] bg-text-primary/20"></span>
+        </div>
+      </motion.div>
 
-        {/* Search Bar - Centered with Animation */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-          className="flex justify-center mb-[54px] mt-[18px]"
-        >
-          <div className="relative group w-full max-w-[300px] focus-within:max-w-[500px] transition-all duration-500 ease-out">
-            {/* Background Glow */}
-            <div className="absolute inset-0 bg-text-secondary/0 group-focus-within:bg-text-secondary/20 rounded-[6px] blur-md transition-all duration-500"></div>
-            
-            <div className="absolute inset-y-0 left-0 pl-[15px] flex items-center pointer-events-none z-10">
-              <Search className="w-[14px] h-[14px] text-text-primary/40 group-focus-within:text-text-secondary group-focus-within:rotate-90 transition-all duration-500" />
-            </div>
-            <input 
-              type="text" 
-              placeholder="SEARCH MEMBERS..." 
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="relative z-10 w-full bg-surface-base border border-text-primary/10 group-focus-within:border-text-secondary/50 group-focus-within:bg-[#050505] rounded-[6px] py-[12px] pl-[42px] pr-[18px] text-[10.5px] text-text-inverse placeholder-text-primary/40 focus:outline-none transition-all duration-500 uppercase tracking-[1.8px] shadow-lg"
-            />
-            
-            {/* Scanning line animation */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px] w-0 bg-text-secondary group-focus-within:w-full transition-all duration-700 ease-out z-20"></div>
-          </div>
-        </motion.div>
-
-        {/* Directory Sections */}
-        <div className="space-y-[54px] max-w-5xl mx-auto">
-          {founders.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
-            >
-              <MemberSection 
-                title="FOUNDERS" 
-                members={founders} 
-                role="FOUNDER" 
-                gridCols="grid-cols-1 md:grid-cols-2" 
-                colorClass="text-[#facc15]" // Yellow
-                borderClass="border-[#facc15]/20 bg-gradient-to-r from-surface-base to-[#facc15]/5" 
-                isCentered={true}
-              />
-            </motion.div>
-          )}
+      {/* Search Bar - Centered with Animation */}
+      <motion.div 
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+        className="flex justify-center mb-[54px] mt-[18px]"
+      >
+        <div className="relative group w-full max-w-[300px] focus-within:max-w-[500px] transition-all duration-500 ease-out">
+          {/* Background Glow */}
+          <div className="absolute inset-0 bg-text-secondary/0 group-focus-within:bg-text-secondary/20 rounded-[6px] blur-md transition-all duration-500"></div>
           
-          {leaders.length > 0 && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
-            >
-              <MemberSection 
-                title="LEADERS" 
-                members={leaders} 
-                role="LEADER" 
-                gridCols="grid-cols-1 md:grid-cols-2 lg:grid-cols-3" 
-                colorClass="text-[#ef4444]" // Red
-                borderClass="border-[#ef4444]/20 bg-gradient-to-r from-surface-base to-[#ef4444]/5" 
-              />
-            </motion.div>
-          )}
+          <div className="absolute inset-y-0 left-0 pl-[15px] flex items-center pointer-events-none z-10">
+            <Search className="w-[14px] h-[14px] text-text-primary/40 group-focus-within:text-text-secondary group-focus-within:rotate-90 transition-all duration-500" />
+          </div>
+          <input 
+            type="text" 
+            placeholder="SEARCH MEMBERS..." 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="relative z-10 w-full bg-surface-base border border-text-primary/10 group-focus-within:border-text-secondary/50 group-focus-within:bg-[#050505] rounded-[6px] py-[12px] pl-[42px] pr-[18px] text-[10.5px] text-text-inverse placeholder-text-primary/40 focus:outline-none transition-all duration-500 uppercase tracking-[1.8px] shadow-lg"
+          />
+          
+          {/* Scanning line animation */}
+          <div className="absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px] w-0 bg-text-secondary group-focus-within:w-full transition-all duration-700 ease-out z-20"></div>
+        </div>
+      </motion.div>
+
+      {/* Directory Sections */}
+      <div className="space-y-[54px] max-w-5xl mx-auto">
+        {founders.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+          >
+            <MemberSection 
+              title="FOUNDERS" 
+              members={founders} 
+              role="FOUNDER" 
+              gridCols="grid-cols-1 md:grid-cols-2" 
+              colorClass="text-[#facc15]" // Yellow
+              borderClass="border-[#facc15]/20 bg-gradient-to-r from-surface-base to-[#facc15]/5" 
+              isCentered={true}
+            />
+          </motion.div>
+        )}
+        
+        {supportsLevel2.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.55, ease: "easeOut" }}
+          >
+            <MemberSection 
+              title="SUPPORTS" 
+              members={supportsLevel2} 
+              role="SUPPORT" 
+              gridCols="grid-cols-1 md:grid-cols-2 lg:grid-cols-3" 
+              colorClass="text-[#ffb3d9]" // Light Pink
+              borderClass="border-[#ffb3d9]/20 bg-gradient-to-r from-surface-base to-[#ffb3d9]/5" 
+            />
+          </motion.div>
+        )}
+
+        {leaders.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6, ease: "easeOut" }}
+          >
+            <MemberSection 
+              title="LEADERS" 
+              members={leaders} 
+              role="LEADER" 
+              gridCols="grid-cols-1 md:grid-cols-2 lg:grid-cols-3" 
+              colorClass="text-[#ef4444]" // Red
+              borderClass="border-[#ef4444]/20 bg-gradient-to-r from-surface-base to-[#ef4444]/5" 
+            />
+          </motion.div>
+        )}
+
+        {supportsLevel3.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.65, ease: "easeOut" }}
+          >
+            <MemberSection 
+              title="SUPPORTS" 
+              members={supportsLevel3} 
+              role="SUPPORT" 
+              gridCols="grid-cols-1 md:grid-cols-2 lg:grid-cols-3" 
+              colorClass="text-[#ffb3d9]" // Light Pink
+              borderClass="border-[#ffb3d9]/20 bg-gradient-to-r from-surface-base to-[#ffb3d9]/5" 
+            />
+          </motion.div>
+        )}
 
 
           {members.length > 0 && (
@@ -193,6 +228,7 @@ function MemberSection({
   const getIcon = () => {
     if (role === "FOUNDER") return <Crown className="w-[10px] h-[10px]" />;
     if (role === "LEADER") return <Shield className="w-[10px] h-[10px]" />;
+    if (role === "SUPPORT") return <Heart className="w-[10px] h-[10px]" />;
 
     return <User className="w-[10px] h-[10px]" />;
   };

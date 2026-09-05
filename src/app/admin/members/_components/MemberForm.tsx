@@ -4,6 +4,7 @@ import { Member } from "@/lib/db";
 import { createMember, updateMember } from "@/actions/members";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { AlertCircle, UploadCloud, Link as LinkIcon, UserCircle, Star } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -13,6 +14,7 @@ export default function MemberForm({ member }: { member?: Member }) {
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState(member?.avatar || "");
   const [error, setError] = useState("");
+  const [role, setRole] = useState(member?.role || "MEMBER");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -74,23 +76,52 @@ export default function MemberForm({ member }: { member?: Member }) {
           <div>
             <label className="flex items-center gap-[6px] text-[10px] font-[900] uppercase tracking-[3px] text-[#888888] mb-[9px]">
               <Star className="w-[12px] h-[12px]" />
-              ระดับสมาชิก
+              ตำแหน่งสมาชิก
             </label>
             <div className="relative">
               <select 
                 name="role" 
-                defaultValue={member?.role || "MEMBER"} 
+                value={role}
+                onChange={(e) => setRole(e.target.value)}
                 className="w-full bg-black/40 border border-white/10 rounded-[12px] py-[15px] px-[24px] text-[14px] font-[900] text-white focus:outline-none focus:border-[#0084ff] focus:bg-[#0084ff]/5 transition-all duration-300 appearance-none shadow-inner"
               >
-                <option value="FOUNDER">ผู้ก่อตั้ง (เทียร์ 4)</option>
-                <option value="LEADER">ผู้นำ (เทียร์ 3)</option>
-                <option value="MEMBER">สมาชิก (เทียร์ 1)</option>
+                <option value="FOUNDER" className="bg-[#111111] text-white">ผู้ก่อตั้ง</option>
+                <option value="LEADER" className="bg-[#111111] text-white">ผู้นำ</option>
+                <option value="SUPPORT" className="bg-[#111111] text-white">ซัพพอร์ต</option>
+                <option value="MEMBER" className="bg-[#111111] text-white">สมาชิก</option>
               </select>
               <div className="absolute right-[24px] top-1/2 -translate-y-1/2 pointer-events-none">
                 <div className="w-[8px] h-[8px] border-b-2 border-r-2 border-[#888888] rotate-45" />
               </div>
             </div>
           </div>
+
+          {role === "SUPPORT" && (
+            <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="mt-[27px]">
+              <label className="flex items-center gap-[6px] text-[10px] font-[900] uppercase tracking-[3px] text-[#ff88cc] mb-[9px]">
+                <Star className="w-[12px] h-[12px]" />
+                อันดับความสำคัญของ SUPPORT
+              </label>
+              <p className="text-[11px] text-[#888888] mb-[9px] leading-relaxed">
+                เลือกลำดับที่จะแสดงผลในหน้าสมาชิก: <br/>
+                - <strong>ระดับ 2:</strong> จะแสดงผลต่อจากผู้ก่อตั้ง (FOUNDER) <br/>
+                - <strong>ระดับ 3:</strong> จะแสดงผลต่อจากผู้นำ (LEADER)
+              </p>
+              <div className="relative">
+                <select 
+                  name="supportPosition" 
+                  defaultValue={member?.supportPosition || 3} 
+                  className="w-full bg-[#ff88cc]/10 border border-[#ff88cc]/30 rounded-[12px] py-[15px] px-[24px] text-[14px] font-[900] text-[#ff88cc] focus:outline-none focus:border-[#ff88cc] transition-all duration-300 appearance-none shadow-inner"
+                >
+                  <option value={2} className="bg-[#111111] text-white">ระดับ 2 (อยู่ล่าง FOUNDER)</option>
+                  <option value={3} className="bg-[#111111] text-white">ระดับ 3 (อยู่ล่าง LEADER)</option>
+                </select>
+                <div className="absolute right-[24px] top-1/2 -translate-y-1/2 pointer-events-none">
+                  <div className="w-[8px] h-[8px] border-b-2 border-r-2 border-[#ff88cc] rotate-45" />
+                </div>
+              </div>
+            </motion.div>
+          )}
 
         </div>
 
