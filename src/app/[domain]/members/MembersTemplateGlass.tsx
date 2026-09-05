@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Crown, User, Search, Link as LinkIcon, Instagram } from "lucide-react";
+import { Shield, Crown, User, Search, Link as LinkIcon } from "lucide-react";
 import { useState } from "react";
 import { Member } from "@/lib/db";
 import { BackgroundMedia } from "@/components/BackgroundMedia";

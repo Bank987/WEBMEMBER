@@ -60,7 +60,7 @@ export interface SuperAdminGang extends Gang {
   createdAt: string;
 }
 
-export type ActivityAction = "member_add" | "member_edit" | "member_delete" | "settings_update" | "announcement_update";
+export type ActivityAction = "member_add" | "member_edit" | "member_delete" | "settings_update" | "announcement_update" | "partners_update";
 
 export interface ActivityLog {
   id: string;

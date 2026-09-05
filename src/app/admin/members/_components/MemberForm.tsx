@@ -82,7 +82,7 @@ export default function MemberForm({ member }: { member?: Member }) {
               <select 
                 name="role" 
                 value={role}
-                onChange={(e) => setRole(e.target.value)}
+                onChange={(e) => setRole(e.target.value as any)}
                 className="w-full bg-black/40 border border-white/10 rounded-[12px] py-[15px] px-[24px] text-[14px] font-[900] text-white focus:outline-none focus:border-[#0084ff] focus:bg-[#0084ff]/5 transition-all duration-300 appearance-none shadow-inner"
               >
                 <option value="FOUNDER" className="bg-[#111111] text-white">ผู้ก่อตั้ง</option>
