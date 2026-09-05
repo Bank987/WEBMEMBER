@@ -2,6 +2,7 @@
 
 import { MiniPlayer } from "@/components/music-ui/MiniPlayer";
 import { PremiumPlayer } from "@/components/music-ui/PremiumPlayer";
+import { VinylPlayer } from "@/components/music-ui/VinylPlayer";
 import { Track } from "@/types/music";
 import { usePathname } from "next/navigation";
 
@@ -30,6 +31,8 @@ export function MusicWrapper({ youtubeUrl, ytData, playerStyle = "classic" }: Mu
     <div className={`fixed bottom-[36px] right-[36px] z-50 ${isGatePage ? "opacity-0 pointer-events-none" : ""}`}>
       {playerStyle === "premium" ? (
         <PremiumPlayer track={currentTrack} autoPlay={true} />
+      ) : playerStyle === "vinyl" ? (
+        <VinylPlayer track={currentTrack} initialExpanded={true} />
       ) : (
         <MiniPlayer track={currentTrack} autoPlay={true} />
       )}

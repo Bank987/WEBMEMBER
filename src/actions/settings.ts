@@ -32,8 +32,13 @@ export async function saveSettings(formData: FormData) {
     buttonShape: formData.get("buttonShape") as string || "square",
   } as any;
 
-  if (gang.isVip && formData.has("musicPlayerStyle")) {
-    data.musicPlayerStyle = formData.get("musicPlayerStyle") as string;
+  if (formData.has("musicPlayerStyle")) {
+    const style = formData.get("musicPlayerStyle") as string;
+    if (style === "premium" && !gang.isVip) {
+      // Ignore premium selection for non-vip
+    } else {
+      data.musicPlayerStyle = style;
+    }
   }
 
   await updateGang(gang.id, data);

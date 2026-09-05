@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import { unstable_cache } from 'next/cache';
 
-export type Role = "FOUNDER" | "LEADER" | "MEMBER";
+export type Role = "FOUNDER" | "LEADER" | "SUPPORT" | "MEMBER";
 
 export interface Gang {
   id: string;
@@ -75,7 +75,7 @@ const gangSchema = new mongoose.Schema({
   customDomain: { type: String, unique: true, sparse: true },
   faviconUrl: { type: String, default: "" },
   youtubeMusicUrl: { type: String, default: "" },
-  musicPlayerStyle: { type: String, default: "classic", enum: ["classic", "premium"] },
+  musicPlayerStyle: { type: String, default: "classic", enum: ["classic", "premium", "vinyl"] },
   announcementEnabled: { type: Boolean, default: false },
   announcementMessage: { type: String, default: "" },
   buttonText: { type: String, default: "ENTER" },
@@ -108,7 +108,7 @@ const gangSchema = new mongoose.Schema({
 const memberSchema = new mongoose.Schema({
   gangId: { type: mongoose.Schema.Types.ObjectId, ref: 'Gang', required: true, index: true },
   name: { type: String, required: true },
-  role: { type: String, required: true, enum: ["FOUNDER", "LEADER", "MEMBER"] },
+  role: { type: String, required: true, enum: ["FOUNDER", "LEADER", "SUPPORT", "MEMBER"] },
   avatar: { type: String, required: true },
   facebookUrl: { type: String }
 }, { timestamps: true });
@@ -118,7 +118,7 @@ if (!GangModel.schema.path("buttonShape")) {
   GangModel.schema.add({ buttonShape: { type: String, default: "square" } });
 }
 if (!GangModel.schema.path("musicPlayerStyle")) {
-  GangModel.schema.add({ musicPlayerStyle: { type: String, default: "classic", enum: ["classic", "premium"] } });
+  GangModel.schema.add({ musicPlayerStyle: { type: String, default: "classic", enum: ["classic", "premium", "vinyl"] } });
 }
 if (!GangModel.schema.path("theme")) {
   GangModel.schema.add({ theme: { type: String, default: "default" } });

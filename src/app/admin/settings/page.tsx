@@ -56,29 +56,57 @@ export default async function SettingsPage() {
                 />
               </div>
 
-              <div className="flex items-center justify-between gap-[24px] pt-4 border-t border-white/5">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-[3px]">
-                    <p className="text-[12px] font-[700] text-text-inverse">รูปแบบ Miniplay</p>
-                    {settings.isVip ? (
-                      <span className="text-[#facc15] text-[9px] font-bold uppercase border border-[#facc15]/30 bg-[#facc15]/10 px-2 py-0.5 rounded-full flex items-center gap-1"><Crown className="w-3 h-3" /> VIP</span>
-                    ) : (
-                      <span className="text-[#888888] text-[9px] font-bold uppercase border border-white/10 bg-white/5 px-2 py-0.5 rounded-full flex items-center gap-1"><Crown className="w-3 h-3" /> VIP Only</span>
-                    )}
+                <div className="flex flex-col gap-[20px] pt-4 border-t border-white/5">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-[3px]">
+                      <p className="text-[12px] font-[700] text-text-inverse">รูปแบบเครื่องเล่นเพลง (Miniplay)</p>
+                    </div>
+                    <p className="text-[10.5px] text-[#888888]">เลือกรูปแบบหน้าต่างเครื่องเล่นเพลงที่จะแสดงบนหน้าเว็บของแก๊งคุณ</p>
                   </div>
-                  <p className="text-[10.5px] text-[#888888]">เลือกสไตล์ของกล่องเล่นเพลงที่มุมขวาล่าง</p>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {/* Classic */}
+                    <label className="relative block cursor-pointer group">
+                      <input type="radio" name="musicPlayerStyle" value="classic" defaultChecked={settings.musicPlayerStyle === "classic"} className="peer sr-only" />
+                      <div className="peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10 rounded-[12px] border border-white/10 p-3 transition-all hover:border-white/30 h-full flex flex-col items-center bg-white/5">
+                        <div className="w-full h-[100px] bg-black/40 rounded-[8px] mb-3 overflow-hidden flex items-center justify-center border border-white/5 p-2">
+                          <img src="/images/players/classic.png" alt="Classic" className="w-full h-full object-contain" />
+                        </div>
+                        <p className="text-center text-[12px] font-[600] text-white">Classic (แบบเดิม)</p>
+                      </div>
+                    </label>
+
+                    {/* Vinyl */}
+                    <label className="relative block cursor-pointer group">
+                      <input type="radio" name="musicPlayerStyle" value="vinyl" defaultChecked={settings.musicPlayerStyle === "vinyl"} className="peer sr-only" />
+                      <div className="peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10 rounded-[12px] border border-white/10 p-3 transition-all hover:border-white/30 h-full flex flex-col items-center bg-white/5">
+                        <div className="w-full h-[100px] bg-black/40 rounded-[8px] mb-3 overflow-hidden flex items-center justify-center border border-white/5 p-2">
+                          <img src="/images/players/vinyl.png" alt="Vinyl" className="w-full h-full object-contain drop-shadow-lg" />
+                        </div>
+                        <p className="text-center text-[12px] font-[600] text-white">Vinyl (ใหม่!)</p>
+                      </div>
+                    </label>
+
+                    {/* Premium */}
+                    <label className={`relative block group ${settings.isVip ? "cursor-pointer" : "cursor-not-allowed"}`}>
+                      <input type="radio" name="musicPlayerStyle" value="premium" defaultChecked={settings.musicPlayerStyle === "premium"} disabled={!settings.isVip} className="peer sr-only" />
+                      <div className={`peer-checked:border-[#facc15] peer-checked:bg-[#facc15]/10 rounded-[12px] border border-white/10 p-3 transition-all hover:border-white/30 h-full flex flex-col items-center relative overflow-hidden bg-white/5`}>
+                        {!settings.isVip && (
+                          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-black/70 backdrop-blur-[2px]">
+                            <Crown className="w-8 h-8 text-[#facc15] mb-2 drop-shadow-md" />
+                            <span className="text-[#facc15] font-bold text-[10px] uppercase border border-[#facc15]/30 bg-[#facc15]/10 px-2 py-0.5 rounded-full">VIP Only</span>
+                          </div>
+                        )}
+                        <div className={`w-full h-[100px] bg-black/40 rounded-[8px] mb-3 overflow-hidden flex items-center justify-center border border-white/5 p-2 ${!settings.isVip ? "opacity-30 grayscale" : ""}`}>
+                          <img src="/images/players/premium.png" alt="Premium" className="w-full h-full object-contain drop-shadow-md" />
+                        </div>
+                        <p className={`text-center text-[12px] font-[600] flex items-center justify-center gap-1.5 ${settings.isVip ? "text-[#facc15]" : "text-white/50"}`}>
+                          <Crown className="w-3.5 h-3.5"/> Premium
+                        </p>
+                      </div>
+                    </label>
+                  </div>
                 </div>
-                <select
-                  name="musicPlayerStyle"
-                  defaultValue={settings.musicPlayerStyle || "classic"}
-                  disabled={!settings.isVip}
-                  className="bg-black/50 border border-white/10 rounded-[12px] px-[18px] py-[12px] text-[12px] text-white focus:border-[#0084ff] outline-none w-[400px] max-w-full disabled:opacity-50 appearance-none"
-                >
-                  <option value="classic">Classic Miniplay (แบบเดิม)</option>
-                  {settings.isVip && <option value="premium">Premium Miniplay (แบบใหม่)</option>}
-                  {!settings.isVip && <option value="premium" disabled>Premium Miniplay (เฉพาะ VIP)</option>}
-                </select>
-              </div>
             </div>
           </div>
             

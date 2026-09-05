@@ -82,9 +82,10 @@ export default function MemberForm({ member }: { member?: Member }) {
                 defaultValue={member?.role || "MEMBER"} 
                 className="w-full bg-black/40 border border-white/10 rounded-[12px] py-[15px] px-[24px] text-[14px] font-[900] text-white focus:outline-none focus:border-[#0084ff] focus:bg-[#0084ff]/5 transition-all duration-300 appearance-none shadow-inner"
               >
-                <option value="FOUNDER">ผู้ก่อตั้ง (ระดับ 3)</option>
-                <option value="LEADER">หัวหน้า (ระดับ 2)</option>
-                <option value="MEMBER">สมาชิก (ระดับ 1)</option>
+                <option value="FOUNDER">ผู้ก่อตั้ง (เทียร์ 4)</option>
+                <option value="LEADER">ผู้นำ (เทียร์ 3)</option>
+                <option value="SUPPORT">ซัพพอร์ต (เทียร์ 2)</option>
+                <option value="MEMBER">สมาชิก (เทียร์ 1)</option>
               </select>
               <div className="absolute right-[24px] top-1/2 -translate-y-1/2 pointer-events-none">
                 <div className="w-[8px] h-[8px] border-b-2 border-r-2 border-[#888888] rotate-45" />
