@@ -9,9 +9,10 @@ import { motion, AnimatePresence } from "framer-motion";
 interface VinylPlayerProps {
   track: Track;
   initialExpanded?: boolean;
+  defaultVolume?: number;
 }
 
-export function VinylPlayer({ track, initialExpanded = false }: VinylPlayerProps) {
+export function VinylPlayer({ track, initialExpanded = false, defaultVolume = 100 }: VinylPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isExpanded, setIsExpanded] = useState(initialExpanded);
   const [playedSeconds, setPlayedSeconds] = useState(0);
@@ -36,7 +37,7 @@ export function VinylPlayer({ track, initialExpanded = false }: VinylPlayerProps
       if (playerRef.current) {
         try {
           playerRef.current.unMute();
-          playerRef.current.setVolume(50);
+          playerRef.current.setVolume(defaultVolume);
           playerRef.current.playVideo();
           setIsPlaying(true);
         } catch(e) {}
@@ -45,7 +46,7 @@ export function VinylPlayer({ track, initialExpanded = false }: VinylPlayerProps
           if (playerRef.current) {
             try {
               playerRef.current.unMute();
-              playerRef.current.setVolume(50);
+              playerRef.current.setVolume(defaultVolume);
               playerRef.current.playVideo();
               setIsPlaying(true);
               clearInterval(retryInt);

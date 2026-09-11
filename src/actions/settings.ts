@@ -12,6 +12,7 @@ export async function saveSettings(formData: FormData) {
   const data = {
     faviconUrl: sanitizeUrl(formData.get("faviconUrl") as string),
     youtubeMusicUrl: sanitizeUrl(formData.get("youtubeMusicUrl") as string),
+    defaultVolume: Number(formData.get("defaultVolume")) || 100,
     buttonText: formData.get("buttonText") as string,
     buttonImage: sanitizeUrl(formData.get("buttonImage") as string),
     pageTitle: formData.get("pageTitle") as string,

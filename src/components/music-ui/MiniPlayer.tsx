@@ -12,12 +12,12 @@ interface MiniPlayerProps {
   onTogglePlay?: (isPlaying: boolean) => void;
   onEnded?: () => void;
   autoPlay?: boolean;
-  className?: string;
+  className?: string; defaultVolume?: number;
 }
 
-export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, autoPlay = false, className = "" }: MiniPlayerProps) {
+export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, autoPlay = false, className = "", defaultVolume = 100 }: MiniPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [volume, setVolume] = useState(0.5);
+  const [volume, setVolume] = useState(defaultVolume / 100);
   const [isMuted, setIsMuted] = useState(false);
   const [playedSeconds, setPlayedSeconds] = useState(0);
   const [duration, setDuration] = useState(track.duration || 0);
@@ -118,7 +118,7 @@ export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, a
       if (playerRef.current) {
         try {
           playerRef.current.unMute();
-          playerRef.current.setVolume(50);
+          playerRef.current.setVolume(defaultVolume);
           playerRef.current.playVideo();
           setIsPlaying(true);
           setIsMuted(false);
@@ -128,7 +128,7 @@ export function MiniPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, a
           if (playerRef.current) {
             try {
               playerRef.current.unMute();
-              playerRef.current.setVolume(50);
+              playerRef.current.setVolume(defaultVolume);
               playerRef.current.playVideo();
               setIsPlaying(true);
               setIsMuted(false);

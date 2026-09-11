@@ -13,9 +13,10 @@ interface PremiumPlayerProps {
   onEnded?: () => void;
   autoPlay?: boolean;
   className?: string;
+  defaultVolume?: number;
 }
 
-export function PremiumPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, autoPlay = false, className = "" }: PremiumPlayerProps) {
+export function PremiumPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded, autoPlay = false, className = "", defaultVolume = 100 }: PremiumPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
@@ -48,7 +49,7 @@ export function PremiumPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded
   const handleReady = (event: { target: YouTubePlayer }) => {
     playerRef.current = event.target;
     setDuration(event.target.getDuration());
-    event.target.setVolume(50);
+    event.target.setVolume(defaultVolume);
   };
 
   const handleStateChange = (event: { data: number }) => {
@@ -81,7 +82,7 @@ export function PremiumPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded
       if (playerRef.current) {
         try {
           playerRef.current.unMute();
-          playerRef.current.setVolume(50);
+          playerRef.current.setVolume(defaultVolume);
           playerRef.current.playVideo();
           setIsPlaying(true);
         } catch(e) {}
@@ -90,7 +91,7 @@ export function PremiumPlayer({ track, onNext, onPrevious, onTogglePlay, onEnded
           if (playerRef.current) {
             try {
               playerRef.current.unMute();
-              playerRef.current.setVolume(50);
+              playerRef.current.setVolume(defaultVolume);
               playerRef.current.playVideo();
               setIsPlaying(true);
               clearInterval(retryInt);

@@ -10,9 +10,10 @@ interface MusicWrapperProps {
   youtubeUrl: string;
   ytData: { title: string; artist: string; thumbnail: string } | null;
   playerStyle?: string;
+  defaultVolume?: number;
 }
 
-export function MusicWrapper({ youtubeUrl, ytData, playerStyle = "classic" }: MusicWrapperProps) {
+export function MusicWrapper({ youtubeUrl, ytData, playerStyle = "classic", defaultVolume }: MusicWrapperProps) {
   const pathname = usePathname();
   const isGatePage = !pathname || pathname === '/';
 
@@ -30,11 +31,11 @@ export function MusicWrapper({ youtubeUrl, ytData, playerStyle = "classic" }: Mu
   return (
     <div className={`fixed bottom-[36px] right-[36px] z-50 ${isGatePage ? "opacity-0 pointer-events-none" : ""}`}>
       {playerStyle === "premium" ? (
-        <PremiumPlayer track={currentTrack} autoPlay={true} />
+        <PremiumPlayer track={currentTrack} autoPlay={true} defaultVolume={defaultVolume} />
       ) : playerStyle === "vinyl" ? (
-        <VinylPlayer track={currentTrack} initialExpanded={true} />
+        <VinylPlayer track={currentTrack} initialExpanded={true} defaultVolume={defaultVolume} />
       ) : (
-        <MiniPlayer track={currentTrack} autoPlay={true} />
+        <MiniPlayer track={currentTrack} autoPlay={true} defaultVolume={defaultVolume} />
       )}
     </div>
   );
