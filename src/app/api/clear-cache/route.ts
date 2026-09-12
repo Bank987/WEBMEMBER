@@ -1,11 +1,9 @@
 import { revalidatePath } from "next/cache";
+import { isSuperAdminAuthenticated } from "@/lib/auth";
 
-export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const token = url.searchParams.get("token");
-
-  // รหัสผ่านง่ายๆ เพื่อป้องกันไม่ให้คนอื่นสุ่มกด
-  if (token !== "reset123") {
+export async function GET() {
+  const isAuthenticated = await isSuperAdminAuthenticated();
+  if (!isAuthenticated) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -14,6 +12,6 @@ export async function GET(request: Request) {
   
   return Response.json({ 
     success: true, 
-    message: "ล้างความจำ (Cache) ของระบบทั้งหมดเรียบร้อยแล้ว! เว็บผีหายไปแล้วครับ" 
+    message: "ล้างความจำ (Cache) ของระบบทั้งหมดเรียบร้อยแล้ว!" 
   });
 }

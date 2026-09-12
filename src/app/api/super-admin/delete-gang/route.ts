@@ -1,7 +1,9 @@
 import { isSuperAdminAuthenticated } from "@/lib/auth";
 import { deleteGangInDB } from "@/lib/db";
+import { assertTrustedMutationOrigin } from "@/lib/security";
 
 export async function POST(request: Request) {
+  try { await assertTrustedMutationOrigin(); } catch { return Response.json({ error: "คำขอไม่ปลอดภัย" }, { status: 403 }); }
   const isAuthenticated = await isSuperAdminAuthenticated();
   if (!isAuthenticated) return Response.json({ error: "Unauthorized" }, { status: 401 });
 

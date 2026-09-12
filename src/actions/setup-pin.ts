@@ -1,10 +1,12 @@
-﻿"use server";
+"use server";
 
 import { updateGang } from "@/lib/db";
 import { getAuthenticatedGang } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import { assertTrustedMutationOrigin } from "@/lib/security";
 
 export async function setupRecoveryPin(pin: string) {
+  await assertTrustedMutationOrigin();
   const gang = await getAuthenticatedGang();
   if (!gang) return { success: false, error: "Unauthorized" };
   

@@ -17,8 +17,6 @@ export interface Gang {
   buttonImage: string;
   pageTitle: string;
   pageSubtitle: string;
-  adminTokenHash?: string;
-  adminSessionHash?: string;
   theme?: string;
   backgroundImageUrl?: string;
   membersBackgroundImageUrl?: string;
@@ -34,7 +32,6 @@ export interface Gang {
   buttonShape?: string;
   gateLayout?: string;
   createdAt?: string;
-  creatorIp?: string;
   recoveryPin?: string;
   isVip?: boolean;
   renewedAt?: string;
@@ -46,6 +43,10 @@ export interface Gang {
   partnersEnabled?: boolean;
   partners?: { name: string; url: string }[];
 }
+
+// Internal types — never sent to client
+export type GangCreateData = Partial<Gang> & { adminTokenHash?: string; creatorIp?: string; recoveryPin?: string };
+export type GangWithAuth = Gang & { adminTokenHash: string; adminSessionHash?: string };
 
 export interface Member {
   id: string;
@@ -369,13 +370,17 @@ export const getGangBySubdomain = async (domain: string): Promise<Gang | null> =
   return fetchCached(domain);
 }
 
-export async function getGangBySubdomainWithTokenHash(domain: string) {
+export async function getGangBySubdomainWithTokenHash(domain: string): Promise<GangWithAuth | null> {
   await connectDB();
   const doc = await GangModel.findOne({ 
     $or: [{ subdomain: domain }, { customDomain: domain }] 
-  }).select("+adminTokenHash").lean();
+  }).select("+adminTokenHash +adminSessionHash").lean();
   if (!doc) return null;
-  return { ...mapGang(doc as GangDocument), adminTokenHash: doc.adminTokenHash as string };
+  return { 
+    ...mapGang(doc as GangDocument), 
+    adminTokenHash: doc.adminTokenHash as string,
+    adminSessionHash: doc.adminSessionHash as string | undefined
+  };
 }
 
 export async function getGangBySubdomainWithSession(domain: string) {
@@ -387,7 +392,7 @@ export async function getGangBySubdomainWithSession(domain: string) {
   return { ...mapGang(doc as GangDocument), adminTokenHash: doc.adminTokenHash as string, adminSessionHash: doc.adminSessionHash as string | undefined };
 }
 
-export async function createGang(data: Partial<Gang>): Promise<Gang> {
+export async function createGang(data: GangCreateData): Promise<Gang> {
   await connectDB();
   const doc = await GangModel.create(data);
   return mapGang(doc);
