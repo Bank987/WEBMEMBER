@@ -49,9 +49,9 @@ export function DeleteGangButton({ deleteAction, gangName }: { deleteAction: () 
                     การกระทำนี้ <span className="text-red-400 underline decoration-red-500/30">ไม่สามารถย้อนกลับได้</span> ข้อมูลและสมาชิกทั้งหมดจะหายไปถาวร
                   </p>
                   <div className="mt-8 flex gap-3">
-                    <button onClick={() => setShowConfirm(false)} disabled={isPending} className="flex-1 rounded-xl bg-white/5 py-3.5 text-[12px] font-[900] text-white transition hover:bg-white/10 disabled:opacity-50">ยกเลิก</button>
-                    <button onClick={confirmDelete} disabled={isPending} className="flex-1 rounded-xl bg-[#ef4444] py-3.5 text-[12px] font-[900] text-white transition hover:bg-[#ef4444]/90 flex items-center justify-center gap-2 disabled:opacity-50">
-                      {isPending && <LoaderCircle className="size-4 animate-spin" />} ยืนยันยุบแก๊ง
+                    <button type="button" onClick={() => setShowConfirm(false)} disabled={isPending} className="flex-1 rounded-xl bg-white/5 py-3.5 text-[12px] font-[900] text-white transition hover:bg-white/10 disabled:opacity-50">ยกเลิก</button>
+                    <button type="button" onClick={confirmDelete} disabled={isPending} className="flex-1 rounded-xl bg-[#ef4444] py-3.5 text-[12px] font-[900] text-white transition hover:bg-[#ef4444]/90 flex items-center justify-center gap-2 disabled:opacity-50">
+                      {isPending && <LoaderCircle className="size-4 animate-spin" />} ยืนยันการลบแก๊ง
                     </button>
                   </div>
                 </>
@@ -60,10 +60,10 @@ export function DeleteGangButton({ deleteAction, gangName }: { deleteAction: () 
                   <div className="grid size-14 place-items-center rounded-2xl bg-orange-500/15 text-orange-400">
                     <AlertTriangle className="size-7" />
                   </div>
-                  <h2 className="mt-6 text-[22px] font-[900] text-white">ไม่สามารถดำเนินการได้</h2>
+                  <h2 className="mt-6 text-[22px] font-[900] text-white">ไม่สามารถลบแก๊งได้</h2>
                   <p className="mt-2 text-[13px] leading-relaxed text-[#9caebe]">{errorMsg}</p>
                   <div className="mt-8">
-                    <button onClick={() => { setErrorMsg(""); setShowConfirm(false); }} className="w-full rounded-xl bg-white/10 py-3.5 text-[12px] font-[900] text-white transition hover:bg-white/20">รับทราบ และปิดหน้าต่าง</button>
+                    <button type="button" onClick={() => { setErrorMsg(""); setShowConfirm(false); }} className="w-full rounded-xl bg-white/10 py-3.5 text-[12px] font-[900] text-white transition hover:bg-white/20">รับทราบ และปิดหน้าต่างนี้</button>
                   </div>
                 </>
               )}

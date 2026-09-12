@@ -32,6 +32,7 @@ export interface Gang {
   facebookUrl?: string;
   entryAnimation?: string;
   buttonShape?: string;
+  gateLayout?: string;
   createdAt?: string;
   creatorIp?: string;
   recoveryPin?: string;
@@ -102,6 +103,7 @@ const gangSchema = new mongoose.Schema({
   facebookUrl: { type: String, default: "" },
   entryAnimation: { type: String, default: "fade" },
   buttonShape: { type: String, default: "square" },
+  gateLayout: { type: String, default: "split", enum: ["centered", "split"] },
   isVip: { type: Boolean, default: false },
   creatorIp: { type: String, default: "" },
   recoveryPin: { type: String, default: "" },
@@ -123,6 +125,9 @@ export const GangModel = mongoose.models.Gang || mongoose.model("Gang", gangSche
   if (!GangModel.schema.path("defaultVolume")) {
     GangModel.schema.add({ defaultVolume: { type: Number, default: 100 } });
   }
+if (!GangModel.schema.path("gateLayout")) {
+  GangModel.schema.add({ gateLayout: { type: String, default: "split", enum: ["centered", "split"] } });
+}
 if (!GangModel.schema.path("buttonShape")) {
   GangModel.schema.add({ buttonShape: { type: String, default: "square" } });
 }
@@ -265,6 +270,7 @@ type GangDocument = {
   facebookUrl?: string;
   entryAnimation?: string;
   buttonShape?: string;
+  gateLayout?: string;
   recoveryPin?: string;
   isVip?: boolean;
   renewedAt?: Date;
@@ -310,6 +316,7 @@ function mapGang(doc: GangDocument): Gang {
     facebookUrl: doc.facebookUrl || "",
     entryAnimation: doc.entryAnimation || "fade",
     buttonShape: doc.buttonShape || "square",
+    gateLayout: doc.gateLayout || "split",
     recoveryPin: doc.recoveryPin || "",
     isVip: doc.isVip || false,
     renewedAt: (doc as any).renewedAt instanceof Date ? (doc as any).renewedAt.toISOString() : (doc as any).renewedAt || undefined,
