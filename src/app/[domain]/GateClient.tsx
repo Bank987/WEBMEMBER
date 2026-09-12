@@ -26,8 +26,8 @@ type Settings = {
 };
 
 export default function GateClient({ settings }: { settings: Settings }) {
-  if (settings.gateLayout === "centered") {
-    return <GateCentered settings={settings as any} />;
+  if (settings.gateLayout === "split") {
+    return <GateSplit settings={settings as any} />;
   }
-  return <GateSplit settings={settings as any} />;
+  return <GateCentered settings={settings as any} />;
 }

@@ -1,38 +1,7 @@
 const fs = require('fs');
-
-let dbContent = fs.readFileSync('src/lib/db.ts', 'utf-8');
-
-// 1. Interface
-if (!dbContent.includes('membersLayout?: string;')) {
-  dbContent = dbContent.replace(
-    'membersBackgroundImageUrl?: string;',
-    'membersBackgroundImageUrl?: string;\n  membersLayout?: string;'
-  );
-}
-
-// 2. Schema
-if (!dbContent.includes('membersLayout: { type: String, default: "classic" }')) {
-  dbContent = dbContent.replace(
-    'membersBackgroundImageUrl: { type: String, default: "" },',
-    'membersBackgroundImageUrl: { type: String, default: "" },\n  membersLayout: { type: String, default: "classic" },'
-  );
-}
-
-// 3. Schema additions
-if (!dbContent.includes('path("membersLayout")')) {
-  dbContent = dbContent.replace(
-    'if (!GangModel.schema.path("membersBackgroundImageUrl"))',
-    'if (!GangModel.schema.path("membersLayout")) { GangModel.schema.add({ membersLayout: { type: String, default: "classic" } }); }\n  if (!GangModel.schema.path("membersBackgroundImageUrl"))'
-  );
-}
-
-// 4. Map Function
-if (!dbContent.includes('membersLayout: doc.membersLayout || "classic",')) {
-  dbContent = dbContent.replace(
-    'membersBackgroundImageUrl: doc.membersBackgroundImageUrl || "",',
-    'membersBackgroundImageUrl: doc.membersBackgroundImageUrl || "",\n    membersLayout: doc.membersLayout || "classic",'
-  );
-}
-
-fs.writeFileSync('src/lib/db.ts', dbContent);
-console.log('db.ts updated successfully');
+let c = fs.readFileSync('src/lib/db.ts','utf8');
+c = c.replace('buttonShape?: string;', 'buttonShape?: string;\n  gateLayout?: string;');
+c = c.replace('entryAnimation: { type: String, default: "fade" },', 'entryAnimation: { type: String, default: "fade" },\n  gateLayout: { type: String, default: "split", enum: ["centered", "split"] },');
+c = c.replace('buttonShape: (doc as any).buttonShape || "square",', 'buttonShape: (doc as any).buttonShape || "square",\n    gateLayout: (doc as any).gateLayout || "split",');
+c = c.replace('if (!GangModel.schema.path("buttonShape"))', 'if (!GangModel.schema.path("gateLayout")) {\n  GangModel.schema.add({ gateLayout: { type: String, default: "split", enum: ["centered", "split"] } });\n}\nif (!GangModel.schema.path("buttonShape"))');
+fs.writeFileSync('src/lib/db.ts', c);

@@ -103,7 +103,7 @@ const gangSchema = new mongoose.Schema({
   facebookUrl: { type: String, default: "" },
   entryAnimation: { type: String, default: "fade" },
   buttonShape: { type: String, default: "square" },
-  gateLayout: { type: String, default: "split", enum: ["centered", "split"] },
+  gateLayout: { type: String, default: "centered", enum: ["centered", "split"] },
   isVip: { type: Boolean, default: false },
   creatorIp: { type: String, default: "" },
   recoveryPin: { type: String, default: "" },
@@ -126,7 +126,7 @@ export const GangModel = mongoose.models.Gang || mongoose.model("Gang", gangSche
     GangModel.schema.add({ defaultVolume: { type: Number, default: 100 } });
   }
 if (!GangModel.schema.path("gateLayout")) {
-  GangModel.schema.add({ gateLayout: { type: String, default: "split", enum: ["centered", "split"] } });
+  GangModel.schema.add({ gateLayout: { type: String, default: "centered", enum: ["centered", "split"] } });
 }
 if (!GangModel.schema.path("buttonShape")) {
   GangModel.schema.add({ buttonShape: { type: String, default: "square" } });
@@ -316,7 +316,7 @@ function mapGang(doc: GangDocument): Gang {
     facebookUrl: doc.facebookUrl || "",
     entryAnimation: doc.entryAnimation || "fade",
     buttonShape: doc.buttonShape || "square",
-    gateLayout: doc.gateLayout || "split",
+    gateLayout: doc.gateLayout || "centered",
     recoveryPin: doc.recoveryPin || "",
     isVip: doc.isVip || false,
     renewedAt: (doc as any).renewedAt instanceof Date ? (doc as any).renewedAt.toISOString() : (doc as any).renewedAt || undefined,

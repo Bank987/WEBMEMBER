@@ -131,7 +131,7 @@ export default async function SettingsPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {/* Centered */}
               <label className="relative block cursor-pointer group">
-                <input type="radio" name="gateLayout" value="centered" defaultChecked={settings.gateLayout === 'centered'} className="peer sr-only" />
+                <input type="radio" name="gateLayout" value="centered" defaultChecked={settings.gateLayout === 'centered' || !settings.gateLayout} className="peer sr-only" />
                 <div className="peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10 rounded-[12px] border border-white/10 p-4 transition-all hover:border-white/30 h-full flex flex-col items-center bg-white/5">
                   <div className="w-[200px] h-[120px] bg-black/60 rounded-[8px] mb-3 border border-white/10 flex flex-col items-center justify-center p-2 gap-2">
                     <div className="w-[30px] h-[30px] rounded-full bg-white/20" />
@@ -143,7 +143,7 @@ export default async function SettingsPage() {
               </label>
               {/* Split */}
               <label className="relative block cursor-pointer group">
-                <input type="radio" name="gateLayout" value="split" defaultChecked={settings.gateLayout === 'split' || !settings.gateLayout} className="peer sr-only" />
+                <input type="radio" name="gateLayout" value="split" defaultChecked={settings.gateLayout === 'split'} className="peer sr-only" />
                 <div className="peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10 rounded-[12px] border border-white/10 p-4 transition-all hover:border-white/30 h-full flex flex-col items-center bg-white/5">
                   <div className="w-[200px] h-[120px] bg-black/60 rounded-[8px] mb-3 border border-white/10 flex flex-row items-center justify-between px-4">
                     <div className="flex flex-col items-start gap-2">
