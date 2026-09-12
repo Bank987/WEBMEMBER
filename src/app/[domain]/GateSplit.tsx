@@ -72,14 +72,13 @@ export default function GateSplit({ settings }: { settings: Settings }) {
       }}
     >
       {/* Background */}
-      <div 
-        className="absolute inset-0 z-0 bg-cover bg-center bg-no-repeat"
-        style={{
-          backgroundImage: settings.backgroundImageUrl ? `url(${settings.backgroundImageUrl})` : 'none',
-          opacity: 0.35
-        }}
-      />
+      {settings.backgroundImageUrl && (
+        <div className="absolute inset-0 z-0 pointer-events-none opacity-[0.35]">
+          <BackgroundMedia url={settings.backgroundImageUrl} />
+        </div>
+      )}
       <div className="absolute inset-0 z-0 bg-gradient-to-br from-black/80 via-black/60 to-black/80 pointer-events-none" />
+
 
       {/* Accent glow (top-left corner ambient) */}
       <div 
