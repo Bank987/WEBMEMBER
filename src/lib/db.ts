@@ -317,7 +317,7 @@ function mapGang(doc: GangDocument): Gang {
     entryAnimation: doc.entryAnimation || "fade",
     buttonShape: doc.buttonShape || "square",
     gateLayout: doc.gateLayout || "centered",
-    recoveryPin: doc.recoveryPin || "",
+    recoveryPin: doc.recoveryPin ? "SET" : "",
     isVip: doc.isVip || false,
     renewedAt: (doc as any).renewedAt instanceof Date ? (doc as any).renewedAt.toISOString() : (doc as any).renewedAt || undefined,
     renewalNotifiedAt: (doc as any).renewalNotifiedAt instanceof Date ? (doc as any).renewalNotifiedAt.toISOString() : (doc as any).renewalNotifiedAt || undefined,
