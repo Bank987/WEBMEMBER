@@ -54,6 +54,12 @@ export default async function LandingPage() {
             </span>
             GANGLIST
           </Link>
+          
+          <nav className="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2 text-[12px] font-bold text-[#89909b]">
+            <Link href="/privacy" className="hover:text-white transition-colors">ความเป็นส่วนตัว</Link>
+            <Link href="/security" className="hover:text-white transition-colors">ความปลอดภัย</Link>
+          </nav>
+
           <div className="flex items-center gap-4">
             <GuideButton />
             <DiscordSupportButton compact />
@@ -197,10 +203,16 @@ export default async function LandingPage() {
       </main>
 
       <footer className="border-t border-white/10 bg-[#020202] py-16 text-center relative z-10 flex flex-col items-center gap-6">
-        <Link href="/" className="flex items-center gap-2 text-[14px] font-[900] tracking-[2px] text-white/30 uppercase">
+        <Link href="/" className="flex items-center gap-2 text-[14px] font-[900] tracking-[2px] text-white/30 uppercase hover:text-[#0084ff] transition-colors">
           <Command className="size-4" /> GANGLIST
         </Link>
-        <p className="text-[10px] font-[900] tracking-[2px] text-[#555] uppercase">
+        
+        <div className="flex flex-wrap justify-center gap-6 text-[12px] font-medium text-[#89909b]">
+          <Link href="/privacy" className="hover:text-white transition-colors">นโยบายความเป็นส่วนตัว</Link>
+          <Link href="/security" className="hover:text-white transition-colors">ความปลอดภัย</Link>
+        </div>
+
+        <p className="text-[10px] font-[900] tracking-[2px] text-[#555] uppercase mt-2">
           © 2026 LASTNAME.SITE
         </p>
       </footer>
