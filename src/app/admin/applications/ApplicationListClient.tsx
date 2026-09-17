@@ -258,14 +258,14 @@ export function ApplicationListClient({ initialApplications, domain, logoUrl, is
                           <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${supportPosition === 2 ? 'border-[#0084ff]' : 'border-white/30'}`}>
                             {supportPosition === 2 && <div className="w-1.5 h-1.5 rounded-full bg-[#0084ff]" />}
                           </div>
-                          <span className="text-[12px] text-white/70">Support อาวุโส (อยู่บนสุดของ SUPPORT)</span>
+                          <span className="text-[12px] text-white/70">Support (ล่าง FOUNDER)</span>
                         </label>
                         <label className="flex items-center gap-3 p-3 rounded-lg bg-black/30 border border-white/5 cursor-pointer">
                           <input type="radio" name="supportPosition" value={3} checked={supportPosition === 3} onChange={() => setSupportPosition(3)} className="hidden" />
                           <div className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center ${supportPosition === 3 ? 'border-[#0084ff]' : 'border-white/30'}`}>
                             {supportPosition === 3 && <div className="w-1.5 h-1.5 rounded-full bg-[#0084ff]" />}
                           </div>
-                          <span className="text-[12px] text-white/70">Support ทั่วไป (อยู่ต่อจาก Leader)</span>
+                          <span className="text-[12px] text-white/70">Support (ล่าง LEADER)</span>
                         </label>
                       </motion.div>
                     )}
