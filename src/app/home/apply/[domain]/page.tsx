@@ -1,6 +1,6 @@
 import { getGangBySubdomain } from "@/lib/db";
-"import { notFound } from "next/navigation";
-"import { BackgroundMedia } from "@/components/BackgroundMedia";
+import { notFound } from "next/navigation";
+import { BackgroundMedia } from "@/components/BackgroundMedia";
 import { ApplyFormClient } from "./ApplyFormClient";
 import { getGangTheme } from "@/lib/themes";
 import Link from "next/link";
@@ -18,7 +18,6 @@ export default async function ApplyPage({ params, searchParams }: { params: Prom
   // Validate Token if gang has one configured
   const hasValidToken = !gang.inviteToken || gang.inviteToken === resolvedSearchParams.token;
 
-
   return (
     <div className={`min-h-screen bg-[#050505] flex items-center justify-center p-6 ${getGangTheme(gang.theme).className} selection:bg-[#0084ff]/30`}>
       {gang.backgroundImageUrl && (
@@ -35,10 +34,10 @@ export default async function ApplyPage({ params, searchParams }: { params: Prom
             </div>
             <h2 className="text-2xl font-[900] text-white tracking-wide mb-2">ปิดรับสมัครชั่วคราว</h2>
             <p className="text-white/60 text-sm leading-relaxed mb-8">
-              แก๊ง {gang.pageTitle} ยังไม่เปิดรับสมาชิกใหม่แนขณะนี้<br />โปรดติดตามการเปิดรับสมัครแนภายหลัง
+              แก๊ง {gang.pageTitle} ยังไม่เปิดรับสมาชิกใหม่ในขณะนี้<br />โปรดติดตามการเปิดรับสมัครในภายหลัง
             </p>
             <Link href={`//${gang.subdomain}.lastname.site`} className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white rounded-2xl py-3.5 px-6 text-sm font-bold transition-all w-full">
-              <ArrowLeft className="w-4 h-4" /> กลับแปหน้าแก๊ง
+              <ArrowLeft className="w-4 h-4" /> กลับไปหน้าแก๊ง
             </Link>
           </div>
         ) : !hasValidToken ? (
@@ -46,12 +45,12 @@ export default async function ApplyPage({ params, searchParams }: { params: Prom
             <div className="mx-auto w-16 h-16 bg-red-500/10 border border-red-500/20 rounded-full flex items-center justify-center mb-6">
               <ShieldAlert className="w-8 h-8 text-red-500" />
             </div>
-            <h2 className="text-xl font-[900] text-white tracking-wide mb-2">ลิงก์ไม่ถูกต้องหรือหมดอายำ</h2>
+            <h2 className="text-xl font-[900] text-white tracking-wide mb-2">ลิงก์ไม่ถูกต้องหรือหมดอายุ</h2>
             <p className="text-white/60 text-sm leading-relaxed mb-8">
               คุณไม่มีสิทธิ์เข้าถึงหน้านี้<br />โปรดสแกน QR Code หรือใช้ลิงก์ใหม่จากแอดมิน
             </p>
             <Link href={`//${gang.subdomain}.lastname.site`} className="inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white rounded-2xl py-3.5 px-6 text-sm font-bold transition-all w-full">
-              <ArrowLeft className="w-4 h-4" /> กลับแปหน้าแก๊ง
+              <ArrowLeft className="w-4 h-4" /> กลับไปหน้าแก๊ง
             </Link>
           </div>
         ) : (
