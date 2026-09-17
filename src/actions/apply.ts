@@ -115,3 +115,28 @@ export async function toggleRecruitment(isOpen: boolean) {
     return { error: "Failed to toggle recruitment" };
   }
 }
+
+export async function resetInviteToken() {
+  const authGang = await getAuthenticatedGang();
+  if (!authGang) return { error: "Unauthorized" };
+
+  try {
+    const { GangModel, connectDB } = await import("@/lib/db");
+    const crypto = await import("crypto");
+    
+    await connectDB();
+    const newToken = crypto.randomBytes(4).toString("hex"); // e.g. "a1b2c3d4"
+    
+    await GangModel.updateOne({ _id: authGang.id }, { inviteToken: newToken });
+    
+    const { revalidatePath, updateTag } = await import("next/cache");
+    revalidatePath("/admin/applications");
+    revalidatePath(`/home/apply/${authGang.subdomain}`);
+    updateTag(`gang-${authGang.subdomain}`);
+    
+    return { success: true, token: newToken };
+  } catch (error) {
+    console.error("Reset token error:", error);
+    return { error: "Failed to reset token" };
+  }
+}

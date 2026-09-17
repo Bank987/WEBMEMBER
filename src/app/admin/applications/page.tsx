@@ -25,6 +25,7 @@ export default async function ApplicationsAdminPage() {
         domain={gang.subdomain} 
         logoUrl={gang.logoUrl || gang.faviconUrl || "https://ui-avatars.com/api/?name=" + gang.pageTitle} 
         isRecruitmentOpen={gang.isRecruitmentOpen !== false}
+        inviteToken={gang.inviteToken || ""}
       />
     </div>
   );

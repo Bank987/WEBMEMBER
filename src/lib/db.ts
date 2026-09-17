@@ -43,6 +43,7 @@ export interface Gang {
   announcementTheme?: string;
   partnersEnabled?: boolean;
   partners?: { name: string; url: string }[];
+  inviteToken?: string;
 }
 
 // Internal types ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â never sent to client
@@ -302,6 +303,7 @@ type GangDocument = {
   renewalNotifiedAt?: Date;
   renewalAnnouncementSeen?: boolean;
   isRecruitmentOpen?: boolean;
+  inviteToken?: string;
 };
 
 type MemberDocument = {
@@ -355,6 +357,7 @@ function mapGang(doc: GangDocument): Gang {
     partners: (doc as any).partners ? (doc as any).partners.map((p: any) => ({ name: p.name, url: p.url })) : [],
     createdAt: (doc as any).createdAt instanceof Date ? (doc as any).createdAt.toISOString() : (doc as any).createdAt,
     isRecruitmentOpen: doc.isRecruitmentOpen !== false,
+    inviteToken: doc.inviteToken || "",
   };
 }
 

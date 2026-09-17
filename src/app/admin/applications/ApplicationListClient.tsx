@@ -2,15 +2,17 @@
 
 import { useState } from "react";
 import { Application, Role } from "@/lib/db";
-import { reviewApplication, toggleRecruitment } from "@/actions/apply";
-import { Check, X, User, ExternalLink, Clock, QrCode, Download, Power } from "lucide-react";
+import { reviewApplication, toggleRecruitment, resetInviteToken } from "@/actions/apply";
+import { Check, X, User, ExternalLink, Clock, QrCode, Download, Power, RefreshCw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 
-export function ApplicationListClient({ initialApplications, domain, logoUrl, isRecruitmentOpen = true }: { initialApplications: Application[], domain: string, logoUrl: string, isRecruitmentOpen?: boolean }) {
+export function ApplicationListClient({ initialApplications, domain, logoUrl, isRecruitmentOpen = true, inviteToken = "" }: { initialApplications: Application[], domain: string, logoUrl: string, isRecruitmentOpen?: boolean, inviteToken?: string }) {
   const [applications, setApplications] = useState<Application[]>(initialApplications);
   const [loadingId, setLoadingId] = useState<string | null>(null);
   const [isOpen, setIsOpen] = useState(isRecruitmentOpen);
+  const [currentToken, setCurrentToken] = useState(inviteToken);
+  const [isResetting, setIsResetting] = useState(false);
   
   // State for role selection modal
   const [selectedApp, setSelectedApp] = useState<Application | null>(null);
@@ -18,9 +20,10 @@ export function ApplicationListClient({ initialApplications, domain, logoUrl, is
   const [supportPosition, setSupportPosition] = useState<number>(3);
 
   const [showQR, setShowQR] = useState(false);
-  const applyUrl = typeof window !== 'undefined' 
-    ? `${window.location.origin}/apply/${domain}`
-    : `https://lastname.site/apply/${domain}`;
+  
+  const baseUrl = typeof window !== 'undefined' ? `${window.location.origin}/apply/${domain}` : `https://lastname.site/apply/${domain}`;
+  const applyUrl = currentToken ? `${baseUrl}?token=${currentToken}` : baseUrl;
+  
   const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=300x300&ecc=H&data=${encodeURIComponent(applyUrl)}&format=png`;
 
   const pendingApps = applications.filter(a => a.status === "PENDING");
@@ -34,6 +37,18 @@ export function ApplicationListClient({ initialApplications, domain, logoUrl, is
       alert(res.error);
       setIsOpen(!newState);
     }
+  };
+
+  const handleResetToken = async () => {
+    if (!confirm("แน่ใจหรือไม่ว่าต้องการเปลี่ยนลิงก์รับสมัครใหม่?\nQR Code และลิงก์อันเก่าจะใช้งานไม่ได้ทันที!")) return;
+    setIsResetting(true);
+    const res = await resetInviteToken();
+    if (res.success && res.token) {
+      setCurrentToken(res.token);
+    } else {
+      alert(res.error || "Failed to reset token");
+    }
+    setIsResetting(false);
   };
 
   const downloadQR = async () => {
@@ -289,13 +304,23 @@ export function ApplicationListClient({ initialApplications, domain, logoUrl, is
                 </div>
               </div>
 
-              <div className="bg-black/50 p-3 rounded-xl border border-white/10 text-[11px] font-medium text-white/40 break-all select-all mb-4">
+              <div className="bg-black/50 p-3 rounded-xl border border-white/10 text-[11px] font-medium text-white/40 break-all select-all mb-4 text-left relative group pr-10">
                 {applyUrl}
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button onClick={() => navigator.clipboard.writeText(applyUrl)} className="text-white hover:text-[#0084ff]"><Check className="w-4 h-4" /></button>
+                </div>
               </div>
 
-              <button onClick={downloadQR} className="w-full flex items-center justify-center gap-2 bg-[#0084ff]/10 hover:bg-[#0084ff]/20 text-[#0084ff] border border-[#0084ff]/30 rounded-2xl py-3 text-sm font-bold transition-all">
-                <Download className="w-4 h-4" /> ดาวน์โหลดรูปลงเครื่อง
-              </button>
+              <div className="space-y-3">
+                <button onClick={downloadQR} className="w-full flex items-center justify-center gap-2 bg-[#0084ff] hover:bg-[#0073e6] text-white rounded-2xl py-3.5 text-sm font-bold transition-all shadow-[0_0_20px_rgba(0,132,255,0.3)]">
+                  <Download className="w-4 h-4" /> ดาวน์โหลดรูปลงเครื่อง
+                </button>
+                
+                <button disabled={isResetting} onClick={handleResetToken} className="w-full flex items-center justify-center gap-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 rounded-2xl py-3.5 text-sm font-bold transition-all disabled:opacity-50">
+                  <RefreshCw className={`w-4 h-4 ${isResetting ? 'animate-spin' : ''}`} /> 
+                  {isResetting ? "กำลังรีเซ็ต..." : "เปลี่ยนลิงก์รับสมัครใหม่"}
+                </button>
+              </div>
             </motion.div>
           </div>
         )}
