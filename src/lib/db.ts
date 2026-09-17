@@ -182,6 +182,10 @@ if (!GangModel.schema.path("backgroundImageUrl")) {
 if (!GangModel.schema.path("isRecruitmentOpen")) {
   GangModel.schema.add({ isRecruitmentOpen: { type: Boolean, default: true } });
 }
+if (!GangModel.schema.path("inviteToken")) {
+  GangModel.schema.add({ inviteToken: { type: String, default: "" } });
+}
+
 if (!GangModel.schema.path("recoveryPin")) {
   GangModel.schema.add({ recoveryPin: { type: String, default: "" } });
 }
