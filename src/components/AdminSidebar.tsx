@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Users, LayoutDashboard, Settings, LogOut, Palette, Crown, Bell, Menu, X, Handshake } from "lucide-react";
+import { Users, UserPlus, LayoutDashboard, Settings, LogOut, Palette, Crown, Bell, Menu, X, Handshake } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export function AdminSidebar({ gang }: { gang: any }) {
@@ -16,9 +16,10 @@ export function AdminSidebar({ gang }: { gang: any }) {
   }, [pathname]);
 
   const navItems = [
-    { href: "/admin", label: "แผงควบคุม", icon: LayoutDashboard, exact: true },
+    { href: "/admin", label: "ภาพรวมแก๊ง", icon: LayoutDashboard, exact: true },
     { href: "/admin/members", label: "จัดการสมาชิก", icon: Users },
-    { href: "/admin/settings", label: "ตั้งค่าเว็บ", icon: Settings },
+    { href: "/admin/applications", label: "รับสมัครสมาชิก", icon: UserPlus },
+    { href: "/admin/settings", label: "ตั้งค่าเว็บแก๊ง", icon: Settings },
     { href: "/admin/partners", label: "PARTNERS", icon: Handshake, isVipLink: true },
     { href: "/admin/vip", label: "VIP Upgrade", icon: Crown, isVipLink: true },
     { href: "/admin/settings#theme", label: "ปรับแต่งธีม", icon: Palette },
