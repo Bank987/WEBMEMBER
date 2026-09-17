@@ -1,4 +1,4 @@
-import { getGangBySubdomain } from "@/lib/db";
+import { getGangBySubdomain, getGangInviteToken } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { BackgroundMedia } from "@/components/BackgroundMedia";
 import { ApplyFormClient } from "./ApplyFormClient";
@@ -15,8 +15,9 @@ export default async function ApplyPage({ params, searchParams }: { params: Prom
   
   if (!gang) notFound();
 
-  // Validate Token if gang has one configured
-  const hasValidToken = !gang.inviteToken || gang.inviteToken === resolvedSearchParams.token;
+  // Validate Token directly from DB (bypassing Next.js unstable_cache of getGangBySubdomain)
+  const realToken = await getGangInviteToken(resolvedParams.domain);
+  const hasValidToken = !realToken || realToken === resolvedSearchParams.token;
 
   return (
     <div className={`min-h-screen bg-[#050505] flex items-center justify-center p-6 ${getGangTheme(gang.theme).className} selection:bg-[#0084ff]/30`}>

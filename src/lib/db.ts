@@ -1,4 +1,4 @@
-﻿import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import { unstable_cache } from 'next/cache';
 
 export type Role = "FOUNDER" | "LEADER" | "MEMBER" | "SUPPORT";
@@ -401,6 +401,14 @@ export const getGangBySubdomain = async (domain: string): Promise<Gang | null> =
     { tags: [`gang-${domain}`], revalidate: 3600 }
   );
   return fetchCached(domain);
+}
+
+export async function getGangInviteToken(domain: string): Promise<string | undefined> {
+  await connectDB();
+  const doc = await GangModel.findOne({ 
+    $or: [{ subdomain: domain }, { customDomain: domain }] 
+  }).select("inviteToken").lean();
+  return doc?.inviteToken || "";
 }
 
 export async function getGangBySubdomainWithTokenHash(domain: string): Promise<GangWithAuth | null> {
