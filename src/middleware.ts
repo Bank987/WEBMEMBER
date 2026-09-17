@@ -60,16 +60,16 @@ export default function middleware(req: NextRequest) {
       return NextResponse.next();
     }
     // We rewrite to /home path which contains our landing page
-    return NextResponse.rewrite(new URL(`/home${url.pathname}`, req.url));
+    return NextResponse.rewrite(new URL(`/home${url.pathname}${url.search}`, req.url));
   }
 
   // 2. Tenant Subdomain or Custom Domain -> Route to tenant pages
   if (url.pathname === '/favicon.ico') {
-    const response = NextResponse.rewrite(new URL(`/${tenantKey}/favicon`, req.url));
+    const response = NextResponse.rewrite(new URL(`/${tenantKey}/favicon${url.search}`, req.url));
     response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
     return response;
   }
-  const response = NextResponse.rewrite(new URL(`/${tenantKey}${url.pathname === '/' ? '' : url.pathname}`, req.url));
+  const response = NextResponse.rewrite(new URL(`/${tenantKey}${url.pathname === '/' ? '' : url.pathname}${url.search}`, req.url));
   response.headers.set('X-Robots-Tag', 'noindex, nofollow, noarchive');
   return response;
 }
