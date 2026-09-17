@@ -10,8 +10,7 @@ export default function VipPage() {
   const [status, setStatus] = useState<"idle" | "checking" | "valid" | "invalid">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [redeeming, setRedeeming] = useState(false);
-  const [showBuyModal, setShowBuyModal] = useState(false);
-  const [successModalOpen, setSuccessModalOpen] = useState(false);
+    const [successModalOpen, setSuccessModalOpen] = useState(false);
   const router = useRouter();
   
   const getSubdomain = () => {
@@ -88,13 +87,15 @@ export default function VipPage() {
                 <KeyRound className="size-3" />
                 VIP KEY CODE
               </label>
-              <button 
-                onClick={() => setShowBuyModal(true)}
+              <a 
+                href="https://bydseal.xcsxs.xyz"
+                target="_blank"
+                rel="noreferrer"
                 className="text-xs font-bold text-[#0084ff] hover:text-[#339cff] flex items-center gap-1 bg-[#0084ff]/10 hover:bg-[#0084ff]/20 px-3 py-1 rounded-full transition"
               >
                 <ShoppingCart className="size-3" />
                 สั่งซื้อ VIP Key
-              </button>
+              </a>
             </div>
             <input
               type="text"
@@ -172,49 +173,6 @@ export default function VipPage() {
               >
                 สุดยอดไปเลย!
               </button>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
-
-      {/* Buy Modal */}
-      <AnimatePresence>
-        {showBuyModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-5 bg-black/80 backdrop-blur-sm">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="relative w-full max-w-md bg-[#0c0f16] border border-white/10 rounded-2xl overflow-hidden shadow-2xl"
-            >
-              <div className="absolute -top-20 -right-20 size-40 bg-[#0084ff]/20 rounded-full blur-[40px] pointer-events-none" />
-              
-              <div className="p-6">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                    <ShoppingCart className="size-5 text-[#0084ff]" />
-                    สั่งซื้อ VIP Key
-                  </h3>
-                  <button onClick={() => setShowBuyModal(false)} className="text-white/40 hover:text-white transition">
-                    <X className="size-5" />
-                  </button>
-                </div>
-
-                <div className="bg-white/5 border border-white/10 rounded-xl p-6 text-center space-y-4">
-                  <MessageSquare className="size-12 text-[#5865F2] mx-auto" />
-                  <div>
-                    <p className="text-white font-bold text-lg">ติดต่อซื้อที่ DISCORD SUPPORT</p>
-                    <p className="text-white/50 text-sm mt-2">กรุณาเปิดทิคเก็ตในเซิร์ฟเวอร์ Discord ของเราเพื่อทำการสั่งซื้อ VIP Key ครับ แอดมินจะทำการส่งโค้ดให้หลังจากชำระเงินเรียบร้อยแล้ว</p>
-                  </div>
-                </div>
-
-                <button 
-                  onClick={() => setShowBuyModal(false)}
-                  className="w-full mt-6 bg-white/10 hover:bg-white/20 text-white font-bold py-3 rounded-xl transition"
-                >
-                  ปิดหน้าต่าง
-                </button>
-              </div>
             </motion.div>
           </div>
         )}
