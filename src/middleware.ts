@@ -38,7 +38,7 @@ export default function middleware(req: NextRequest) {
   let isTenant = false;
   let tenantKey = '';
 
-  if (currentHost === rootDomain || currentHost === `www.${rootDomain}`) {
+  if (currentHost === rootDomain || currentHost === `www.${rootDomain}` || currentHost.endsWith('.vercel.app')) {
     isTenant = false;
   } else {
     isTenant = true;
