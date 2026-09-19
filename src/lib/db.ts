@@ -257,8 +257,14 @@ export async function connectDB() {
   if (cached.conn) return cached.conn;
   if (!MONGODB_URI) throw new Error("MONGODB_URI is not configured");
   
-  if (!cached.promise) {
-    cached.promise = mongoose.connect(MONGODB_URI).then((mongoose) => mongoose);
+    if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+      maxPoolSize: 2,
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
+    };
+    cached.promise = mongoose.connect(MONGODB_URI, opts).then((mongoose) => mongoose);
   }
   
   try {
