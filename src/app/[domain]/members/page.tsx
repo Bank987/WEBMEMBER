@@ -5,7 +5,8 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { getGangTheme } from "@/lib/themes";
 
-export const dynamic = "force-dynamic";
+// Removed force-dynamic to leverage Next.js ISR
+export const revalidate = 60;
 
 export async function generateMetadata({ params }: { params: Promise<{ domain: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
