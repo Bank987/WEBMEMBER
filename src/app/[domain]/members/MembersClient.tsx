@@ -345,7 +345,7 @@ function MemberSection({
     : "min-w-full md:min-w-[calc(50%-10px)]";
 
   return (
-    <section className={`p-[24px] rounded-[36px] ${borderClass} shadow-lg backdrop-blur-md transition-all duration-300 hover:shadow-xl`}>
+    <section>
       <div className="flex items-end gap-[12px] mb-[24px]">
         <h2 className="text-[28px] font-[900] tracking-[-1px] uppercase text-text-inverse">{title}</h2>
         <span className="text-[14px] text-text-primary/40 font-[800] mb-[5px] tracking-widest">/ {members.length.toString().padStart(2, '0')}</span>
@@ -388,4 +388,5 @@ function MemberSection({
     </section>
   );
 }
+
 
