@@ -56,7 +56,7 @@ export function PartnerSettingsClient({
                   เพิ่มปุ่มพันธมิตรหน้าเว็บหลัก (สูงสุด 3 แก๊ง) ใส่ชื่อแก๊งและลิ้งค์เว็บของพันธมิตรได้เลย
                 </p>
                 
-                {[0, 1, 2].map((i) => {
+                {[0, 1, 2, 3, 4].map((i) => {
                   const partner = (initialPartners && initialPartners[i]) || { name: "", url: "" };
                   return (
                     <div key={i} className="grid grid-cols-1 sm:grid-cols-2 gap-[18px] p-4 border border-white/5 bg-white/5 rounded-[12px]">
@@ -91,3 +91,4 @@ export function PartnerSettingsClient({
     </SettingsFormWrapper>
   );
 }
+

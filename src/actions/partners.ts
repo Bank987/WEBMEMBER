@@ -14,7 +14,7 @@ export async function savePartners(formData: FormData) {
   const partnersEnabled = formData.get("partnersEnabled") === "true";
 
   const partners: { name: string; url: string }[] = [];
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 5; i++) {
     const pName = formData.get(`partnerName_${i}`) as string;
     const pUrl = formData.get(`partnerUrl_${i}`) as string;
     if (pName && pName.trim() !== "") {
@@ -31,3 +31,4 @@ export async function savePartners(formData: FormData) {
     updateTag(`gang-${gang.customDomain}`);
   }
 }
+
