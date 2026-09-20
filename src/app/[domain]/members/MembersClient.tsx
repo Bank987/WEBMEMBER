@@ -103,7 +103,7 @@ export default function MembersClient({
             placeholder="SEARCH MEMBERS..." 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="relative z-10 w-full bg-surface-base border border-text-primary/10 group-focus-within:border-text-secondary/50 group-focus-within:bg-[#050505] rounded-[6px] py-[12px] pl-[42px] pr-[18px] text-[10.5px] text-text-inverse placeholder-text-primary/40 focus:outline-none transition-all duration-500 uppercase tracking-[1.8px] shadow-lg"
+            className="relative z-10 w-full bg-white/[0.03] border border-text-primary/10 group-focus-within:border-text-secondary/50 group-focus-within:bg-[#050505] rounded-[6px] py-[12px] pl-[42px] pr-[18px] text-[10.5px] text-text-inverse placeholder-text-primary/40 focus:outline-none transition-all duration-500 uppercase tracking-[1.8px] shadow-lg"
           />
           
           {/* Scanning line animation */}
@@ -224,7 +224,7 @@ export default function MembersClient({
             <MemberSection 
               title="FOUNDERS" members={founders} role="FOUNDER" gridCols="grid-cols-1 md:grid-cols-2 lg:grid-cols-3" 
               colorClass="text-[#facc15]" // Yellow
-              borderClass="border-[#facc15]/20 bg-gradient-to-r from-surface-base to-[#facc15]/5" 
+              borderClass="border-[#facc15]/20 bg-gradient-to-r from-white/[0.03] to-[#facc15]/5" 
               isCentered={true}
             />
           </motion.div>
@@ -242,7 +242,7 @@ export default function MembersClient({
               role="SUPPORT" 
               gridCols="grid-cols-1 md:grid-cols-2 lg:grid-cols-3" 
               colorClass="text-[#ffb3d9]" // Light Pink
-              borderClass="border-[#ffb3d9]/20 bg-gradient-to-r from-surface-base to-[#ffb3d9]/5" 
+              borderClass="border-[#ffb3d9]/20 bg-gradient-to-r from-white/[0.03] to-[#ffb3d9]/5" 
             />
           </motion.div>
         )}
@@ -259,7 +259,7 @@ export default function MembersClient({
               role="LEADER" 
               gridCols="grid-cols-1 md:grid-cols-2 lg:grid-cols-3" 
               colorClass="text-[#ef4444]" // Red
-              borderClass="border-[#ef4444]/20 bg-gradient-to-r from-surface-base to-[#ef4444]/5" 
+              borderClass="border-[#ef4444]/20 bg-gradient-to-r from-white/[0.03] to-[#ef4444]/5" 
             />
           </motion.div>
         )}
@@ -276,7 +276,7 @@ export default function MembersClient({
               role="SUPPORT" 
               gridCols="grid-cols-1 md:grid-cols-2 lg:grid-cols-3" 
               colorClass="text-[#ffb3d9]" // Light Pink
-              borderClass="border-[#ffb3d9]/20 bg-gradient-to-r from-surface-base to-[#ffb3d9]/5" 
+              borderClass="border-[#ffb3d9]/20 bg-gradient-to-r from-white/[0.03] to-[#ffb3d9]/5" 
             />
           </motion.div>
         )}
@@ -294,7 +294,7 @@ export default function MembersClient({
                 role="MEMBER" 
                 gridCols="grid-cols-1 md:grid-cols-2 lg:grid-cols-3" 
                 colorClass="text-text-primary/70" 
-                borderClass="border-text-primary/10 bg-surface-base" 
+                borderClass="border-text-primary/10 bg-white/[0.03]" 
               />
             </motion.div>
           )}
@@ -388,6 +388,7 @@ function MemberSection({
     </section>
   );
 }
+
 
 
 
