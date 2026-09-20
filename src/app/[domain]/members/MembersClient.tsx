@@ -355,7 +355,7 @@ function MemberSection({
         {members.map(member => (
           <div 
             key={member.id} 
-            className={`group relative flex items-center gap-[12px] p-[12px] bg-white/[0.02] hover:bg-white/[0.05] border border-text-primary/10 hover:border-text-primary/30 rounded-2xl transition-all h-[70px] w-max max-w-full flex-shrink-0 ${minWidthClass}`}
+            className={`group relative flex items-center gap-[12px] p-[12px] border ${borderClass} hover:border-opacity-50 rounded-[12px] transition-all h-[70px] w-max max-w-full flex-shrink-0 ${minWidthClass}`}
           >
             <div className="relative shrink-0">
               <img 
@@ -388,5 +388,7 @@ function MemberSection({
     </section>
   );
 }
+
+
 
 
