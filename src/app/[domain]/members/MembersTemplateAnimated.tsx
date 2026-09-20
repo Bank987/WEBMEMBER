@@ -26,7 +26,9 @@ export default function MembersTemplateAnimated({
   );
 
   const founders = filteredMembers.filter(m => m.role === "FOUNDER");
+  const support2 = filteredMembers.filter(m => m.role === "SUPPORT" && m.supportPosition === 2);
   const leaders = filteredMembers.filter(m => m.role === "LEADER");
+  const support3 = filteredMembers.filter(m => m.role === "SUPPORT" && m.supportPosition !== 2);
   const members = filteredMembers.filter(m => m.role === "MEMBER");
 
   return (
@@ -89,7 +91,9 @@ export default function MembersTemplateAnimated({
 
         <div className="space-y-20 flex-1 pb-32">
           <AnimatedSection title="FOUNDERS" members={founders} role="FOUNDER" accent="from-amber-400 to-orange-600" shadowColor="rgba(2fb, 146, 60, 0.2)" icon={<Crown className="w-6 h-6 text-white" />} />
+          <AnimatedSection title="SUPPORT" members={support2} role="SUPPORT" accent="from-pink-400 to-rose-500" shadowColor="rgba(244, 63, 94, 0.2)" icon={<Crown className="w-6 h-6 text-white" />} />
           <AnimatedSection title="LEADERS" members={leaders} role="LEADER" accent="from-blue-400 to-indigo-600" shadowColor="rgba(79, 70, 229, 0.2)" icon={<Shield className="w-6 h-6 text-white" />} />
+          <AnimatedSection title="SUPPORT" members={support3} role="SUPPORT" accent="from-pink-400 to-rose-500" shadowColor="rgba(244, 63, 94, 0.2)" icon={<Shield className="w-6 h-6 text-white" />} />
           <AnimatedSection title="MEMBERS" members={members} role="MEMBER" accent="from-zinc-300 to-zinc-600" shadowColor="rgba(161, 161, 170, 0.1)" icon={<User className="w-6 h-6 text-white" />} />
         </div>
       </main>

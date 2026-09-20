@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Crown, User, Search, Link as LinkIcon, Zap } from "lucide-react";
+import { Shield, Crown, User, Search, Link as LinkIcon, Zap, Heart } from "lucide-react";
 import { useState } from "react";
 import { Member } from "@/lib/db";
 import { BackgroundMedia } from "@/components/BackgroundMedia";
@@ -26,7 +26,9 @@ export default function MembersTemplateCyber({
   );
 
   const founders = filteredMembers.filter(m => m.role === "FOUNDER");
+  const support2 = filteredMembers.filter(m => m.role === "SUPPORT" && m.supportPosition === 2);
   const leaders = filteredMembers.filter(m => m.role === "LEADER");
+  const support3 = filteredMembers.filter(m => m.role === "SUPPORT" && m.supportPosition !== 2);
   const members = filteredMembers.filter(m => m.role === "MEMBER");
 
   const containerVariants = {
@@ -127,6 +129,21 @@ export default function MembersTemplateCyber({
             />
           )}
 
+          {support2.length > 0 && (
+            <CyberSection 
+              title="SPECIALISTS" 
+              subtitle="[SUPPORT]"
+              members={support2} 
+              role="SUPPORT" 
+              color="text-pink-400"
+              borderColor="border-pink-400/50"
+              bgGlow="bg-pink-400/10"
+              icon={<Heart className="w-5 h-5" />}
+              containerVariants={containerVariants}
+              itemVariants={itemVariants}
+            />
+          )}
+
           {leaders.length > 0 && (
             <CyberSection 
               title="COMMANDERS" 
@@ -137,6 +154,21 @@ export default function MembersTemplateCyber({
               borderColor="border-cyan-400/50"
               bgGlow="bg-cyan-400/10"
               icon={<Shield className="w-5 h-5" />}
+              containerVariants={containerVariants}
+              itemVariants={itemVariants}
+            />
+          )}
+
+          {support3.length > 0 && (
+            <CyberSection 
+              title="SPECIALISTS" 
+              subtitle="[SUPPORT]"
+              members={support3} 
+              role="SUPPORT" 
+              color="text-pink-400"
+              borderColor="border-pink-400/50"
+              bgGlow="bg-pink-400/10"
+              icon={<Heart className="w-5 h-5" />}
               containerVariants={containerVariants}
               itemVariants={itemVariants}
             />

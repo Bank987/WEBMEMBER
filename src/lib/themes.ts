@@ -1,4 +1,4 @@
-﻿export type GangTheme = "default" | "neon" | "crimson" | "aurora" | "mono" | "royal" | "ocean" | "ember";
+export type GangTheme = "default" | "neon" | "crimson" | "aurora" | "mono" | "royal" | "ocean" | "ember";
 
 export const gangThemes: Record<GangTheme, { name: string; description: string; preview: string; accent: string; background: string; className: string }> = {
   default: { name: "Default", description: "เข้ม เรียบ และสมดุล", preview: "linear-gradient(135deg,#111827,#050505)", accent: "#0084ff", background: "#0a0a0a", className: "theme-default" },
@@ -12,4 +12,9 @@ export const gangThemes: Record<GangTheme, { name: string; description: string; 
 };
 
 export function getGangTheme(theme?: string) { return gangThemes[(theme as GangTheme) || "default"] || gangThemes.default; }
+
+export const membersTemplates: Record<string, { name: string; description: string; preview: string }> = {
+  default: { name: "Default (Classic)", description: "รูปแบบมาตรฐาน มีช่องค้นหาแนวนอน", preview: "linear-gradient(135deg, #1f2937, #111827)" },
+  glass_profile: { name: "Glass Profile Modal", description: "รูปแบบบัตร เมื่อกดแล้วมีป๊อปอัปกระจกลอยขึ้นมา", preview: "linear-gradient(135deg, #a855f7, #6366f1)" },
+};
 

@@ -18,6 +18,7 @@ export interface Gang {
   pageTitle: string;
   pageSubtitle: string;
   theme?: string;
+  membersTemplate?: string;
   backgroundImageUrl?: string;
   membersBackgroundImageUrl?: string;
   textColor?: string;
@@ -104,6 +105,7 @@ const gangSchema = new mongoose.Schema({
   adminTokenHash: { type: String, required: true, select: false },
   adminSessionHash: { type: String, select: false },
   theme: { type: String, default: "default" },
+  membersTemplate: { type: String, default: "default" },
   backgroundImageUrl: { type: String, default: "" },
   membersBackgroundImageUrl: { type: String, default: "" },
   textColor: { type: String, default: "" },
@@ -159,6 +161,9 @@ if (!GangModel.schema.path("musicPlayerStyle")) {
 }
 if (!GangModel.schema.path("theme")) {
   GangModel.schema.add({ theme: { type: String, default: "default" } });
+}
+if (!GangModel.schema.path("membersTemplate")) {
+  GangModel.schema.add({ membersTemplate: { type: String, default: "default" } });
 }
 if (!GangModel.schema.path("adminSessionHash")) {
   GangModel.schema.add({ adminSessionHash: { type: String, select: false } });
@@ -294,6 +299,7 @@ type GangDocument = {
   adminTokenHash?: string;
   adminSessionHash?: string;
   theme?: string;
+  membersTemplate?: string;
   backgroundImageUrl?: string;
   membersBackgroundImageUrl?: string;
   textColor?: string;
@@ -342,6 +348,7 @@ function mapGang(doc: GangDocument): Gang {
     pageTitle: doc.pageTitle,
     pageSubtitle: doc.pageSubtitle || "EST. 2024",
     theme: doc.theme || "default",
+    membersTemplate: doc.membersTemplate || "default",
     backgroundImageUrl: doc.backgroundImageUrl || "",
     membersBackgroundImageUrl: doc.membersBackgroundImageUrl || "",
     textColor: doc.textColor || "",

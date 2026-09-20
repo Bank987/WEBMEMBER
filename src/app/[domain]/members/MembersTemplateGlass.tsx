@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Crown, User, Search, Link as LinkIcon } from "lucide-react";
+import { Shield, Crown, User, Search, Link as LinkIcon, Heart } from "lucide-react";
 import { useState } from "react";
 import { Member } from "@/lib/db";
 import { BackgroundMedia } from "@/components/BackgroundMedia";
@@ -26,7 +26,9 @@ export default function MembersTemplateGlass({
   );
 
   const founders = filteredMembers.filter(m => m.role === "FOUNDER");
+  const support2 = filteredMembers.filter(m => m.role === "SUPPORT" && m.supportPosition === 2);
   const leaders = filteredMembers.filter(m => m.role === "LEADER");
+  const support3 = filteredMembers.filter(m => m.role === "SUPPORT" && m.supportPosition !== 2);
   const members = filteredMembers.filter(m => m.role === "MEMBER");
 
   const containerVariants = {
@@ -106,6 +108,18 @@ export default function MembersTemplateGlass({
             />
           )}
 
+          {support2.length > 0 && (
+            <GlassSection 
+              title="SUPPORT" 
+              members={support2} 
+              role="SUPPORT" 
+              accentColor="from-pink-400 to-rose-500"
+              icon={<Heart className="w-5 h-5 text-white" />}
+              containerVariants={containerVariants}
+              itemVariants={itemVariants}
+            />
+          )}
+
           {leaders.length > 0 && (
             <GlassSection 
               title="LEADERS" 
@@ -113,6 +127,18 @@ export default function MembersTemplateGlass({
               role="LEADER" 
               accentColor="from-blue-400 to-indigo-500"
               icon={<Shield className="w-5 h-5 text-white" />}
+              containerVariants={containerVariants}
+              itemVariants={itemVariants}
+            />
+          )}
+
+          {support3.length > 0 && (
+            <GlassSection 
+              title="SUPPORT" 
+              members={support3} 
+              role="SUPPORT" 
+              accentColor="from-pink-400 to-rose-500"
+              icon={<Heart className="w-5 h-5 text-white" />}
               containerVariants={containerVariants}
               itemVariants={itemVariants}
             />

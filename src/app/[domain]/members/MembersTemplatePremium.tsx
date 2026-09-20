@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "framer-motion";
-import { Shield, Crown, User, Search, ExternalLink, Sparkles, Star, X, ChevronRight, Users, Hash } from "lucide-react";
+import { Shield, Crown, User, Search, ExternalLink, Sparkles, Star, X, ChevronRight, Users, Hash, Heart } from "lucide-react";
 import { useState, useRef, useCallback } from "react";
 import { Member, Role } from "@/lib/db";
 import { BackgroundMedia } from "@/components/BackgroundMedia";
@@ -28,11 +28,14 @@ export default function MembersTemplatePremium({
   );
 
   const founders = filteredMembers.filter(m => m.role === "FOUNDER");
+  const support2 = filteredMembers.filter(m => m.role === "SUPPORT" && m.supportPosition === 2);
   const leaders = filteredMembers.filter(m => m.role === "LEADER");
+  const support3 = filteredMembers.filter(m => m.role === "SUPPORT" && m.supportPosition !== 2);
   const members = filteredMembers.filter(m => m.role === "MEMBER");
 
   const roleConfig: Record<string, { color: string, label: string, icon: React.ReactNode }> = {
     FOUNDER: { color: "#facc15", label: "Founder", icon: <Crown className="w-4 h-4" /> },
+    SUPPORT: { color: "#ec4899", label: "Support", icon: <Heart className="w-4 h-4" /> },
     LEADER: { color: "#ef4444", label: "Leader", icon: <Shield className="w-4 h-4" /> },
     MEMBER: { color: "#71717a", label: "Member", icon: <User className="w-4 h-4" /> },
   };
@@ -112,6 +115,7 @@ export default function MembersTemplatePremium({
             className="flex items-center gap-6 mb-10"
           >
             <StatBadge label="Founders" count={founders.length} color="#facc15" icon={<Crown className="w-3 h-3" />} />
+            <StatBadge label="Supports" count={support2.length + support3.length} color="#ec4899" icon={<Heart className="w-3 h-3" />} />
             <StatBadge label="Leaders" count={leaders.length} color="#ef4444" icon={<Shield className="w-3 h-3" />} />
             <StatBadge label="Members" count={members.length} color="#71717a" icon={<Users className="w-3 h-3" />} />
           </motion.div>
@@ -156,6 +160,20 @@ export default function MembersTemplatePremium({
             </motion.section>
           )}
 
+          {/* SUPPORT (Level 2) */}
+          {support2.length > 0 && (
+            <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
+              <SectionHeader title="SUPPORT" count={support2.length} color="#ec4899" icon={<Heart className="w-4 h-4" />} />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
+                {support2.map((member, i) => (
+                  <motion.div key={member.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5, type: "spring" }}>
+                    <CompactCard member={member} accentColor="#ec4899" onClick={() => setSelectedMember(member)} />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.section>
+          )}
+
           {/* LEADERS */}
           {leaders.length > 0 && (
             <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
@@ -164,6 +182,20 @@ export default function MembersTemplatePremium({
                 {leaders.map((member, i) => (
                   <motion.div key={member.id} initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5, type: "spring" }}>
                     <CompactCard member={member} accentColor="#ef4444" onClick={() => setSelectedMember(member)} />
+                  </motion.div>
+                ))}
+              </div>
+            </motion.section>
+          )}
+
+          {/* SUPPORT (Level 3) */}
+          {support3.length > 0 && (
+            <motion.section initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
+              <SectionHeader title="SUPPORT" count={support3.length} color="#ec4899" icon={<Heart className="w-4 h-4" />} />
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-10">
+                {support3.map((member, i) => (
+                  <motion.div key={member.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08, duration: 0.5, type: "spring" }}>
+                    <CompactCard member={member} accentColor="#ec4899" onClick={() => setSelectedMember(member)} />
                   </motion.div>
                 ))}
               </div>
@@ -321,13 +353,13 @@ function CompactCard({ member, accentColor, onClick }: { member: Member, accentC
           <div className="absolute -inset-0.5 rounded-full opacity-0 group-hover:opacity-50 blur-sm transition-opacity duration-500" style={{ backgroundColor: accentColor }} />
           <img src={member.avatar} alt={member.name} className="relative w-12 h-12 rounded-full object-cover border border-white/10 group-hover:border-transparent transition-all duration-500" />
           <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-md flex items-center justify-center border border-white/10" style={{ backgroundColor: `${accentColor}25`, color: accentColor }}>
-            {accentColor === "#ef4444" ? <Shield className="w-2.5 h-2.5" /> : <User className="w-2.5 h-2.5" />}
+            {member.role === "LEADER" ? <Shield className="w-2.5 h-2.5" /> : member.role === "SUPPORT" ? <Heart className="w-2.5 h-2.5" /> : <User className="w-2.5 h-2.5" />}
           </div>
         </div>
 
         <div className="flex-1 min-w-0">
           <span className="text-[9px] font-bold tracking-[0.15em] uppercase" style={{ color: accentColor }}>
-            {accentColor === "#ef4444" ? "LEADER" : "MEMBER"}
+            {member.role}
           </span>
           <h3 className="text-sm font-bold text-white truncate">{member.name}</h3>
         </div>

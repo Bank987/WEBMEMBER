@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Shield, Crown, User, Search, Link as LinkIcon } from "lucide-react";
+import { Shield, Crown, User, Search, Link as LinkIcon, Heart } from "lucide-react";
 import { useState } from "react";
 import { Member, Role } from "@/lib/db";
 import { BackgroundMedia } from "@/components/BackgroundMedia";
@@ -26,7 +26,9 @@ export default function MembersTemplateModern({
   );
 
   const founders = filteredMembers.filter(m => m.role === "FOUNDER");
+  const support2 = filteredMembers.filter(m => m.role === "SUPPORT" && m.supportPosition === 2);
   const leaders = filteredMembers.filter(m => m.role === "LEADER");
+  const support3 = filteredMembers.filter(m => m.role === "SUPPORT" && m.supportPosition !== 2);
   const members = filteredMembers.filter(m => m.role === "MEMBER");
 
   // Animation variants
@@ -110,6 +112,18 @@ export default function MembersTemplateModern({
             />
           )}
 
+          {support2.length > 0 && (
+            <ModernSection 
+              title="SUPPORT" 
+              members={support2} 
+              role="SUPPORT" 
+              hexColor="#ec4899" 
+              icon={<Heart className="w-5 h-5 text-[#ec4899]" />}
+              containerVariants={containerVariants}
+              itemVariants={itemVariants}
+            />
+          )}
+
           {leaders.length > 0 && (
             <ModernSection 
               title="LEADERS" 
@@ -117,6 +131,18 @@ export default function MembersTemplateModern({
               role="LEADER" 
               hexColor="#38bdf8" 
               icon={<Shield className="w-5 h-5 text-[#38bdf8]" />}
+              containerVariants={containerVariants}
+              itemVariants={itemVariants}
+            />
+          )}
+
+          {support3.length > 0 && (
+            <ModernSection 
+              title="SUPPORT" 
+              members={support3} 
+              role="SUPPORT" 
+              hexColor="#ec4899" 
+              icon={<Heart className="w-5 h-5 text-[#ec4899]" />}
               containerVariants={containerVariants}
               itemVariants={itemVariants}
             />
@@ -212,7 +238,7 @@ function ModernSection({
                 />
                 {/* Tiny role icon badge */}
                 <div className="absolute -bottom-1 -right-1 bg-[#111] rounded-full p-1.5 z-20 border border-white/10" style={{ color: hexColor }}>
-                  {role === "FOUNDER" ? <Crown size={12} /> : role === "LEADER" ? <Shield size={12} /> : <User size={12} />}
+                  {role === "FOUNDER" ? <Crown size={12} /> : role === "LEADER" ? <Shield size={12} /> : role === "SUPPORT" ? <Heart size={12} /> : <User size={12} />}
                 </div>
               </div>
 

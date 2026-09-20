@@ -18,6 +18,7 @@ export async function saveSettings(formData: FormData) {
     pageTitle: formData.get("pageTitle") as string,
     pageSubtitle: formData.get("pageSubtitle") as string,
     theme: formData.get("theme") as string || "default",
+    membersTemplate: formData.get("membersTemplate") as string || "default",
     backgroundImageUrl: sanitizeUrl(formData.get("backgroundImageUrl") as string),
     membersBackgroundImageUrl: sanitizeUrl(formData.get("membersBackgroundImageUrl") as string),
     seoImageUrl: sanitizeUrl(formData.get("seoImageUrl") as string),

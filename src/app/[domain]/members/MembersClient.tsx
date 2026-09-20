@@ -222,10 +222,7 @@ export default function MembersClient({
             transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
           >
             <MemberSection 
-              title="FOUNDERS" 
-              members={founders} 
-              role="FOUNDER" 
-              gridCols="grid-cols-1 md:grid-cols-2" 
+              title="FOUNDERS" members={founders} role="FOUNDER" gridCols="grid-cols-1 md:grid-cols-2 lg:grid-cols-3" 
               colorClass="text-[#facc15]" // Yellow
               borderClass="border-[#facc15]/20 bg-gradient-to-r from-surface-base to-[#facc15]/5" 
               isCentered={true}
@@ -337,54 +334,51 @@ function MemberSection({
   isCentered?: boolean
 }) {
   const getIcon = () => {
-    if (role === "FOUNDER") return <Crown className="w-[10px] h-[10px]" />;
-    if (role === "LEADER") return <Shield className="w-[10px] h-[10px]" />;
-    if (role === "SUPPORT") return <Heart className="w-[10px] h-[10px]" />;
-
-    return <User className="w-[10px] h-[10px]" />;
+    if (role === "FOUNDER") return <Crown className="w-[12px] h-[12px]" />;
+    if (role === "LEADER") return <Shield className="w-[12px] h-[12px]" />;
+    if (role === "SUPPORT") return <Heart className="w-[12px] h-[12px]" />;
+    return <User className="w-[12px] h-[12px]" />;
   };
 
+  const minWidthClass = gridCols.includes("lg:grid-cols-3") 
+    ? "min-w-full md:min-w-[calc(50%-10px)] lg:min-w-[calc(33.333%-14px)]" 
+    : "min-w-full md:min-w-[calc(50%-10px)]";
+
   return (
-    <section>
-      {/* Section Header */}
-      <div className="flex items-end gap-[9px] mb-[18px]">
-        <h2 className="text-[22.5px] font-[900] tracking-[-0.5625px] uppercase text-text-inverse">{title}</h2>
-        <span className="text-[12px] text-text-primary/30 font-[700] mb-[3px] tracking-normal">
-          / {members.length.toString().padStart(2, '0')}
-        </span>
+    <section className={`p-[24px] rounded-[36px] ${borderClass} shadow-lg backdrop-blur-md transition-all duration-300 hover:shadow-xl`}>
+      <div className="flex items-end gap-[12px] mb-[24px]">
+        <h2 className="text-[28px] font-[900] tracking-[-1px] uppercase text-text-inverse">{title}</h2>
+        <span className="text-[14px] text-text-primary/40 font-[800] mb-[5px] tracking-widest">/ {members.length.toString().padStart(2, '0')}</span>
       </div>
 
-      {/* Members Grid / Flex */}
-      <div className={isCentered ? "flex flex-wrap justify-center gap-[18px]" : `grid ${gridCols} gap-[18px]`}>
+      <div className={`flex flex-wrap gap-[18px] ${isCentered ? "justify-center" : "justify-start"}`}>
         {members.map(member => (
           <div 
             key={member.id} 
-            className={`flex items-center gap-[18px] p-[12px] border ${borderClass} rounded-[12px] transition-all hover:border-opacity-50 overflow-hidden ${
-              isCentered ? "w-full md:w-[calc(50%-9px)]" : ""
-            }`}
+            className={`group relative flex items-center gap-[12px] p-[12px] bg-white/[0.02] hover:bg-white/[0.05] border border-text-primary/10 hover:border-text-primary/30 rounded-2xl transition-all h-[70px] w-max max-w-full flex-shrink-0 ${minWidthClass}`}
           >
-            {/* Avatar */}
-            <img 
-              src={member.avatar} 
-              alt={member.name}
-              className="w-[45px] h-[45px] rounded-full object-cover border border-text-primary/10 grayscale hover:grayscale-0 transition-all shrink-0"
-            />
+            <div className="relative shrink-0">
+              <img 
+                src={member.avatar} 
+                alt={member.name}
+                className="w-[45px] h-[45px] rounded-full object-cover border border-text-primary/10 grayscale hover:grayscale-0 transition-all shrink-0"
+              />
+            </div>
             
-            {/* Info */}
-            <div className="flex flex-col justify-center min-w-0">
-              <div className={`flex items-center gap-[6px] text-[9px] font-[700] uppercase tracking-[1.8px] mb-[3px] ${colorClass}`}>
+            <div className="flex flex-col justify-center min-w-0 flex-1">
+              <div className={`flex items-center gap-[6px] text-[9px] font-[900] uppercase tracking-[2px] mb-[4px] ${colorClass}`}>
                 {getIcon()}
                 {member.role}
               </div>
-              <h3 className="text-[12px] font-[700] text-text-inverse tracking-normal leading-[15px] mb-[3px] truncate">{member.name}</h3>
+              <h3 className="text-[12px] font-[700] text-text-inverse tracking-normal leading-[15px] mb-[3px] whitespace-nowrap">{member.name}</h3>
               {member.facebookUrl && (
                 <a 
                   href={member.facebookUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="text-[9px] text-text-secondary font-[400] hover:underline tracking-[1.8px] uppercase truncate"
+                  className="text-[#1877F2]/60 hover:text-[#1877F2] text-[9px] font-[800] uppercase tracking-wider transition-colors flex items-center gap-1"
                 >
-                  Facebook
+                  FACEBOOK
                 </a>
               )}
             </div>
@@ -394,3 +388,4 @@ function MemberSection({
     </section>
   );
 }
+

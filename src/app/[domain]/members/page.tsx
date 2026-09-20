@@ -1,5 +1,6 @@
 import { getMembersByGang, getGangBySubdomain } from "@/lib/db";
 import MembersClient from "./MembersClient";
+import MembersTemplateCards from "./MembersTemplateCards";
 // Removed GangAnnouncementModal
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
@@ -33,17 +34,28 @@ export default async function MembersPage({ params }: { params: Promise<{ domain
   }
 
   const members = await getMembersByGang(gang.id);
+  const themeClass = getGangTheme(gang.theme).className;
+  
+  const commonProps = {
+    initialMembers: members,
+    pageTitle: gang.pageTitle,
+    pageSubtitle: gang.pageSubtitle,
+    theme: themeClass,
+    backgroundImageUrl: gang.membersBackgroundImageUrl,
+  };
+
+  let TemplateComponent = MembersClient;
+  
+  switch (gang.membersTemplate) {
+    case "glass_profile": TemplateComponent = MembersTemplateCards; break;
+    default: TemplateComponent = MembersClient; break;
+  }
 
   return (
     <>
-      <MembersClient 
-      initialMembers={members}
-      pageTitle={gang.pageTitle}
-      pageSubtitle={gang.pageSubtitle}
-      theme={getGangTheme(gang.theme).className}
-      backgroundImageUrl={gang.membersBackgroundImageUrl}
-    />
-      {/* Announcement Modal Removed */}
+      <TemplateComponent {...commonProps} />
     </>
   );
 }
+
+

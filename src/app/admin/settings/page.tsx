@@ -2,7 +2,7 @@ import { Sliders, Music, Crown, Users } from "lucide-react";
 import { getAuthenticatedGang } from "@/lib/auth";
 import { saveSettings } from "@/actions/settings";
 import { redirect } from "next/navigation";
-import { gangThemes } from "@/lib/themes";
+import { gangThemes, membersTemplates } from "@/lib/themes";
 import { DeleteGangButton } from "@/components/DeleteGangButton";
 import { ButtonSettings } from "@/components/ButtonSettings";
 import { SettingsFormWrapper } from "@/components/SettingsFormWrapper";
@@ -199,6 +199,62 @@ export default async function SettingsPage() {
           </div>
         </div>
 
+          <div id="members-template" className="scroll-mt-8 bg-[#050505] border border-[#111111] rounded-[18px] overflow-hidden">
+            <div className="bg-[#0a0a0a] p-[18px] border-b border-[#111111] flex items-center justify-between">
+              <div>
+                <h3 className="text-[14px] font-[900] text-text-inverse">รูปแบบหน้า Members</h3>
+                <p className="mt-1 text-[10px] text-[#777]">เลือก Template ที่ต้องการให้แสดงในหน้ารายชื่อสมาชิกของแก๊ง</p>
+              </div>
+            </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5">
+                {/* Default */}
+                <label className="relative block cursor-pointer group">
+                  <input type="radio" name="membersTemplate" value="default" defaultChecked={settings.membersTemplate === 'default' || !settings.membersTemplate} className="peer sr-only" />
+                  <div className="peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10 rounded-[12px] border border-white/10 p-4 transition-all hover:border-white/30 h-full flex flex-col items-center bg-white/5">
+                    <div className="w-[200px] h-[120px] bg-black/60 rounded-[8px] mb-3 border border-white/10 flex flex-col items-center p-3 gap-2 overflow-hidden">
+                      <div className="w-[120px] h-[8px] rounded-full bg-white/20" />
+                      <div className="flex gap-2">
+                        <div className="w-[30px] h-[8px] rounded-full bg-white/30" />
+                        <div className="w-[30px] h-[8px] rounded-full bg-white/30" />
+                      </div>
+                      <div className="w-full grid grid-cols-3 gap-1.5 mt-1">
+                        <div className="h-[20px] bg-white/10 rounded flex items-center gap-1.5 p-1"><div className="w-3 h-3 rounded-full bg-white/30"/><div className="w-6 h-1.5 rounded bg-white/20"/></div>
+                        <div className="h-[20px] bg-white/10 rounded flex items-center gap-1.5 p-1"><div className="w-3 h-3 rounded-full bg-white/30"/><div className="w-6 h-1.5 rounded bg-white/20"/></div>
+                        <div className="h-[20px] bg-white/10 rounded flex items-center gap-1.5 p-1"><div className="w-3 h-3 rounded-full bg-white/30"/><div className="w-6 h-1.5 rounded bg-white/20"/></div>
+                      </div>
+                    </div>
+                    <p className="text-center text-[12px] font-[600] text-white">Default (Classic)</p>
+                    <p className="text-center text-[10px] text-[#777] mt-1">รูปแบบพื้นฐาน เน้นเรียบง่ายและดูง่าย</p>
+                  </div>
+                </label>
+                
+                {/* Glass Profile */}
+                <label className="relative block cursor-pointer group">
+                  <input type="radio" name="membersTemplate" value="glass_profile" defaultChecked={settings.membersTemplate === 'glass_profile'} className="peer sr-only" />
+                  <div className="peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10 rounded-[12px] border border-white/10 p-4 transition-all hover:border-white/30 h-full flex flex-col items-center bg-white/5">
+                    <div className="w-[200px] h-[120px] bg-black/60 rounded-[8px] mb-3 border border-white/10 flex flex-col items-center justify-center p-3 gap-2 relative overflow-hidden">
+                      <div className="absolute top-[-10px] right-[-10px] w-[60px] h-[60px] bg-blue-500/30 blur-[15px] rounded-full" />
+                      
+                      <div className="w-[100px] h-[10px] rounded bg-white/30 z-10" />
+                      
+                      <div className="w-full flex flex-col gap-2 mt-1 z-10">
+                        <div className="h-[24px] bg-gradient-to-r from-white/10 to-transparent border border-white/20 rounded-lg flex items-center justify-between px-2">
+                           <div className="flex items-center gap-1.5"><div className="w-4 h-4 rounded-full bg-white/30 border border-white/40"/><div className="w-12 h-2 rounded bg-white/60"/></div>
+                           <div className="w-4 h-4 rounded-full bg-[#1877F2]/80" />
+                        </div>
+                        <div className="h-[24px] bg-gradient-to-r from-white/10 to-transparent border border-white/20 rounded-lg flex items-center justify-between px-2">
+                           <div className="flex items-center gap-1.5"><div className="w-4 h-4 rounded-full bg-white/30 border border-white/40"/><div className="w-12 h-2 rounded bg-white/60"/></div>
+                           <div className="w-4 h-4 rounded-full bg-[#1877F2]/80" />
+                        </div>
+                      </div>
+                    </div>
+                    <p className="text-center text-[12px] font-[600] text-white">Glass Profile</p>
+                    <p className="text-center text-[10px] text-[#777] mt-1">สไตล์หรูหรา แสงเงา Glassmorphism</p>
+                  </div>
+                </label>
+              </div>
+          </div>
+
         
               {/* Custom Effects */}
         <div className="bg-[#050505] border border-[#111111] rounded-[18px] overflow-hidden">
@@ -374,5 +430,6 @@ export default async function SettingsPage() {
         </div>
   );
 }
+
 
 
