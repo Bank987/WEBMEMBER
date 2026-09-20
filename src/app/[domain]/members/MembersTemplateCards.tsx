@@ -87,7 +87,7 @@ export default function MembersTemplateCards({
         <div className="flex justify-center mb-[54px] -mt-[20px] px-4">
           <AnimatePresence mode="wait">
             {showStats ? (
-              <motion.div key="stats-expanded" initial={{ opacity: 0, height: 0, scale: 0.9 }} animate={{ opacity: 1, height: "auto", scale: 1 }} exit={{ opacity: 0, height: 0, scale: 0.8, filter: "blur(10px)" }} transition={{ duration: 0.5, type: "spring", bounce: 0.3 }} className="flex flex-wrap justify-center items-center gap-2.5 relative z-10 origin-top overflow-hidden p-2 rounded-2xl bg-white/[0.02] backdrop-blur-sm border border-white/5">
+              <motion.div key="stats-expanded" initial={{ opacity: 0, height: 0, scale: 0.9 }} animate={{ opacity: 1, height: "auto", scale: 1 }} exit={{ opacity: 0, height: 0, scale: 0.8, filter: "blur(10px)" }} transition={{ duration: 0.5, type: "spring", bounce: 0.3 }} className="flex flex-wrap justify-center items-center gap-2.5 relative z-10 origin-top overflow-hidden ">
                 {totalFounders > 0 && (
                   <div onClick={() => setActiveRoleFilter(activeRoleFilter === 'FOUNDER' ? null : 'FOUNDER')} className={`group flex items-center gap-2 px-3 py-1.5 rounded-full backdrop-blur-md border shadow-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ${activeRoleFilter === 'FOUNDER' ? 'bg-[#facc15]/20 border-[#facc15]/50 shadow-[#facc15]/20' : 'bg-white/[0.02] border-white/5 hover:bg-white/[0.06] hover:border-[#facc15]/30'}`}>
                     <div className="flex items-center justify-center w-[24px] h-[24px] rounded-full bg-[#facc15]/20 text-[#facc15]">
@@ -224,4 +224,5 @@ function MemberSection({ title, members, role, gridCols, colorClass, borderClass
     </section>
   );
 }
+
 
