@@ -672,3 +672,53 @@ export async function updateApplicationStatus(id: string, status: "ACCEPTED" | "
 }
 
 
+
+const suggestionSchema = new mongoose.Schema({
+  topic: { type: String, required: true },
+  description: { type: String, required: true },
+  senderName: { type: String, required: true },
+  contactInfo: { type: String, default: "" },
+  status: { type: String, enum: ["NEW", "REVIEWED", "IMPLEMENTED"], default: "NEW" }
+}, { timestamps: true });
+
+export const SuggestionModel = mongoose.models.Suggestion || mongoose.model("Suggestion", suggestionSchema);
+
+export interface Suggestion {
+  id: string;
+  topic: string;
+  description: string;
+  senderName: string;
+  contactInfo: string;
+  status: "NEW" | "REVIEWED" | "IMPLEMENTED";
+  createdAt: string;
+}
+
+export function mapSuggestion(doc: any): Suggestion {
+  return {
+    id: doc._id.toString(),
+    topic: doc.topic,
+    description: doc.description,
+    senderName: doc.senderName,
+    contactInfo: doc.contactInfo || "",
+    status: doc.status,
+    createdAt: doc.createdAt.toISOString()
+  };
+}
+
+export async function createSuggestion(data: { topic: string; description: string; senderName: string; contactInfo?: string }) {
+  await connectDB();
+  const doc = await SuggestionModel.create(data);
+  return mapSuggestion(doc);
+}
+
+export async function getSuggestions() {
+  await connectDB();
+  const docs = await SuggestionModel.find().sort({ createdAt: -1 });
+  return docs.map(mapSuggestion);
+}
+
+export async function updateSuggestionStatus(id: string, status: "NEW" | "REVIEWED" | "IMPLEMENTED") {
+  await connectDB();
+  const doc = await SuggestionModel.findByIdAndUpdate(id, { status }, { new: true });
+  return doc ? mapSuggestion(doc) : null;
+}

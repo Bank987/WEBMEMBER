@@ -6,6 +6,7 @@ import { DiscordSupportButton } from "@/components/DiscordSupportButton";
 import { BuyVipButton } from "@/components/BuyVipButton";
 import { BackgroundEffects } from "@/components/BackgroundEffects";
 import { GuideButton } from "@/components/GuideButton";
+import { SuggestFeatureButton } from "@/components/SuggestFeatureButton";
 
 export const metadata = {
   title: "WEBSITE สร้างเว็บรายชื่อแก๊ง อันดับ 1",
@@ -61,8 +62,9 @@ export default async function LandingPage() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <GuideButton />
-            <DiscordSupportButton compact />
+            <SuggestFeatureButton />
+              <GuideButton />
+              <DiscordSupportButton compact />
             <Link href="#auth" className="hidden sm:block relative overflow-hidden rounded-full p-[1px] group">
               <span className="absolute inset-0 bg-gradient-to-r from-[#0084ff] to-[#00bfff] rounded-full opacity-50 group-hover:opacity-100 transition-opacity" />
               <div className="relative bg-[#050505] px-6 py-2.5 rounded-full text-[11px] font-[900] tracking-[1px] text-white transition-all group-hover:bg-transparent">
@@ -219,4 +221,5 @@ export default async function LandingPage() {
     </div>
   );
 }
+
 
