@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 export async function submitSuggestion(data: { topic: string; description: string; senderName: string; contactInfo?: string }) {
   try {
     if (!data.topic || !data.description || !data.senderName) {
-      return { error: "?????????????????????????" };
+      return { error: "กรุณากรอกข้อมูลให้ครบถ้วน" };
     }
 
     await createSuggestion(data);
@@ -15,7 +15,6 @@ export async function submitSuggestion(data: { topic: string; description: strin
     return { success: true };
   } catch (error: any) {
     console.error("Failed to submit suggestion:", error);
-    return { error: "????????????????????????????? ????????????????????" };
+    return { error: "เกิดข้อผิดพลาดในการส่งข้อเสนอ กรุณาลองใหม่อีกครั้ง" };
   }
 }
-

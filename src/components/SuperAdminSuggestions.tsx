@@ -39,14 +39,14 @@ export function SuperAdminSuggestions({ initialSuggestions }: { initialSuggestio
           <div className="flex size-10 items-center justify-center rounded-xl bg-amber-500/20">
             <Lightbulb className="size-5 text-amber-500" />
           </div>
-          <h2 className="text-[20px] font-[900]">??????????? & ??????</h2>
+          <h2 className="text-[20px] font-[900]">ข้อเสนอระบบ & ไอเดีย</h2>
         </div>
-        <div className="text-[11px] font-[800] text-white/50">{suggestions.length} ???????</div>
+        <div className="text-[11px] font-[800] text-white/50">{suggestions.length} ข้อเสนอ</div>
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {suggestions.length === 0 ? (
-          <div className="col-span-full py-10 text-center text-white/40">???????????????????????</div>
+          <div className="col-span-full py-10 text-center text-white/40">ยังไม่มีข้อเสนอระบบใหม่</div>
         ) : (
           suggestions.map(s => (
             <div key={s.id} className="flex flex-col justify-between gap-4 rounded-[20px] border border-white/5 bg-white/5 p-5 transition hover:bg-white/10">
@@ -68,19 +68,19 @@ export function SuperAdminSuggestions({ initialSuggestions }: { initialSuggestio
               <div className="mt-2 pt-4 border-t border-white/10 flex flex-col gap-3">
                 <div className="flex justify-between items-end">
                   <div className="flex flex-col gap-1">
-                    <span className="text-[10px] font-bold text-white/40 uppercase">???</span>
+                    <span className="text-[10px] font-bold text-white/40 uppercase">จาก</span>
                     <span className="text-[12px] font-[800] text-amber-500">{s.senderName}</span>
                     {s.contactInfo && <span className="text-[10px] text-white/60">{s.contactInfo}</span>}
                   </div>
                   
                   <div className="flex gap-2">
                     {s.status === 'NEW' && (
-                      <button onClick={() => handleStatusChange(s.id, 'REVIEWED')} className="p-2 rounded-lg bg-[#0084ff]/20 text-[#0084ff] hover:bg-[#0084ff] hover:text-white transition" title="????????">
+                      <button onClick={() => handleStatusChange(s.id, 'REVIEWED')} className="p-2 rounded-lg bg-[#0084ff]/20 text-[#0084ff] hover:bg-[#0084ff] hover:text-white transition" title="อ่านแล้ว">
                         <Clock className="size-4" />
                       </button>
                     )}
                     {s.status !== 'IMPLEMENTED' && (
-                      <button onClick={() => handleStatusChange(s.id, 'IMPLEMENTED')} className="p-2 rounded-lg bg-emerald-500/20 text-emerald-500 hover:bg-emerald-500 hover:text-white transition" title="?????????????????">
+                      <button onClick={() => handleStatusChange(s.id, 'IMPLEMENTED')} className="p-2 rounded-lg bg-emerald-500/20 text-emerald-500 hover:bg-emerald-500 hover:text-white transition" title="เพิ่มเข้าระบบแล้ว">
                         <Check className="size-4" />
                       </button>
                     )}
