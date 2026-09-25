@@ -62,8 +62,7 @@ export default async function LandingPage() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <SuggestFeatureButton />
-              <GuideButton />
+<GuideButton />
               <DiscordSupportButton compact />
             <Link href="#auth" className="hidden sm:block relative overflow-hidden rounded-full p-[1px] group">
               <span className="absolute inset-0 bg-gradient-to-r from-[#0084ff] to-[#00bfff] rounded-full opacity-50 group-hover:opacity-100 transition-opacity" />
@@ -202,7 +201,10 @@ export default async function LandingPage() {
             </Reveal>
           </div>
         </section>
-      </main>
+        <div className="fixed bottom-6 right-6 z-50">
+        <SuggestFeatureButton />
+      </div>
+    </main>
 
       <footer className="border-t border-white/10 bg-[#020202] py-16 text-center relative z-10 flex flex-col items-center gap-6">
         <Link href="/" className="flex items-center gap-2 text-[14px] font-[900] tracking-[2px] text-white/30 uppercase hover:text-[#0084ff] transition-colors">
@@ -221,5 +223,6 @@ export default async function LandingPage() {
     </div>
   );
 }
+
 
 

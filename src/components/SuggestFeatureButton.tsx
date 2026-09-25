@@ -42,10 +42,13 @@ export function SuggestFeatureButton() {
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-500/20 to-orange-500/20 hover:from-amber-500/40 hover:to-orange-500/40 border border-amber-500/30 rounded-full text-[11px] font-[900] tracking-wide text-amber-500 transition-all shadow-[0_0_15px_rgba(245,158,11,0.15)] hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:scale-105"
+        className="group flex items-center gap-3 px-5 py-3.5 bg-gradient-to-r from-[#111] to-[#222] hover:from-amber-500 hover:to-orange-500 border border-amber-500/30 rounded-full text-[12px] font-[900] tracking-widest text-amber-500 hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:-translate-y-1"
       >
-        <Lightbulb className="w-4 h-4" />
-        <span className="hidden xl:inline">เสนอระบบ</span>
+        <div className="relative">
+          <div className="absolute inset-0 bg-amber-500 blur-md opacity-50 group-hover:opacity-100 transition-opacity" />
+          <Lightbulb className="w-5 h-5 relative z-10 animate-pulse" />
+        </div>
+        <span className="uppercase">เสนอระบบ</span>
       </button>
 
       <AnimatePresence>
