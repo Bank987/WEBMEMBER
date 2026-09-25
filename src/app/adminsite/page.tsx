@@ -28,12 +28,12 @@ export default async function SuperAdminPage() {
       <header className="mb-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
         <div>
           <p className="flex items-center gap-2 text-[10px] font-[900] tracking-[1.7px] text-[#83c8ff]"><ShieldCheck className="size-4" /> LASTNAME.SITE / SUPER ADMIN</p>
-          <h1 className="mt-4 text-[38px] font-[900] leading-[1.05] md:text-[56px]">???????????????</h1>
-          <p className="mt-4 max-w-[520px] text-[13px] leading-relaxed text-[#9aa7b7]">???????????? ????????????? ????????????????????????????????????????????</p>
+          <h1 className="mt-4 text-[38px] font-[900] leading-[1.05] md:text-[56px]">ศูนย์ควบคุมแก๊ง</h1>
+          <p className="mt-4 max-w-[520px] text-[13px] leading-relaxed text-[#9aa7b7]">ดูแลเว็บไซต์ ตรวจสอบสมาชิก และจัดการสิทธิ์เจ้าของแก๊งทุกแห่งจากจุดเดียว</p>
         </div>
         <div className="flex items-center gap-3">
-          <a href="/" className="rounded-full border border-white/10 bg-transparent px-5 py-3 text-[11px] font-[900] text-[#aeb9c8] transition hover:border-white/20 hover:bg-white/5 hover:text-white">???????????</a>
-          <form action="/api/super-admin/logout" method="post"><button className="rounded-full border border-white/15 bg-white/[0.04] px-5 py-3 text-[11px] font-[900] text-[#aeb9c8] transition hover:border-[#ef7777] hover:bg-[#ef4444]/10 hover:text-[#ffabab]">??????????</button></form>
+          <a href="/" className="rounded-full border border-white/10 bg-transparent px-5 py-3 text-[11px] font-[900] text-[#aeb9c8] transition hover:border-white/20 hover:bg-white/5 hover:text-white">กลับหน้าแรก</a>
+          <form action="/api/super-admin/logout" method="post"><button className="rounded-full border border-white/15 bg-white/[0.04] px-5 py-3 text-[11px] font-[900] text-[#aeb9c8] transition hover:border-[#ef7777] hover:bg-[#ef4444]/10 hover:text-[#ffabab]">ออกจากระบบ</button></form>
         </div>
       </header>
       
@@ -44,7 +44,4 @@ export default async function SuperAdminPage() {
     </div>
   </main>;
 }
-
-
-
 
