@@ -28,6 +28,8 @@ export interface Gang {
   customCursor?: string;
   logoUrl?: string;
   discordUrl?: string;
+  socialPlatform?: "facebook" | "instagram" | "tiktok";
+  socialUrl?: string;
   facebookUrl?: string;
   entryAnimation?: string;
   buttonShape?: string;
@@ -58,6 +60,8 @@ export interface Member {
   role: Role;
   supportPosition?: number;
   avatar: string;
+  socialPlatform?: "facebook" | "instagram" | "tiktok";
+  socialUrl?: string;
   facebookUrl?: string;
 }
 
@@ -66,6 +70,8 @@ export interface Application {
   gangId: string;
   name: string;
   avatar: string;
+  socialPlatform?: "facebook" | "instagram" | "tiktok";
+  socialUrl?: string;
   facebookUrl?: string;
   status: "PENDING" | "ACCEPTED" | "REJECTED";
   createdAt: string;
@@ -133,7 +139,9 @@ const memberSchema = new mongoose.Schema({
   role: { type: String, required: true, enum: ["FOUNDER", "LEADER", "MEMBER", "SUPPORT"] },
   supportPosition: { type: Number, enum: [2, 3] },
   avatar: { type: String, required: true },
-  facebookUrl: { type: String }
+  facebookUrl: { type: String },
+    socialPlatform: { type: String, enum: ["facebook", "instagram", "tiktok"] },
+    socialUrl: { type: String }
 }, { timestamps: true });
 
 const applicationSchema = new mongoose.Schema({
@@ -141,6 +149,8 @@ const applicationSchema = new mongoose.Schema({
   name: { type: String, required: true },
   avatar: { type: String, required: true },
   facebookUrl: { type: String },
+    socialPlatform: { type: String, enum: ["facebook", "instagram", "tiktok"] },
+    socialUrl: { type: String },
   status: { type: String, required: true, enum: ["PENDING", "ACCEPTED", "REJECTED"], default: "PENDING" }
 }, { timestamps: true });
 
@@ -309,6 +319,8 @@ type GangDocument = {
   customCursor?: string;
   logoUrl?: string;
   discordUrl?: string;
+  socialPlatform?: "facebook" | "instagram" | "tiktok";
+  socialUrl?: string;
   facebookUrl?: string;
   entryAnimation?: string;
   buttonShape?: string;
@@ -329,6 +341,8 @@ type MemberDocument = {
   role: Role;
   supportPosition?: number;
   avatar: string;
+  socialPlatform?: "facebook" | "instagram" | "tiktok";
+  socialUrl?: string;
   facebookUrl?: string;
 };
 
@@ -386,7 +400,8 @@ function mapMember(doc: MemberDocument): Member {
     role: doc.role,
     supportPosition: doc.supportPosition,
     avatar: doc.avatar,
-    facebookUrl: doc.facebookUrl,
+      socialPlatform: doc.socialPlatform || (doc.facebookUrl ? "facebook" : undefined),
+      socialUrl: doc.socialUrl || doc.facebookUrl,
   };
 }
 
@@ -629,13 +644,14 @@ export async function getApplicationsByGang(gangId: string): Promise<Application
     gangId: app.gangId.toString(),
     name: app.name,
     avatar: app.avatar,
-    facebookUrl: app.facebookUrl,
+      socialPlatform: app.socialPlatform || (app.facebookUrl ? "facebook" : undefined),
+      socialUrl: app.socialUrl || app.facebookUrl,
     status: app.status,
     createdAt: app.createdAt.toISOString()
   }));
 }
 
-export async function createApplication(data: { gangId: string; name: string; avatar: string; facebookUrl?: string }): Promise<Application> {
+export async function createApplication(data: { gangId: string; name: string; avatar: string; socialPlatform?: "facebook" | "instagram" | "tiktok"; socialUrl?: string; facebookUrl?: string }): Promise<Application> {
   await connectDB();
   const app = await ApplicationModel.create(data);
   return {
@@ -643,7 +659,8 @@ export async function createApplication(data: { gangId: string; name: string; av
     gangId: app.gangId.toString(),
     name: app.name,
     avatar: app.avatar,
-    facebookUrl: app.facebookUrl,
+      socialPlatform: app.socialPlatform || (app.facebookUrl ? "facebook" : undefined),
+      socialUrl: app.socialUrl || app.facebookUrl,
     status: app.status,
     createdAt: app.createdAt.toISOString()
   };
@@ -653,3 +670,5 @@ export async function updateApplicationStatus(id: string, status: "ACCEPTED" | "
   await connectDB();
   await ApplicationModel.updateOne({ _id: id }, { status });
 }
+
+

@@ -20,7 +20,8 @@ export async function createMember(formData: FormData): Promise<{ ok: boolean; e
       role: formData.get("role") as Role,
       supportPosition: formData.get("role") === "SUPPORT" && formData.get("supportPosition") ? parseInt(formData.get("supportPosition") as string) : undefined,
       avatar: sanitizeUrl(formData.get("avatar") as string) || "https://i.pravatar.cc/150",
-      facebookUrl: sanitizeUrl(formData.get("facebookUrl") as string),
+      socialPlatform: formData.get("socialPlatform") as "facebook" | "instagram" | "tiktok" | undefined,
+      socialUrl: sanitizeUrl(formData.get("socialUrl") as string),
     });
 
     // Send Discord Webhook
@@ -73,7 +74,8 @@ export async function updateMember(id: string, formData: FormData): Promise<{ ok
       role: formData.get("role") as Role,
       supportPosition: formData.get("role") === "SUPPORT" && formData.get("supportPosition") ? parseInt(formData.get("supportPosition") as string) : undefined,
       avatar: sanitizeUrl(formData.get("avatar") as string),
-      facebookUrl: sanitizeUrl(formData.get("facebookUrl") as string),
+      socialPlatform: formData.get("socialPlatform") as "facebook" | "instagram" | "tiktok" | undefined,
+      socialUrl: sanitizeUrl(formData.get("socialUrl") as string),
     });
   } catch (error) {
     console.error("Update member failed", error);
@@ -99,5 +101,6 @@ export async function deleteMember(id: string) {
   updateTag(`gang-${gang.subdomain}`); if (gang.customDomain) { updateTag(`gang-${gang.customDomain}`); }
   updateTag(`members-${gang.id}`);
 }
+
 
 

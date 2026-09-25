@@ -4,7 +4,7 @@ import { createApplication, updateApplicationStatus, getGangBySubdomain, Role, c
 import { getAuthenticatedGang } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
 
-export async function submitApplication(domain: string, data: { name: string; avatar: string; facebookUrl?: string; token?: string }) {
+export async function submitApplication(domain: string, data: { name: string; avatar: string; socialPlatform?: "facebook" | "instagram" | "tiktok"; socialUrl?: string; facebookUrl?: string; token?: string }) {
   const gang = await getGangBySubdomain(domain);
   if (!gang) {
     return { error: "Gang not found" };
@@ -43,7 +43,8 @@ export async function submitApplication(domain: string, data: { name: string; av
       gangId: gang.id,
       name: data.name,
       avatar: data.avatar,
-      facebookUrl: data.facebookUrl
+      socialPlatform: data.socialPlatform,
+      socialUrl: data.socialUrl
     });
     
     return { success: true };
@@ -74,7 +75,8 @@ export async function reviewApplication(applicationId: string, action: "ACCEPT" 
         role: role,
         supportPosition: role === "SUPPORT" ? supportPosition : undefined,
         avatar: app.avatar,
-        facebookUrl: app.facebookUrl
+        socialPlatform: app.socialPlatform,
+        socialUrl: app.socialUrl
       });
 
       await updateApplicationStatus(applicationId, "ACCEPTED");
@@ -140,3 +142,4 @@ export async function resetInviteToken() {
     return { error: "Failed to reset token" };
   }
 }
+

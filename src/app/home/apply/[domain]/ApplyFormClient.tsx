@@ -27,7 +27,8 @@ export function ApplyFormClient({ gangName, domain }: { gangName: string, domain
     const data = {
       name: formData.get("name") as string,
       avatar: formData.get("avatar") as string,
-      facebookUrl: formData.get("facebookUrl") as string,
+      socialPlatform: formData.get("socialPlatform") as "facebook" | "instagram" | "tiktok" | undefined,
+        socialUrl: formData.get("socialUrl") as string,
       token: turnstileToken
     };
 
@@ -92,13 +93,24 @@ export function ApplyFormClient({ gangName, domain }: { gangName: string, domain
           </div>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase ml-1">ลิ้งก์ Facebook (ถ้ามี)</label>
-          <div className="relative group">
-            <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#0084ff] transition-colors" />
-            <input name="facebookUrl" type="url" placeholder="https://facebook.com/..." className="w-full bg-black/50 border border-white/10 focus:border-[#0084ff]/50 rounded-2xl py-3.5 pl-11 pr-4 text-sm text-white placeholder-white/20 outline-none transition-all shadow-inner" />
+                  <div className="space-y-2 text-left">
+            <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase ml-1">Social Media (?????????)</label>
+            <div className="flex flex-col sm:flex-row gap-3">
+              <select
+                name="socialPlatform"
+                defaultValue="facebook"
+                className="sm:w-[150px] bg-black/50 border border-white/10 focus:border-[#0084ff]/50 rounded-2xl py-3.5 px-4 text-sm text-white outline-none transition-all shadow-inner appearance-none cursor-pointer"
+              >
+                <option value="facebook">Facebook</option>
+                <option value="instagram">Instagram</option>
+                <option value="tiktok">TikTok</option>
+              </select>
+              <div className="relative group flex-1">
+                <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#0084ff] transition-colors" />
+                <input name="socialUrl" type="url" placeholder="https://..." className="w-full bg-black/50 border border-white/10 focus:border-[#0084ff]/50 rounded-2xl py-3.5 pl-11 pr-4 text-sm text-white placeholder-white/20 outline-none transition-all shadow-inner" />
+              </div>
+            </div>
           </div>
-        </div>
 
         <div className="flex justify-center pt-2">
           <Turnstile 
@@ -116,3 +128,5 @@ export function ApplyFormClient({ gangName, domain }: { gangName: string, domain
     </motion.div>
   );
 }
+
+

@@ -370,24 +370,31 @@ function MemberSection({
                 {getIcon()}
                 {member.role}
               </div>
-              <h3 className="text-[12px] font-[700] text-text-inverse tracking-normal leading-[15px] mb-[3px] whitespace-nowrap">{member.name}</h3>
-              {member.facebookUrl && (
-                <a 
-                  href={member.facebookUrl} 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-[#1877F2]/60 hover:text-[#1877F2] text-[9px] font-[800] uppercase tracking-wider transition-colors flex items-center gap-1"
-                >
-                  FACEBOOK
-                </a>
-              )}
-            </div>
+                              <h3 className="text-[12px] font-[700] text-text-inverse tracking-normal leading-[15px] mb-[3px] whitespace-nowrap">{member.name}</h3>
+                {(member.socialUrl || member.facebookUrl) && (
+                  <a 
+                    href={member.socialUrl || member.facebookUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={`text-[9px] font-[800] uppercase tracking-wider transition-colors flex items-center gap-1 ${
+                      member.socialPlatform === 'instagram' ? 'text-[#E1306C]/60 hover:text-[#E1306C]' :
+                      member.socialPlatform === 'tiktok' ? 'text-white/40 hover:text-white/90' :
+                      'text-[#1877F2]/60 hover:text-[#1877F2]'
+                    }`}
+                  >
+                    {member.socialPlatform === 'instagram' ? 'INSTAGRAM' :
+                     member.socialPlatform === 'tiktok' ? 'TIKTOK' : 'FACEBOOK'}
+                  </a>
+                )}
+              </div>
           </div>
         ))}
       </div>
     </section>
   );
 }
+
+
 
 
 

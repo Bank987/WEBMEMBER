@@ -152,19 +152,30 @@ export default function MemberForm({ member }: { member?: Member }) {
             </div>
           </div>
 
-          <div>
-            <label className="flex items-center gap-[6px] text-[10px] font-[900] uppercase tracking-[3px] text-[#888888] mb-[9px]">
-              <LinkIcon className="w-[12px] h-[12px]" />
-              ลิงก์ Facebook (ไม่บังคับ)
-            </label>
-            <input 
-              type="url" 
-              name="facebookUrl" 
-              defaultValue={member?.facebookUrl} 
-              placeholder="https://facebook.com/..."
-              className="w-full bg-black/40 border border-white/10 rounded-[12px] py-[15px] px-[24px] text-[14px] text-white focus:outline-none focus:border-[#0084ff] focus:bg-[#0084ff]/5 transition-all duration-300 shadow-inner"
-            />
-          </div>
+                      <div>
+              <label className="flex items-center gap-[6px] text-[10px] font-[900] uppercase tracking-[3px] text-[#888888] mb-[9px]">
+                <LinkIcon className="w-[12px] h-[12px]" />
+                Social Media (?????????)
+              </label>
+              <div className="flex flex-col sm:flex-row gap-[9px]">
+                <select
+                  name="socialPlatform"
+                  defaultValue={member?.socialPlatform || (member?.facebookUrl ? "facebook" : "facebook")}
+                  className="sm:w-[150px] bg-black/40 border border-white/10 rounded-[12px] py-[15px] px-[15px] text-[14px] text-white focus:outline-none focus:border-[#0084ff] focus:bg-[#0084ff]/5 transition-all duration-300 shadow-inner appearance-none cursor-pointer"
+                >
+                  <option value="facebook">Facebook</option>
+                  <option value="instagram">Instagram</option>
+                  <option value="tiktok">TikTok</option>
+                </select>
+                <input 
+                  type="url" 
+                  name="socialUrl" 
+                  defaultValue={member?.socialUrl || member?.facebookUrl} 
+                  placeholder="https://..."
+                  className="flex-1 w-full bg-black/40 border border-white/10 rounded-[12px] py-[15px] px-[24px] text-[14px] text-white focus:outline-none focus:border-[#0084ff] focus:bg-[#0084ff]/5 transition-all duration-300 shadow-inner"
+                />
+              </div>
+            </div>
         </div>
       </div>
 
@@ -184,3 +195,5 @@ export default function MemberForm({ member }: { member?: Member }) {
     </form>
   );
 }
+
+
