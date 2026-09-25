@@ -1,4 +1,4 @@
-import { ShieldCheck, Command, ArrowDownRight, Check, Target, Crosshair } from "lucide-react";
+﻿import { ShieldCheck, Command, ArrowDownRight, Check, Target, Crosshair } from "lucide-react";
 import Link from "next/link";
 import GangAuth from "@/components/GangAuth";
 import { Reveal } from "@/components/LandingMotion";
@@ -46,22 +46,11 @@ export default async function LandingPage() {
       </div>
 
       <header className="absolute inset-x-0 top-0 z-50">
-        <div className="mx-auto flex max-w-[1380px] items-center justify-between px-6 py-8 md:px-10 border-b border-white/5">
-          <Link href="/" className="flex items-center gap-3 text-[17px] font-[900] tracking-[2px] text-white uppercase group">
-            <span className="relative grid size-10 place-items-center rounded-lg border border-[#0084ff]/50 bg-black shadow-[0_0_20px_rgba(0,132,255,0.3)] group-hover:shadow-[0_0_30px_rgba(0,132,255,0.6)] transition-shadow">
-              <Command className="size-4 text-[#0084ff]" />
-              <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-[#0084ff] rounded-bl-sm" />
-              <div className="absolute bottom-0 left-0 w-1.5 h-1.5 bg-[#0084ff] rounded-tr-sm" />
-            </span>
-            GANGLIST
-          </Link>
+        <div className="mx-auto flex max-w-[1380px] items-center justify-between px-6 py-8 md:px-10 border-b border-white/5 gap-4"><div className="flex-1 flex justify-start"><Link href="/" className="flex items-center gap-3 text-[17px] font-[900] tracking-[2px] text-white uppercase group"><span className="relative grid size-10 place-items-center rounded-lg border border-[#0084ff]/50 bg-black shadow-[0_0_20px_rgba(0,132,255,0.3)] group-hover:shadow-[0_0_30px_rgba(0,132,255,0.6)] transition-shadow"><Command className="size-4 text-[#0084ff]" /><div className="absolute top-0 right-0 w-1.5 h-1.5 bg-[#0084ff] rounded-bl-sm" /><div className="absolute bottom-0 left-0 w-1.5 h-1.5 bg-[#0084ff] rounded-tr-sm" /></span><span className="hidden sm:inline">GANGLIST</span></Link></div>
           
-          <nav className="hidden md:flex items-center gap-6 absolute left-1/2 -translate-x-1/2 text-[12px] font-bold text-[#89909b]">
-            <Link href="/privacy" className="hover:text-white transition-colors">ความเป็นส่วนตัว</Link>
-            <Link href="/security" className="hover:text-white transition-colors">ความปลอดภัย</Link>
-          </nav>
+          <div className="hidden lg:flex justify-center shrink-0"><nav className="flex items-center gap-6 text-[12px] font-bold text-[#89909b]"><Link href="/privacy" className="hover:text-white transition-colors">ความเป็นส่วนตัว</Link><Link href="/security" className="hover:text-white transition-colors">ความปลอดภัย</Link></nav></div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex-1 flex items-center justify-end gap-2 sm:gap-4 shrink-0"><SuggestFeatureButton variant="header" />
 <GuideButton />
               <DiscordSupportButton compact />
             <Link href="#auth" className="hidden sm:block relative overflow-hidden rounded-full p-[1px] group">

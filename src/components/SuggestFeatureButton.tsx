@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Lightbulb, X, Send, CheckCircle2 } from "lucide-react";
 import { submitSuggestion } from "@/actions/suggestions";
 
-export function SuggestFeatureButton() {
+export function SuggestFeatureButton({ variant = "floating" }: { variant?: "header" | "floating" }) {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -40,16 +40,27 @@ export function SuggestFeatureButton() {
 
   return (
     <>
-      <button 
-        onClick={() => setIsOpen(true)}
-        className="group flex items-center gap-3 px-5 py-3.5 bg-gradient-to-r from-[#111] to-[#222] hover:from-amber-500 hover:to-orange-500 border border-amber-500/30 rounded-full text-[12px] font-[900] tracking-widest text-amber-500 hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:-translate-y-1"
-      >
-        <div className="relative">
-          <div className="absolute inset-0 bg-amber-500 blur-md opacity-50 group-hover:opacity-100 transition-opacity" />
-          <Lightbulb className="w-5 h-5 relative z-10 animate-pulse" />
-        </div>
-        <span className="uppercase">เสนอระบบ</span>
-      </button>
+      {variant === "floating" ? (
+        <button 
+          onClick={() => setIsOpen(true)}
+          className="group flex items-center gap-3 px-5 py-3.5 bg-gradient-to-r from-[#111] to-[#222] hover:from-amber-500 hover:to-orange-500 border border-amber-500/30 rounded-full text-[12px] font-[900] tracking-widest text-amber-500 hover:text-white transition-all duration-300 shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:shadow-[0_0_30px_rgba(245,158,11,0.5)] hover:-translate-y-1"
+        >
+          <div className="relative">
+            <div className="absolute inset-0 bg-amber-500 blur-md opacity-50 group-hover:opacity-100 transition-opacity" />
+            <Lightbulb className="w-5 h-5 relative z-10 animate-pulse" />
+          </div>
+          <span className="uppercase">เสนอระบบ</span>
+        </button>
+      ) : (
+        <button 
+          onClick={() => setIsOpen(true)}
+          title="เสนอระบบ"
+          className="flex items-center justify-center gap-2 px-3 py-2 sm:px-4 sm:py-2.5 bg-gradient-to-r from-amber-500/10 to-orange-500/10 hover:from-amber-500/30 hover:to-orange-500/30 border border-amber-500/20 rounded-full text-[10px] sm:text-[11px] font-[900] tracking-wide text-amber-500 transition-all shadow-[0_0_15px_rgba(245,158,11,0.1)] hover:shadow-[0_0_20px_rgba(245,158,11,0.3)] hover:scale-105"
+        >
+          <Lightbulb className="w-4 h-4" />
+          <span className="hidden xl:inline uppercase">เสนอระบบ</span>
+        </button>
+      )}
 
       <AnimatePresence>
         {isOpen && (
