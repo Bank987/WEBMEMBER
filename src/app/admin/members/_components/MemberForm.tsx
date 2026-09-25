@@ -15,6 +15,7 @@ export default function MemberForm({ member }: { member?: Member }) {
   const [preview, setPreview] = useState(member?.avatar || "");
   const [error, setError] = useState("");
   const [role, setRole] = useState(member?.role || "MEMBER");
+  const [socialPlatform, setSocialPlatform] = useState(member?.socialPlatform || "facebook");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -152,28 +153,43 @@ export default function MemberForm({ member }: { member?: Member }) {
             </div>
           </div>
 
-                      <div>
+                                  <div>
               <label className="flex items-center gap-[6px] text-[10px] font-[900] uppercase tracking-[3px] text-[#888888] mb-[9px]">
                 <LinkIcon className="w-[12px] h-[12px]" />
                 Social Media (?????????)
               </label>
-              <div className="flex flex-col sm:flex-row gap-[9px]">
-                <select
-                  name="socialPlatform"
-                  defaultValue={member?.socialPlatform || (member?.facebookUrl ? "facebook" : "facebook")}
-                  className="sm:w-[150px] bg-black/40 border border-white/10 rounded-[12px] py-[15px] px-[15px] text-[14px] text-white focus:outline-none focus:border-[#0084ff] focus:bg-[#0084ff]/5 transition-all duration-300 shadow-inner appearance-none cursor-pointer"
-                >
-                  <option value="facebook">Facebook</option>
-                  <option value="instagram">Instagram</option>
-                  <option value="tiktok">TikTok</option>
-                </select>
-                <input 
-                  type="url" 
-                  name="socialUrl" 
-                  defaultValue={member?.socialUrl || member?.facebookUrl} 
-                  placeholder="https://..."
-                  className="flex-1 w-full bg-black/40 border border-white/10 rounded-[12px] py-[15px] px-[24px] text-[14px] text-white focus:outline-none focus:border-[#0084ff] focus:bg-[#0084ff]/5 transition-all duration-300 shadow-inner"
-                />
+              <input type="hidden" name="socialPlatform" value={socialPlatform} />
+              
+              <div className="flex flex-col gap-[12px]">
+                <div className="flex gap-[6px] bg-black/40 p-[6px] rounded-[16px] border border-white/10 w-max max-w-full overflow-x-auto">
+                  {['facebook', 'instagram', 'tiktok'].map((p) => (
+                    <button
+                      key={p}
+                      type="button"
+                      onClick={() => setSocialPlatform(p as any)}
+                      className={`px-[18px] py-[9px] rounded-[12px] text-[10.5px] font-[900] tracking-[2px] uppercase transition-all duration-300 shrink-0 ${
+                        socialPlatform === p 
+                          ? p === 'facebook' ? 'bg-[#1877F2] text-white shadow-[0_0_15px_rgba(24,119,242,0.5)]'
+                            : p === 'instagram' ? 'bg-gradient-to-tr from-[#fd5949] to-[#d6249f] text-white shadow-[0_0_15px_rgba(225,48,108,0.5)]'
+                            : 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.5)]'
+                          : 'text-white/40 hover:text-white/80 hover:bg-white/5'
+                      }`}
+                    >
+                      {p}
+                    </button>
+                  ))}
+                </div>
+                
+                <div className="relative group flex-1">
+                  <LinkIcon className="absolute left-[18px] top-1/2 -translate-y-1/2 w-[15px] h-[15px] text-white/30 group-focus-within:text-[#0084ff] transition-colors" />
+                  <input 
+                    type="url" 
+                    name="socialUrl" 
+                    defaultValue={member?.socialUrl || member?.facebookUrl} 
+                    placeholder={socialPlatform === 'facebook' ? "https://facebook.com/..." : socialPlatform === 'instagram' ? "https://instagram.com/..." : "https://tiktok.com/@..."}
+                    className="w-full bg-black/40 border border-white/10 rounded-[16px] py-[15px] pl-[45px] pr-[24px] text-[14px] text-white focus:outline-none focus:border-[#0084ff] focus:bg-[#0084ff]/5 transition-all duration-300 shadow-inner"
+                  />
+                </div>
               </div>
             </div>
         </div>
@@ -195,5 +211,8 @@ export default function MemberForm({ member }: { member?: Member }) {
     </form>
   );
 }
+
+
+
 
 

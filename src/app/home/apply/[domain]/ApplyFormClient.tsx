@@ -13,6 +13,7 @@ export function ApplyFormClient({ gangName, domain }: { gangName: string, domain
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState("");
+  const [socialPlatform, setSocialPlatform] = useState("facebook");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -93,21 +94,38 @@ export function ApplyFormClient({ gangName, domain }: { gangName: string, domain
           </div>
         </div>
 
-                  <div className="space-y-2 text-left">
-            <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase ml-1">Social Media (?????????)</label>
-            <div className="flex flex-col sm:flex-row gap-3">
-              <select
-                name="socialPlatform"
-                defaultValue="facebook"
-                className="sm:w-[150px] bg-black/50 border border-white/10 focus:border-[#0084ff]/50 rounded-2xl py-3.5 px-4 text-sm text-white outline-none transition-all shadow-inner appearance-none cursor-pointer"
-              >
-                <option value="facebook">Facebook</option>
-                <option value="instagram">Instagram</option>
-                <option value="tiktok">TikTok</option>
-              </select>
+                            <div className="space-y-3 text-left">
+            <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase ml-1">Social Media (?????????????)</label>
+            <input type="hidden" name="socialPlatform" value={socialPlatform} />
+            
+            <div className="flex flex-col gap-3">
+              <div className="flex gap-1.5 bg-black/50 p-1.5 rounded-[16px] border border-white/10 w-max max-w-full overflow-x-auto">
+                {['facebook', 'instagram', 'tiktok'].map((p) => (
+                  <button
+                    key={p}
+                    type="button"
+                    onClick={() => setSocialPlatform(p)}
+                    className={`px-4 py-2.5 rounded-[12px] text-[10px] font-bold tracking-wider uppercase transition-all duration-300 shrink-0 ${
+                      socialPlatform === p 
+                        ? p === 'facebook' ? 'bg-[#1877F2] text-white shadow-[0_0_15px_rgba(24,119,242,0.5)]'
+                          : p === 'instagram' ? 'bg-gradient-to-tr from-[#fd5949] to-[#d6249f] text-white shadow-[0_0_15px_rgba(225,48,108,0.5)]'
+                          : 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.5)]'
+                        : 'text-white/40 hover:text-white/80 hover:bg-white/5'
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+              </div>
+              
               <div className="relative group flex-1">
                 <LinkIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 group-focus-within:text-[#0084ff] transition-colors" />
-                <input name="socialUrl" type="url" placeholder="https://..." className="w-full bg-black/50 border border-white/10 focus:border-[#0084ff]/50 rounded-2xl py-3.5 pl-11 pr-4 text-sm text-white placeholder-white/20 outline-none transition-all shadow-inner" />
+                <input 
+                  name="socialUrl" 
+                  type="url" 
+                  placeholder={socialPlatform === 'facebook' ? "https://facebook.com/..." : socialPlatform === 'instagram' ? "https://instagram.com/..." : "https://tiktok.com/@..."}
+                  className="w-full bg-black/50 border border-white/10 focus:border-[#0084ff]/50 rounded-2xl py-3.5 pl-11 pr-4 text-sm text-white placeholder-white/20 outline-none transition-all shadow-inner" 
+                />
               </div>
             </div>
           </div>
@@ -128,5 +146,7 @@ export function ApplyFormClient({ gangName, domain }: { gangName: string, domain
     </motion.div>
   );
 }
+
+
 
 
