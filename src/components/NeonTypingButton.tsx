@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -13,6 +13,7 @@ interface Props {
   textClassName?: string;
   imageSrc?: string;
   shape?: string;
+  buttonStyle?: string;
 }
 
 export function NeonTypingButton({ 
@@ -23,6 +24,7 @@ export function NeonTypingButton({
   textClassName = "text-[12px]",
   imageSrc,
   shape = "square",
+  buttonStyle = "neon",
 }: Props) {
   const [isHovered, setIsHovered] = useState(false);
   const [textIndex, setTextIndex] = useState(0);
@@ -63,26 +65,30 @@ export function NeonTypingButton({
       >
         {/* 1. Base Layer (Blur and BG) */}
         <div className={`absolute inset-0 rounded-[inherit] pointer-events-none transition-all duration-300 ${
-          isHovered ? 'bg-[color:var(--gang-accent)]/5' : 'bg-black/10 backdrop-blur-sm'
+          buttonStyle === 'solid' ? (isHovered ? 'bg-[color:var(--gang-accent)]/90 text-white' : 'bg-[color:var(--gang-accent)] text-white') :
+          buttonStyle === 'glow' ? (isHovered ? 'bg-white/20 backdrop-blur-md shadow-[0_0_30px_var(--gang-accent)]' : 'bg-white/10 backdrop-blur-md shadow-[0_0_15px_var(--gang-accent)]') :
+          (isHovered ? 'bg-[color:var(--gang-accent)]/5' : 'bg-black/10 backdrop-blur-sm')
         }`} />
 
-        {/* 2. Animated Spinning Border (Masked to 1px) */}
-        <div 
-          className="absolute inset-0 rounded-[inherit] overflow-hidden pointer-events-none z-0"
-          style={{
-            padding: '1.5px', // Border thickness
-            background: 'transparent',
-            WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-            WebkitMaskComposite: 'xor',
-            maskComposite: 'exclude',
-          }}
-        >
-          <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square animate-spin transition-colors duration-500 ${
-            isHovered 
-              ? 'bg-[conic-gradient(from_0deg,transparent_0%,transparent_80%,var(--gang-accent)_80%,var(--gang-accent)_100%)]' 
-              : 'bg-[conic-gradient(from_0deg,transparent_0%,transparent_80%,white_80%,white_100%)]'
-          }`} style={{ animationDuration: '2s', willChange: 'transform' }} />
-        </div>
+        {/* 2. Animated Spinning Border (Neon Style Only) */}
+        {buttonStyle === 'neon' && (
+          <div 
+            className="absolute inset-0 rounded-[inherit] overflow-hidden pointer-events-none z-0"
+            style={{
+              padding: '1.5px', // Border thickness
+              background: 'transparent',
+              WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+              WebkitMaskComposite: 'xor',
+              maskComposite: 'exclude',
+            }}
+          >
+            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] aspect-square animate-spin transition-colors duration-500 ${
+              isHovered 
+                ? 'bg-[conic-gradient(from_0deg,transparent_0%,transparent_80%,var(--gang-accent)_80%,var(--gang-accent)_100%)]' 
+                : 'bg-[conic-gradient(from_0deg,transparent_0%,transparent_80%,white_80%,white_100%)]'
+            }`} style={{ animationDuration: '2s', willChange: 'transform' }} />
+          </div>
+        )}
 
         {imageSrc && !imageError && shape === 'square' ? (
           /* Image Mode - Smart Auto Fit */
@@ -112,14 +118,14 @@ export function NeonTypingButton({
             <div className={`relative z-10 flex flex-col items-center justify-center font-sans tracking-[1.8px] font-[900] uppercase ${textClassName} h-full w-full px-2 ${shape === 'parallelogram' ? 'skew-x-[15deg]' : ''}`}>
               <div className="flex justify-center items-center text-center break-words w-full max-w-full">
                 {!isHovered ? (
-                  <span className="text-[#ffffff] leading-tight break-words">{label}</span>
+                  <span className={`${buttonStyle === 'solid' ? 'text-black drop-shadow-md' : 'text-white'} leading-tight break-words`}>{label}</span>
                 ) : (
-                  <span className="text-[#0084ff] leading-tight break-words">
+                  <span className={`${buttonStyle === 'solid' ? 'text-black drop-shadow-md' : 'text-[color:var(--gang-accent)]'} leading-tight break-words`}>
                     {loadingText.slice(0, textIndex)}
                     <motion.span
                       animate={{ opacity: [1, 0] }}
                       transition={{ repeat: Infinity, duration: 0.8 }}
-                      className="inline-block w-[6px] h-[12px] bg-[#0084ff] ml-[3px] align-middle"
+                      className={`inline-block w-[6px] h-[12px] ${buttonStyle === 'solid' ? 'bg-black' : 'bg-[color:var(--gang-accent)]'} ml-[3px] align-middle`}
                     />
                   </span>
                 )}
@@ -127,7 +133,7 @@ export function NeonTypingButton({
             </div>
 
             {/* Scanline / Glitch effect overlay on hover */}
-            {isHovered && (
+            {isHovered && buttonStyle === 'neon' && (
               <div className="absolute inset-0 pointer-events-none opacity-20 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.5)_50%)] bg-[length:100%_4px]" />
             )}
           </>
@@ -136,4 +142,5 @@ export function NeonTypingButton({
     </Link>
   );
 }
+
 

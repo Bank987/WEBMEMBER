@@ -32,6 +32,7 @@ export async function saveSettings(formData: FormData) {
     facebookUrl: sanitizeUrl(formData.get("facebookUrl") as string),
     entryAnimation: formData.get("entryAnimation") as string || "fade",
     buttonShape: formData.get("buttonShape") as string || "square",
+      buttonStyle: formData.get("buttonStyle") as string || "neon",
     gateLayout: formData.get("gateLayout") as string || "centered",
   } as any;
 

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import GateCentered from "./GateCentered";
 import GateSplit from "./GateSplit";
@@ -20,6 +20,7 @@ type Settings = {
   facebookUrl?: string;
   entryAnimation?: string;
   buttonShape?: string;
+  buttonStyle?: string;
   partnersEnabled?: boolean;
   partners?: { name: string; url: string }[];
   gateLayout?: string;

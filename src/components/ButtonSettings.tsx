@@ -2,11 +2,26 @@
 
 import { useState } from "react";
 
-export function ButtonSettings({ initialText, initialImage, initialShape }: { initialText?: string, initialImage?: string, initialShape?: string }) {
+export function ButtonSettings({ initialText, initialImage, initialShape, initialStyle }: { initialText?: string, initialImage?: string, initialShape?: string, initialStyle?: string }) {
   const [shape, setShape] = useState(initialShape || "square");
+  const [style, setStyle] = useState(initialStyle || "neon");
 
   return (
     <>
+      
+      <div>
+        <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปแบบปุ่ม (Button Style)</p>
+        <select 
+          name="buttonStyle" 
+          value={style} 
+          onChange={(e) => setStyle(e.target.value)} 
+          className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none"
+        >
+          <option value="neon">โปร่งแสง / นีออน (Transparent / Neon)</option>
+          <option value="solid">ทึบ (Solid)</option>
+          <option value="glow">เงา / เรืองแสง (Glow / Shadow)</option>
+        </select>
+      </div>
       <div>
         <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปแบบปุ่ม (Button Shape)</p>
         <select 

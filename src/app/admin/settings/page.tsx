@@ -49,7 +49,7 @@ export default async function SettingsPage() {
               <ButtonSettings 
                 initialText={settings.buttonText} 
                 initialImage={settings.buttonImage} 
-                initialShape={settings.buttonShape} 
+                initialShape={settings.buttonShape} initialStyle={settings.buttonStyle} 
               />
               <div>
                 <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">ชื่อหน้าเว็บไซต์</p>
@@ -128,7 +128,7 @@ export default async function SettingsPage() {
         <div className="bg-[#050505] border border-[#111111] rounded-[18px] overflow-hidden">
           <div className="bg-[#0a0a0a] p-[18px] border-b border-[#111111] flex items-center justify-between"><div><h3 className="text-[14px] font-[900] text-text-inverse">รูปแบบหน้าเข้าเว็บ (Gate Layout)</h3><p className="mt-1 text-[10px] text-[#777]">เลือกการจัดวางองค์ประกอบบนหน้า Gate</p></div></div>
           <div className="p-[27px]">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               {/* Centered */}
               <label className="relative block cursor-pointer group">
                 <input type="radio" name="gateLayout" value="centered" defaultChecked={settings.gateLayout === 'centered' || !settings.gateLayout} className="peer sr-only" />

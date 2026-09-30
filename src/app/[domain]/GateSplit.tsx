@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -95,13 +95,13 @@ export default function GateSplit({ settings }: { settings: Settings }) {
         transition={{ duration: 2, delay: 1 }}
       />
 
-      {/* ═══════════════════ MAIN CONTENT ═══════════════════ */}
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• MAIN CONTENT â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       <div className="relative z-[10] w-full max-w-[1200px] mx-auto px-6 md:px-16 py-12 flex flex-col md:flex-row items-center gap-12 md:gap-0">
         
-        {/* ═══════ LEFT SIDE ═══════ */}
+        {/* â•â•â•â•â•â•â• LEFT SIDE â•â•â•â•â•â•â• */}
         <div className="flex flex-col items-center md:items-start text-center md:text-left w-full md:w-[55%] md:pr-16 order-2 md:order-1">
           
-          {/* ── Hero Identity ── */}
+          {/* â”€â”€ Hero Identity â”€â”€ */}
           <div className="mb-12 w-full">
             <motion.div
               initial={{ opacity: 0, x: -30 }}
@@ -124,7 +124,7 @@ export default function GateSplit({ settings }: { settings: Settings }) {
             </motion.h1>
           </div>
 
-          {/* ── CTA ── */}
+          {/* â”€â”€ CTA â”€â”€ */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -152,6 +152,7 @@ export default function GateSplit({ settings }: { settings: Settings }) {
                 textClassName="text-[16px] text-center"
                 imageSrc={settings.buttonImage || undefined}
                 shape={settings.buttonShape}
+                buttonStyle={settings.buttonStyle}
               />
             </div>
 
@@ -176,7 +177,7 @@ export default function GateSplit({ settings }: { settings: Settings }) {
             )}
           </motion.div>
 
-          {/* ── Partners ── */}
+          {/* â”€â”€ Partners â”€â”€ */}
           {settings.partnersEnabled && settings.partners && settings.partners.length > 0 && (
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -234,7 +235,7 @@ export default function GateSplit({ settings }: { settings: Settings }) {
           )}
         </div>
 
-        {/* ═══════ RIGHT SIDE: 3D Logo ═══════ */}
+        {/* â•â•â•â•â•â•â• RIGHT SIDE: 3D Logo â•â•â•â•â•â•â• */}
         <div className="flex items-center justify-center w-full md:w-[45%] order-1 md:order-2">
           {settings.logoUrl && (
             <motion.div
@@ -312,5 +313,6 @@ export default function GateSplit({ settings }: { settings: Settings }) {
     </div>
   );
 }
+
 
 

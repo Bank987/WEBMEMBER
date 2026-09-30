@@ -206,6 +206,7 @@ export default function GateCentered({ settings }: { settings: Settings }) {
                 textClassName="text-[16px] text-center"
                 imageSrc={settings.buttonImage || undefined}
                 shape={settings.buttonShape}
+                buttonStyle={settings.buttonStyle}
               />
             </div>
 
@@ -276,4 +277,5 @@ export default function GateCentered({ settings }: { settings: Settings }) {
     </div>
   );
 }
+
 
