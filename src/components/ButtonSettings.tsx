@@ -10,7 +10,7 @@ export function ButtonSettings({ initialText, initialImage, initialShape, initia
     <>
       
       <div>
-        <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปแบบปุ่ม (Button Style)</p>
+        <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปแบบปุ่ม (Button Style) <span className="ml-2 inline-block bg-red-500 text-white text-[9px] font-bold px-2 py-[1px] rounded-full animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.6)] border border-red-400/50">NEW!</span></p>
         <select 
           name="buttonStyle" 
           value={style} 

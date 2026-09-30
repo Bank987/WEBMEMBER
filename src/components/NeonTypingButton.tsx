@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 
@@ -15,6 +16,7 @@ interface Props {
   imageSrc?: string;
   shape?: string;
   buttonStyle?: string;
+  pageTransition?: string;
 }
 
 export function NeonTypingButton({ 
@@ -26,9 +28,24 @@ export function NeonTypingButton({
   imageSrc,
   shape = "square",
   buttonStyle = "neon",
+    pageTransition = "default",
 }: Props) {
   const [isHovered, setIsHovered] = useState(false);
   const [textIndex, setTextIndex] = useState(0);
+  const router = useRouter();
+  const [isNavigating, setIsNavigating] = useState(false);
+
+  const handleNavigate = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isNavigating) return;
+    window.dispatchEvent(new Event('force-play-music'));
+    setIsNavigating(true);
+    if (pageTransition === 'cinematic') {
+      window.dispatchEvent(new CustomEvent('cinematic-transition', { detail: { href } }));
+    } else {
+      router.push(href);
+    }
+  };
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -46,27 +63,26 @@ export function NeonTypingButton({
   const [useProxy, setUseProxy] = useState(false);
 
   return (
-    <Link href={href} className={className} onClick={() => window.dispatchEvent(new Event('force-play-music'))}>
+    <> <a href={href} className={className} onClick={handleNavigate}>
       <motion.button
         onHoverStart={() => setIsHovered(true)}
         onHoverEnd={() => setIsHovered(false)}
         className={`w-full h-full relative group flex flex-col items-center justify-center transition-all duration-300 ${imageSrc && !imageError && shape === 'square' ? 'p-0' : 'gap-[9px] p-[16px]'} ${
+          buttonStyle === 'solid' ? (shape === 'square' ? 'rounded-[32px]' : 'rounded-full') :
           shape === 'parallelogram' ? 'rounded-none -skew-x-[15deg]' :
           shape === 'rectangle' ? 'rounded-[16px]' :
           shape === 'trapezoid' ? 'rounded-none [clip-path:polygon(10%_0,90%_0,100%_100%,0%_100%)]' :
           'rounded-[16px]'
         }`}
         style={{
-          boxShadow: isHovered 
-            ? "0 0 25px rgba(0, 132, 255, 0.3)" 
-            : "0 0 0px rgba(0, 132, 255, 0)",
+          boxShadow: (isHovered && buttonStyle !== "solid") ? "0 0 25px rgba(0, 132, 255, 0.3)" : "0 0 0px rgba(0, 132, 255, 0)",
         }}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
         {/* 1. Base Layer (Blur and BG) */}
         <div className={`absolute inset-0 rounded-[inherit] pointer-events-none transition-all duration-300 ${
-          buttonStyle === 'solid' ? (isHovered ? 'bg-[color:var(--gang-accent)]/90 text-white shadow-lg' : 'bg-[color:var(--gang-accent)] text-white') :
+          buttonStyle === 'solid' ? (isHovered ? 'bg-[#333333] text-white border border-white/10' : 'bg-[#1f1f1f] text-white border border-white/5') :
           buttonStyle === 'glow' ? (isHovered ? 'bg-white/20 backdrop-blur-md shadow-[0_0_30px_var(--gang-accent)]' : 'bg-white/10 backdrop-blur-md shadow-[0_0_15px_var(--gang-accent)]') :
           (isHovered ? 'bg-[color:var(--gang-accent)]/5' : 'bg-black/10 backdrop-blur-sm')
         }`} />
@@ -119,7 +135,7 @@ export function NeonTypingButton({
             <div className={`relative z-10 flex flex-col items-center justify-center font-sans tracking-[1.8px] ${buttonStyle === "solid" ? "font-[700]" : "font-[900] uppercase"} ${textClassName} h-full w-full px-2 ${shape === 'parallelogram' ? 'skew-x-[15deg]' : ''}`}>
               <div className="flex justify-center items-center text-center break-words w-full max-w-full">
                 {buttonStyle === 'solid' ? (
-                  <div className="flex items-center justify-center gap-2 text-white drop-shadow-md">
+                  <div className={`flex items-center justify-center gap-2 ${isHovered ? 'text-white' : 'text-gray-400'} transition-colors`}>
                     <span className="leading-tight break-words">{label}</span>
                     <motion.div
                       animate={{ x: isHovered ? 5 : 0 }}
@@ -150,7 +166,7 @@ export function NeonTypingButton({
           </>
         )}
       </motion.button>
-    </Link>
+    </a></>
   );
 }
 

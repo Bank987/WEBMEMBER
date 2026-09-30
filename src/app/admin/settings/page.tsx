@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { gangThemes, membersTemplates } from "@/lib/themes";
 import { DeleteGangButton } from "@/components/DeleteGangButton";
 import { ButtonSettings } from "@/components/ButtonSettings";
+import { WhatsNewModal } from "@/components/WhatsNewModal";
 import { SettingsFormWrapper } from "@/components/SettingsFormWrapper";
 import { SettingsTabs } from "@/components/SettingsTabs";
 import { VolumeSlider } from "@/components/VolumeSlider";
@@ -107,6 +108,18 @@ export default async function SettingsPage() {
                 <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">รูปลิงก์โลโก้แก๊ง (จะโชว์กลางหน้าจอ)</p>
                 <input type="text" name="logoUrl" defaultValue={settings.logoUrl} placeholder="https://..." className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
               </div>
+                <div className="sm:col-span-2">
+                  <div className="flex items-center justify-between bg-white/5 border border-white/10 rounded-[8px] p-4 mt-2">
+                    <div>
+                      <p className="text-[12px] text-white font-[600] flex items-center gap-2">เปิดวงแหวนรอบโลโก้ <span className="inline-block bg-[#0084ff] text-white text-[9px] font-bold px-2 py-[1px] rounded-full animate-pulse shadow-[0_0_10px_rgba(0,132,255,0.6)] border border-[#0084ff]/50">NEW!</span></p>
+                      <p className="text-[10.5px] text-[#888888] mt-1">แสดงเอฟเฟกต์วงแหวนหมุนรอบโลโก้ในหน้า Gate</p>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" name="logoRingEnabled" value="true" defaultChecked={settings.logoRingEnabled !== false} className="sr-only peer" />
+                      <div className="w-11 h-6 bg-black/50 peer-focus:outline-none rounded-full peer border border-white/10 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white/80 after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#0084ff] peer-checked:after:bg-white peer-checked:border-[#0084ff]"></div>
+                    </label>
+                  </div>
+                </div>
               <div>
                 <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">Discord URL</p>
                 <input type="url" name="discordUrl" defaultValue={settings.discordUrl} placeholder="https://discord.gg/..." className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />
@@ -282,6 +295,37 @@ export default async function SettingsPage() {
                   <option value="glitch">จอกระตุก (Cyberpunk Glitch)</option>
                 </select>
               </div>
+                <div>
+                  <p className="text-[10.5px] text-[#888888] mb-[8px] tracking-[1px]">รูปแบบเปลี่ยนหน้า (Page Transition) <span className="ml-2 inline-block bg-red-500 text-white text-[9px] font-bold px-2 py-[1px] rounded-full animate-pulse shadow-[0_0_10px_rgba(239,68,68,0.6)] border border-red-400/50">NEW!</span></p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Default */}
+                    <label className="relative block cursor-pointer group">
+                      <input type="radio" name="pageTransition" value="default" defaultChecked={settings.pageTransition === 'default' || !settings.pageTransition} className="peer sr-only" />
+                      <div className="peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10 rounded-[12px] border border-white/10 p-4 transition-all hover:border-white/30 h-full flex flex-col items-center bg-white/5">
+                        <div className="w-[120px] h-[80px] bg-black/60 rounded-[8px] mb-3 border border-white/10 flex flex-col items-center justify-center p-2 gap-2 relative overflow-hidden">
+                          <div className="w-[40px] h-[24px] border border-white/20 rounded-md flex items-center justify-center">
+                            <span className="text-[8px] text-white/50">INSTANT</span>
+                          </div>
+                        </div>
+                        <p className="text-center text-[12px] font-[600] text-white">ปกติ (Default)</p>
+                        <p className="text-center text-[10px] text-white/50 mt-1">เปลี่ยนหน้าทันที</p>
+                      </div>
+                    </label>
+
+                    {/* Cinematic */}
+                    <label className="relative block cursor-pointer group">
+                      <input type="radio" name="pageTransition" value="cinematic" defaultChecked={settings.pageTransition === 'cinematic'} className="peer sr-only" />
+                      <div className="peer-checked:border-[#0084ff] peer-checked:bg-[#0084ff]/10 rounded-[12px] border border-white/10 p-4 transition-all hover:border-white/30 h-full flex flex-col items-center bg-white/5">
+                        <div className="w-[120px] h-[80px] bg-black/60 rounded-[8px] mb-3 border border-white/10 flex flex-col items-center justify-center p-2 gap-2 relative overflow-hidden">
+                          <div className="w-[30px] h-[30px] rounded-full bg-white/20 shadow-[0_0_15px_rgba(255,255,255,0.6)]" />
+                          <div className="w-[50px] h-[4px] rounded bg-white/40" />
+                        </div>
+                        <p className="text-center text-[12px] font-[600] text-white">ภาพยนตร์ (Cinematic)</p>
+                        <p className="text-center text-[10px] text-white/50 mt-1">สไลด์จอดำ & โลโก้เรืองแสง</p>
+                      </div>
+                    </label>
+                  </div>
+                </div>
               <div>
                 <p className="text-[10.5px] text-[#888888] mb-[6px] tracking-[1px]">สีเรืองแสง (Hex) ทับสีธีม</p>
                 <input type="text" name="customAccentColor" defaultValue={settings.customAccentColor} placeholder="#00ff00" className="w-full bg-black/50 border border-white/10 rounded-[6px] px-[12px] py-[9px] text-[12px] text-white outline-none" />

@@ -33,7 +33,10 @@ export interface Gang {
   facebookUrl?: string;
   entryAnimation?: string;
   buttonShape?: string;
+  buttonStyle?: string;
   gateLayout?: string;
+  pageTransition?: string;
+  logoRingEnabled?: boolean;
   isRecruitmentOpen?: boolean;
   createdAt?: string;
   recoveryPin?: string;
@@ -124,7 +127,10 @@ const gangSchema = new mongoose.Schema({
   facebookUrl: { type: String, default: "" },
   entryAnimation: { type: String, default: "fade" },
   buttonShape: { type: String, default: "square" },
+    buttonStyle: { type: String, default: "neon" },
   gateLayout: { type: String, default: "centered", enum: ["centered", "split"] },
+    pageTransition: { type: String, default: "default", enum: ["default", "cinematic"] },
+    logoRingEnabled: { type: Boolean, default: true },
   isVip: { type: Boolean, default: false },
   creatorIp: { type: String, default: "" },
   recoveryPin: { type: String, default: "" },
@@ -164,8 +170,17 @@ if (!GangModel.schema.path("gateLayout")) {
   GangModel.schema.add({ gateLayout: { type: String, default: "centered", enum: ["centered", "split"] } });
 }
 if (!GangModel.schema.path("buttonShape")) {
-  GangModel.schema.add({ buttonShape: { type: String, default: "square" } });
-}
+    GangModel.schema.add({ buttonShape: { type: String, default: "square" } });
+  }
+  if (!GangModel.schema.path("buttonStyle")) {
+    GangModel.schema.add({ buttonStyle: { type: String, default: "neon" } });
+  }
+  if (!GangModel.schema.path("logoRingEnabled")) {
+    GangModel.schema.add({ logoRingEnabled: { type: Boolean, default: true } });
+  }
+  if (!GangModel.schema.path("pageTransition")) {
+    GangModel.schema.add({ pageTransition: { type: String, default: "default", enum: ["default", "cinematic"] } });
+  }
 if (!GangModel.schema.path("musicPlayerStyle")) {
   GangModel.schema.add({ musicPlayerStyle: { type: String, default: "classic", enum: ["classic", "premium", "vinyl"] } });
 }
@@ -324,8 +339,11 @@ type GangDocument = {
   facebookUrl?: string;
   entryAnimation?: string;
   buttonShape?: string;
+  buttonStyle?: string;
   gateLayout?: string;
-  recoveryPin?: string;
+    pageTransition?: string;
+    logoRingEnabled?: boolean;
+    recoveryPin?: string;
   isVip?: boolean;
   renewedAt?: Date;
   renewalNotifiedAt?: Date;
@@ -375,7 +393,10 @@ function mapGang(doc: GangDocument): Gang {
     facebookUrl: doc.facebookUrl || "",
     entryAnimation: doc.entryAnimation || "fade",
     buttonShape: doc.buttonShape || "square",
+      buttonStyle: doc.buttonStyle || "neon",
     gateLayout: doc.gateLayout || "centered",
+      pageTransition: doc.pageTransition || "default",
+      logoRingEnabled: doc.logoRingEnabled !== false,
     recoveryPin: doc.recoveryPin ? "SET" : "",
     isVip: doc.isVip || false,
     renewedAt: (doc as any).renewedAt instanceof Date ? (doc as any).renewedAt.toISOString() : (doc as any).renewedAt || undefined,

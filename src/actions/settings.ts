@@ -2,7 +2,7 @@
 
 import { updateGang, logActivity } from "@/lib/db";
 import { getAuthenticatedGang } from "@/lib/auth";
-import { revalidatePath, revalidateTag } from "next/cache";
+import { revalidatePath, updateTag } from "next/cache";
 import { assertTrustedMutationOrigin, sanitizeUrl } from "@/lib/security";
 
 export async function saveSettings(formData: FormData) {
@@ -34,6 +34,8 @@ export async function saveSettings(formData: FormData) {
     buttonShape: formData.get("buttonShape") as string || "square",
       buttonStyle: formData.get("buttonStyle") as string || "neon",
     gateLayout: formData.get("gateLayout") as string || "centered",
+      pageTransition: formData.get("pageTransition") as string || "default",
+      logoRingEnabled: formData.get("logoRingEnabled") === "true",
   } as any;
 
   if (formData.has("musicPlayerStyle")) {
@@ -45,11 +47,12 @@ export async function saveSettings(formData: FormData) {
     }
   }
 
-  await updateGang(gang.id, data);
+  console.log("Saving settings:", data);
+    await updateGang(gang.id, data);
   await logActivity(gang.id, "settings_update", "ตั้งค่าเว็บไซต์");
-  const { revalidateTag } = await import("next/cache");
+  const { updateTag } = await import("next/cache");
   revalidatePath("/admin", "layout");
-  revalidateTag(`gang-${gang.subdomain}`); if (gang.customDomain) { revalidateTag(`gang-${gang.customDomain}`); }
+  updateTag(`gang-${gang.subdomain}`); if (gang.customDomain) { updateTag(`gang-${gang.customDomain}`); }
 }
 
 export async function deleteGangAction() {
@@ -73,8 +76,8 @@ export async function deleteGangAction() {
   const { deleteGangInDB } = await import("@/lib/db");
   await deleteGangInDB(gang.id);
   
-  revalidateTag(`gang-${gang.subdomain}`); if (gang.customDomain) { revalidateTag(`gang-${gang.customDomain}`); }
-  revalidateTag(`members-${gang.id}`);
+  updateTag(`gang-${gang.subdomain}`); if (gang.customDomain) { updateTag(`gang-${gang.customDomain}`); }
+  updateTag(`members-${gang.id}`);
   
   const { cookies } = await import("next/headers");
   const { SESSION_COOKIE } = await import("@/lib/auth");
@@ -106,8 +109,8 @@ export async function saveAnnouncementSettings(formData: FormData) {
   });
   await logActivity(gang.id, "announcement_update", announcementEnabled ? "เปิดประกาศ" : "ปิดประกาศ");
   
-  const { revalidateTag } = await import("next/cache");
+  const { updateTag } = await import("next/cache");
   revalidatePath("/admin", "layout");
-  revalidateTag(`gang-${gang.subdomain}`); if (gang.customDomain) { revalidateTag(`gang-${gang.customDomain}`); }
+  updateTag(`gang-${gang.subdomain}`); if (gang.customDomain) { updateTag(`gang-${gang.customDomain}`); }
 }
 

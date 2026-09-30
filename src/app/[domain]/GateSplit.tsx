@@ -26,6 +26,9 @@ type Settings = {
   facebookUrl?: string;
   entryAnimation?: string;
   buttonShape?: string;
+  buttonStyle?: string;
+  pageTransition?: string;
+  logoRingEnabled?: boolean;
   partnersEnabled?: boolean;
   partners?: { name: string; url: string }[];
 };
@@ -153,6 +156,7 @@ export default function GateSplit({ settings }: { settings: Settings }) {
                 imageSrc={settings.buttonImage || undefined}
                 shape={settings.buttonShape}
                 buttonStyle={settings.buttonStyle}
+                  pageTransition={settings.pageTransition}
               />
             </div>
 
@@ -253,29 +257,33 @@ export default function GateSplit({ settings }: { settings: Settings }) {
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
               />
 
-              {/* Outer Ring */}
-              <motion.div 
-                className="absolute inset-[10px] rounded-full border-[2px] border-solid"
-                style={{ borderColor: "rgba(255,255,255,0.9)" }}
-                animate={{ rotateX: [20, 380], rotateY: [-20, 340], rotateZ: [0, 360], scale: [1, 1.05, 1] }}
-                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-              />
-              
-              {/* Middle Ring */}
-              <motion.div 
-                className="absolute inset-[45px] rounded-full border-[3px] border-dashed"
-                style={{ borderColor: "rgba(255,255,255,0.3)" }}
-                animate={{ rotateX: [-40, -400], rotateY: [40, 400], rotateZ: [0, -360] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-              />
-
-              {/* Inner Ring */}
-              <motion.div 
-                className="absolute inset-[80px] rounded-full border-[4px] border-dotted"
-                style={{ borderColor: "#ffffff" }}
-                animate={{ rotateX: [10, 370], rotateY: [10, 370], rotateZ: [0, 720] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-              />
+              {settings.logoRingEnabled !== false && (
+                  <>
+                    {/* Outer Ring */}
+                                  <motion.div 
+                                    className="absolute inset-[10px] rounded-full border-[2px] border-solid"
+                                    style={{ borderColor: "rgba(255,255,255,0.9)" }}
+                                    animate={{ rotateX: [20, 380], rotateY: [-20, 340], rotateZ: [0, 360], scale: [1, 1.05, 1] }}
+                                    transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+                                  />
+                                  
+                                  {/* Middle Ring */}
+                                  <motion.div 
+                                    className="absolute inset-[45px] rounded-full border-[3px] border-dashed"
+                                    style={{ borderColor: "rgba(255,255,255,0.3)" }}
+                                    animate={{ rotateX: [-40, -400], rotateY: [40, 400], rotateZ: [0, -360] }}
+                                    transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
+                                  />
+                    
+                                  {/* Inner Ring */}
+                                  <motion.div 
+                                    className="absolute inset-[80px] rounded-full border-[4px] border-dotted"
+                                    style={{ borderColor: "#ffffff" }}
+                                    animate={{ rotateX: [10, 370], rotateY: [10, 370], rotateZ: [0, 720] }}
+                                    transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
+                                  />
+                  </>
+                )}
               
               {/* 3D Spinning Logo */}
               <motion.div

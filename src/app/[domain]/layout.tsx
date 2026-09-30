@@ -4,6 +4,7 @@ import { MusicWrapper } from "./MusicWrapper";
 import { GangAnnouncement } from "@/components/GangAnnouncement";
 
 import { unstable_cache } from "next/cache";
+import CinematicTransition from "@/components/CinematicTransition";
 
 const getYoutubeData = async (url: string) => {
   const extractId = (u: string) => {
@@ -49,6 +50,7 @@ export default async function DomainLayout({ children, params }: { children: Rea
   
   return (
     <>
+      <CinematicTransition logoUrl={gang?.logoUrl} gangName={gang?.pageTitle} />
       {children}
       {gang && (
         <MusicWrapper 
