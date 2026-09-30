@@ -107,7 +107,7 @@ export default function GateSplit({ settings }: { settings: Settings }) {
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex items-center gap-3 mb-5"
+              className="flex items-center justify-center md:justify-start gap-3 mb-5"
             >
               <div className="w-[40px] h-[2px] hidden md:block" style={{ background: accent }} />
               <span className="text-[11px] font-[800] tracking-[0.4em] uppercase" style={{ color: accent }}>
@@ -185,7 +185,7 @@ export default function GateSplit({ settings }: { settings: Settings }) {
               className="w-full mt-12"
             >
               {/* Partner label */}
-              <div className="flex items-center gap-3 mb-5">
+              <div className="flex items-center justify-center md:justify-start gap-3 mb-5">
                 <div className="w-[6px] h-[6px] rounded-full" style={{ background: accent, opacity: 0.6 }} />
                 <span className="text-[10px] font-[700] tracking-[0.25em] text-white/30 uppercase">Partners</span>
                 <div className="flex-1 h-[1px] bg-white/[0.06] max-w-[80px]" />
@@ -311,3 +311,4 @@ export default function GateSplit({ settings }: { settings: Settings }) {
     </div>
   );
 }
+
