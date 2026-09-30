@@ -2,12 +2,13 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { NeonTypingButton } from "@/components/NeonTypingButton";
+
 import { getGangTheme } from "@/lib/themes";
 import { BackgroundEffects } from "@/components/BackgroundEffects";
 import { BackgroundMedia } from "@/components/BackgroundMedia";
 import { MessageSquare as Discord, Globe as Facebook } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Settings = {
   pageTitle: string;
@@ -54,7 +55,17 @@ const getAnimationProps = (type?: string, index: number = 0): any => {
   };
 };
 
-export default function GateCentered({ settings }: { settings: Settings }) {
+export default function GateSolid({ settings }: { settings: Settings }) {
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  const router = useRouter();
+
+  const handleEnter = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsTransitioning(true);
+    setTimeout(() => {
+      router.push('/members');
+    }, 800);
+  };
   const theme = getGangTheme(settings.theme);
   const fontClass = settings.fontFamily === 'serif' ? 'font-serif' : settings.fontFamily === 'mono' ? 'font-mono' : 'font-sans';
   
@@ -198,15 +209,18 @@ export default function GateCentered({ settings }: { settings: Settings }) {
               settings.buttonShape === 'trapezoid' ? "w-[280px] h-[64px] sm:w-[340px] sm:h-[72px]" :
               "w-[200px] h-[200px] sm:w-[240px] sm:h-[240px]"
             }>
-              <NeonTypingButton 
-                label={settings.buttonText} 
-                loadingText={`ACCESSING_${settings.buttonText}...`} 
-                href="/members" 
-                className="block w-full h-full"
-                textClassName="text-[16px] text-center"
-                imageSrc={settings.buttonImage || undefined}
-                shape={settings.buttonShape}
-              />
+              <motion.button
+  onClick={handleEnter}
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  className="w-full h-full flex items-center justify-center font-[900] text-[16px] tracking-[0.2em] uppercase rounded-[4px] transition-all shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+  style={{
+    backgroundColor: settings.customAccentColor || theme.accent,
+    color: '#000'
+  }}
+>
+  {settings.buttonText}
+</motion.button>
             </div>
 
             {settings.partnersEnabled && settings.partners && settings.partners.length > 0 && (
@@ -273,7 +287,25 @@ export default function GateCentered({ settings }: { settings: Settings }) {
         </p>
       </motion.div>
       </div>
+      {/* Slide Transition Overlay */}
+      <motion.div
+        initial={{ x: "-100%" }}
+        animate={{ x: isTransitioning ? "0%" : "-100%" }}
+        transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+        className="fixed inset-0 z-[100] bg-[#050505] flex items-center justify-center"
+      >
+        <motion.span 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: isTransitioning ? 1 : 0 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          className="text-white/50 font-[900] text-[18px] md:text-[24px] tracking-[0.4em] uppercase"
+        >
+          {settings.pageSubtitle || settings.pageTitle}
+        </motion.span>
+      </motion.div>
     </div>
   );
 }
+
+
 
