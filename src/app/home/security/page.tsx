@@ -77,7 +77,7 @@ export default function SecurityPage() {
 
       <footer className="border-t border-white/10 bg-[#020202] py-12 text-center relative z-10 flex flex-col items-center gap-6 mt-20">
         <Link href="/" className="flex items-center gap-2 text-[14px] font-[900] tracking-[2px] text-white/30 uppercase hover:text-[#0084ff] transition-colors">
-          <Command className="size-4" /> GANGLIST
+          <img src="/favicon.ico" alt="GANGLIST Logo" className="w-5 h-5 object-contain" /> GANGLIST
         </Link>
         <p className="text-[10px] font-[900] tracking-[2px] text-[#555] uppercase mt-2">
           © 2026 LASTNAME.SITE
