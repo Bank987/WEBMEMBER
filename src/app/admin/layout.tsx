@@ -7,6 +7,12 @@ import { RenewalBanner } from "@/components/RenewalBanner";
 import { RenewalAnnouncementModal } from "@/components/RenewalAnnouncementModal";
 import { getRentalStatus } from "@/lib/rental";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Panel",
+};
+
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const gang = await getAuthenticatedGang();
   if (!gang) redirect("/#auth");
