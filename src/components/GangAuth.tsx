@@ -133,24 +133,11 @@ export default function GangAuth() {
           <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           
           <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-3">
-              <div className="relative size-10 flex items-center justify-center rounded-xl bg-black border border-white/10 shadow-[0_0_15px_rgba(0,132,255,0.3)]">
-                <img src="/favicon.ico" alt="Logo" className="size-6 object-contain drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]" />
-                <div className="absolute top-0 right-0 w-1.5 h-1.5 bg-[#0084ff] rounded-bl-sm" />
-                <div className="absolute bottom-0 left-0 w-1.5 h-1.5 bg-[#0084ff] rounded-tr-sm" />
-              </div>
-              <div className="flex flex-col justify-center">
-                <span className="text-[14px] font-[900] text-white tracking-[2px]">GANGLIST</span>
-                <div className="flex items-center gap-1.5 mt-0.5">
-                  <span className="size-1.5 bg-[#0084ff] rounded-full animate-pulse shadow-[0_0_10px_#0084ff]" />
-                  <span className="text-[8px] font-bold text-[#0084ff] tracking-[0.15em] uppercase">Auth System</span>
-                </div>
-              </div>
+            <div className="flex items-center gap-2.5 bg-black/50 px-3.5 py-1.5 rounded-full border border-white/5 backdrop-blur-md">
+              <span className="size-2 bg-[#0084ff] rounded-full animate-pulse shadow-[0_0_10px_#0084ff]" />
+              <span className="text-[9px] font-black text-[#0084ff] tracking-[0.15em] uppercase">Security Level : Max</span>
             </div>
-            <div className="hidden sm:flex items-center gap-2 bg-black/50 px-3 py-1.5 rounded-full border border-white/5 backdrop-blur-md">
-              <span className="text-[8px] font-black text-white/40 tracking-[0.15em] uppercase">Sec Level: Max</span>
-              <Fingerprint className="size-3.5 text-[#0084ff]" />
-            </div>
+            <Fingerprint className="size-5 text-white/20" />
           </div>
           
           {/* Beautiful Floating Tabs */}
