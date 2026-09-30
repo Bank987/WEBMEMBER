@@ -23,7 +23,7 @@ export function DiscordSupportButton({ compact = false }: { compact?: boolean })
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className={`group relative inline-flex items-center overflow-hidden rounded-full border border-[#7183d8]/45 bg-[#5865f2] text-white shadow-[0_10px_28px_rgba(88,101,242,0.28)] transition hover:-translate-y-0.5 hover:scale-[1.02] active:scale-[0.97] hover:bg-[#6974f5] ${compact ? "gap-2 px-4 py-2.5 text-[10px]" : "gap-3 px-5 py-3 text-[11px]"}`}
+        className={`group relative inline-flex items-center overflow-hidden rounded-full border border-[#7183d8]/45 bg-[#5865f2] text-white shadow-[0_10px_28px_rgba(88,101,242,0.28)] transition hover:-translate-y-0.5 hover:scale-[1.02] active:scale-[0.97] hover:bg-[#6974f5] whitespace-nowrap ${compact ? "gap-2 px-4 py-2.5 text-[10px]" : "gap-3 px-5 py-3 text-[11px]"}`}
       >
         <span className="absolute inset-0 -translate-x-full bg-[linear-gradient(110deg,transparent,rgba(255,255,255,0.3),transparent)] transition-transform duration-700 group-hover:translate-x-full" />
         <span className="relative grid size-6 place-items-center rounded-full bg-white/15"><MessageCircleMore className="size-3.5" /></span>

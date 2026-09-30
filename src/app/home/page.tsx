@@ -55,7 +55,7 @@ export default async function LandingPage() {
               <DiscordSupportButton compact />
             <Link href="#auth" className="hidden sm:block relative overflow-hidden rounded-full p-[1px] group">
               <span className="absolute inset-0 bg-gradient-to-r from-[#0084ff] to-[#00bfff] rounded-full opacity-50 group-hover:opacity-100 transition-opacity" />
-              <div className="relative bg-[#050505] px-6 py-2.5 rounded-full text-[11px] font-[900] tracking-[1px] text-white transition-all group-hover:bg-transparent">
+              <div className="relative bg-[#050505] px-6 py-2.5 rounded-full text-[11px] font-[900] tracking-[1px] text-white transition-all group-hover:bg-transparent whitespace-nowrap">
                 เข้าสู่ระบบหลังบ้าน
               </div>
             </Link>

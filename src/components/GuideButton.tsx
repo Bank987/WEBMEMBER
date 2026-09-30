@@ -11,7 +11,7 @@ export function GuideButton() {
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-all text-[11px] font-[900] tracking-[1px] text-white"
+        className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 transition-all text-[11px] font-[900] tracking-[1px] text-white whitespace-nowrap"
       >
         <BookOpen className="size-3.5 text-[#0084ff]" /> 
         <span className="hidden sm:inline">คู่มือการใช้งาน</span>
