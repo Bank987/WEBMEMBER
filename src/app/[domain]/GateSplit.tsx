@@ -185,10 +185,11 @@ export default function GateSplit({ settings }: { settings: Settings }) {
               className="w-full mt-12"
             >
               {/* Partner label */}
-              <div className="flex items-center justify-center md:justify-start gap-3 mb-5">
-                <div className="w-[6px] h-[6px] rounded-full" style={{ background: accent, opacity: 0.6 }} />
+              <div className="flex items-center justify-center md:justify-start gap-3 mb-5 w-full md:w-auto max-w-[250px] md:max-w-none mx-auto md:mx-0">
+                <div className="flex-1 h-[1px] bg-white/[0.06] md:hidden" />
+                <div className="w-[6px] h-[6px] rounded-full hidden md:block" style={{ background: accent, opacity: 0.6 }} />
                 <span className="text-[10px] font-[700] tracking-[0.25em] text-white/30 uppercase">Partners</span>
-                <div className="flex-1 h-[1px] bg-white/[0.06] max-w-[80px]" />
+                <div className="flex-1 h-[1px] bg-white/[0.06] md:max-w-[80px]" />
               </div>
 
               <div className="flex flex-row flex-wrap justify-center md:justify-start gap-3">
@@ -311,4 +312,5 @@ export default function GateSplit({ settings }: { settings: Settings }) {
     </div>
   );
 }
+
 
