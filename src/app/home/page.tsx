@@ -72,21 +72,23 @@ export default async function LandingPage() {
               {/* HUD Elements */}
               <div className="absolute -left-10 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-[#0084ff]/30 to-transparent hidden xl:block" />
                 
-                <Crosshair className="absolute -left-12 top-0 size-4 text-[#0084ff]/50 hidden xl:block" />
-                
-                <div className="mb-6">
-                  {/* Prominent Hero Logo */}
-                  <div className="relative size-24 sm:size-28 flex items-center justify-center rounded-3xl bg-gradient-to-br from-black/80 to-black/40 border border-white/10 backdrop-blur-md shadow-[0_0_40px_rgba(0,132,255,0.15)] group hover:shadow-[0_0_50px_rgba(0,132,255,0.3)] transition-all duration-500">
-                    <div className="absolute inset-0 bg-[#0084ff]/5 blur-2xl group-hover:bg-[#0084ff]/10 transition-colors duration-500" />
-                    <img src="/favicon.ico" alt="Logo" className="relative z-10 size-14 sm:size-16 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] group-hover:scale-110 transition-transform duration-500" />
-                    <div className="absolute top-0 right-0 w-3 h-3 bg-[#0084ff] rounded-bl-lg" />
-                    <div className="absolute bottom-0 left-0 w-3 h-3 bg-[#0084ff] rounded-tr-lg" />
-                  </div>
+                {/* HUD Logo replacing the Crosshair */}
+                <div className="absolute -left-[54px] top-0 hidden xl:flex size-7 items-center justify-center bg-black rounded-lg border border-white/10 shadow-[0_0_15px_rgba(0,132,255,0.3)]">
+                   <img src="/favicon.ico" alt="Logo" className="size-4 object-contain opacity-80" />
                 </div>
+                
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8">
+                  {/* Big Hero Logo */}
+                  <div className="relative size-14 flex items-center justify-center rounded-2xl bg-gradient-to-br from-[#050505] to-[#0a0a0a] border border-white/10 backdrop-blur-md shadow-[0_0_30px_rgba(0,132,255,0.2)]">
+                    <img src="/favicon.ico" alt="Logo" className="size-8 object-contain drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]" />
+                    <div className="absolute top-0 right-0 w-2 h-2 bg-[#0084ff] rounded-bl-sm" />
+                    <div className="absolute bottom-0 left-0 w-2 h-2 bg-[#0084ff] rounded-tr-sm" />
+                  </div>
 
-                <div className="inline-flex items-center gap-2 rounded-full border border-[#0084ff]/30 bg-black/50 px-4 py-1.5 mb-8 backdrop-blur-sm">
-                  <span className="flex size-2 rounded-full bg-[#0084ff] shadow-[0_0_10px_#0084ff] animate-pulse" />
-                  <span className="text-[10px] font-bold tracking-[0.2em] text-[#0084ff] uppercase">แพลตฟอร์มสร้างหน้าเว็บ รายชื่อแก๊ง ที่ดีที่สุด</span>
+                  <div className="inline-flex items-center gap-2 rounded-full border border-[#0084ff]/30 bg-black/50 px-4 py-2 backdrop-blur-sm">
+                    <span className="flex size-2 rounded-full bg-[#0084ff] shadow-[0_0_10px_#0084ff] animate-pulse" />
+                    <span className="text-[10px] font-bold tracking-[0.2em] text-[#0084ff] uppercase">แพลตฟอร์มสร้างหน้าเว็บ รายชื่อแก๊ง ที่ดีที่สุด</span>
+                  </div>
                 </div>
               
               <h1 className="text-[46px] font-[900] leading-[1.05] tracking-tight text-white sm:text-[64px] lg:text-[84px] mb-8 relative">
