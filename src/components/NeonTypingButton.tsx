@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 
 interface Props {
   label?: string;
@@ -65,7 +66,7 @@ export function NeonTypingButton({
       >
         {/* 1. Base Layer (Blur and BG) */}
         <div className={`absolute inset-0 rounded-[inherit] pointer-events-none transition-all duration-300 ${
-          buttonStyle === 'solid' ? (isHovered ? 'bg-[color:var(--gang-accent)]/90 text-white' : 'bg-[color:var(--gang-accent)] text-white') :
+          buttonStyle === 'solid' ? (isHovered ? 'bg-[color:var(--gang-accent)]/90 text-white shadow-lg' : 'bg-[color:var(--gang-accent)] text-white') :
           buttonStyle === 'glow' ? (isHovered ? 'bg-white/20 backdrop-blur-md shadow-[0_0_30px_var(--gang-accent)]' : 'bg-white/10 backdrop-blur-md shadow-[0_0_15px_var(--gang-accent)]') :
           (isHovered ? 'bg-[color:var(--gang-accent)]/5' : 'bg-black/10 backdrop-blur-sm')
         }`} />
@@ -115,17 +116,27 @@ export function NeonTypingButton({
         ) : (
           /* Text Mode - Neon Typing Effect */
           <>
-            <div className={`relative z-10 flex flex-col items-center justify-center font-sans tracking-[1.8px] font-[900] uppercase ${textClassName} h-full w-full px-2 ${shape === 'parallelogram' ? 'skew-x-[15deg]' : ''}`}>
+            <div className={`relative z-10 flex flex-col items-center justify-center font-sans tracking-[1.8px] ${buttonStyle === "solid" ? "font-[700]" : "font-[900] uppercase"} ${textClassName} h-full w-full px-2 ${shape === 'parallelogram' ? 'skew-x-[15deg]' : ''}`}>
               <div className="flex justify-center items-center text-center break-words w-full max-w-full">
-                {!isHovered ? (
-                  <span className={`${buttonStyle === 'solid' ? 'text-black drop-shadow-md' : 'text-white'} leading-tight break-words`}>{label}</span>
+                {buttonStyle === 'solid' ? (
+                  <div className="flex items-center justify-center gap-2 text-white drop-shadow-md">
+                    <span className="leading-tight break-words">{label}</span>
+                    <motion.div
+                      animate={{ x: isHovered ? 5 : 0 }}
+                      transition={{ duration: 0.2 }}
+                    >
+                      <ArrowRight className="w-4 h-4" />
+                    </motion.div>
+                  </div>
+                ) : !isHovered ? (
+                  <span className="text-white leading-tight break-words">{label}</span>
                 ) : (
-                  <span className={`${buttonStyle === 'solid' ? 'text-black drop-shadow-md' : 'text-[color:var(--gang-accent)]'} leading-tight break-words`}>
+                  <span className="text-[color:var(--gang-accent)] leading-tight break-words">
                     {loadingText.slice(0, textIndex)}
                     <motion.span
                       animate={{ opacity: [1, 0] }}
                       transition={{ repeat: Infinity, duration: 0.8 }}
-                      className={`inline-block w-[6px] h-[12px] ${buttonStyle === 'solid' ? 'bg-black' : 'bg-[color:var(--gang-accent)]'} ml-[3px] align-middle`}
+                      className="inline-block w-[6px] h-[12px] bg-[color:var(--gang-accent)] ml-[3px] align-middle"
                     />
                   </span>
                 )}
