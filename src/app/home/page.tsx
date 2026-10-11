@@ -21,7 +21,7 @@ export const metadata = {
 import { getAnnouncement } from "@/actions/announcement";
 import { getLandingPlatformStats } from "@/lib/db";
 import { AnnouncementModal } from "@/components/AnnouncementModal";
-import { GangStatsShowcase, GangHeroBadge } from "@/components/GangStatsShowcase";
+import { GangsOnlineBadge } from "@/components/GangStatsShowcase";
 
 const packages = [
   { name: "เริ่มต้น", price: "ฟรี", detail: "พื้นที่สำหรับแก๊งที่ต้องการเริ่มต้นให้เร็วที่สุด", features: ["ซับโดเมนเฉพาะแก๊ง", "จัดการสมาชิก 50 คน", "หลังบ้านส่วนตัว", "เช่าเว็บอายุ 1 เดือน (ต่อสัญญาได้ในหลังบ้าน)"] },
@@ -110,9 +110,9 @@ export default async function LandingPage() {
                 </span>
               </div>
 
-              {/* Live Gang Count Badge */}
+              {/* GANGS ONLINE Live Badge */}
               <div className="mt-8">
-                <GangHeroBadge count={stats.totalGangs} />
+                <GangsOnlineBadge count={stats.totalGangs} />
               </div>
             </Reveal>
 
@@ -133,9 +133,6 @@ export default async function LandingPage() {
             </Reveal>
           </div>
         </section>
-
-        {/* Real-time Gangs & Platform Stats Showcase */}
-        <GangStatsShowcase stats={stats} />
 
         {/* Pricing Section */}
         <section className="px-6 py-24 border-t border-white/5 bg-black/40 relative overflow-hidden">
