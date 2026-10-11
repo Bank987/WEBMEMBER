@@ -109,11 +109,6 @@ export default async function LandingPage() {
                   <ShieldCheck className="size-4 text-[#0084ff]" /> ปลอดภัย 100%
                 </span>
               </div>
-
-              {/* GANGS ONLINE Live Badge */}
-              <div className="mt-8">
-                <GangsOnlineBadge count={stats.totalGangs} />
-              </div>
             </Reveal>
 
             <Reveal delay={0.2} className="relative w-full max-w-[560px] mx-auto lg:mx-0 lg:ml-auto z-10">
@@ -125,6 +120,11 @@ export default async function LandingPage() {
                 <div className="absolute top-1/2 -left-1 w-2 h-8 bg-[#0084ff] -translate-y-1/2" />
                 <div className="absolute top-1/2 -right-1 w-2 h-8 bg-[#0084ff] -translate-y-1/2" />
                 <div className="absolute -top-3 left-10 px-2 bg-[#030303] text-[9px] text-[#0084ff] font-mono tracking-[2px]">SYS.AUTH</div>
+              </div>
+
+              {/* Clean & Distinct GANGS ONLINE Badge on top of Auth Box */}
+              <div className="mb-3 flex items-center justify-between px-1">
+                <GangsOnlineBadge count={stats.totalGangs} />
               </div>
 
               <div id="auth" className="scroll-mt-32 relative">
