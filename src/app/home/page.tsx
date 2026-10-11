@@ -1,4 +1,4 @@
-﻿import { ShieldCheck, Command, ArrowDownRight, Check, Target, Crosshair } from "lucide-react";
+import { ShieldCheck, Command, ArrowDownRight, Check, Target, Crosshair } from "lucide-react";
 import Link from "next/link";
 import GangAuth from "@/components/GangAuth";
 import { Reveal } from "@/components/LandingMotion";
@@ -19,7 +19,9 @@ export const metadata = {
 };
 
 import { getAnnouncement } from "@/actions/announcement";
+import { getLandingPlatformStats } from "@/lib/db";
 import { AnnouncementModal } from "@/components/AnnouncementModal";
+import { GangStatsShowcase, GangHeroBadge } from "@/components/GangStatsShowcase";
 
 const packages = [
   { name: "เริ่มต้น", price: "ฟรี", detail: "พื้นที่สำหรับแก๊งที่ต้องการเริ่มต้นให้เร็วที่สุด", features: ["ซับโดเมนเฉพาะแก๊ง", "จัดการสมาชิก 50 คน", "หลังบ้านส่วนตัว", "เช่าเว็บอายุ 1 เดือน (ต่อสัญญาได้ในหลังบ้าน)"] },
@@ -27,7 +29,10 @@ const packages = [
 ];
 
 export default async function LandingPage() {
-  const announcement = await getAnnouncement();
+  const [announcement, stats] = await Promise.all([
+    getAnnouncement(),
+    getLandingPlatformStats(),
+  ]);
 
   return (
     <div className="min-h-screen overflow-x-hidden bg-[#030303] text-[#f5f7fa] selection:bg-[#0084ff] selection:text-white font-sans">
@@ -104,6 +109,11 @@ export default async function LandingPage() {
                   <ShieldCheck className="size-4 text-[#0084ff]" /> ปลอดภัย 100%
                 </span>
               </div>
+
+              {/* Live Gang Count Badge */}
+              <div className="mt-8">
+                <GangHeroBadge count={stats.totalGangs} />
+              </div>
             </Reveal>
 
             <Reveal delay={0.2} className="relative w-full max-w-[560px] mx-auto lg:mx-0 lg:ml-auto z-10">
@@ -123,6 +133,9 @@ export default async function LandingPage() {
             </Reveal>
           </div>
         </section>
+
+        {/* Real-time Gangs & Platform Stats Showcase */}
+        <GangStatsShowcase stats={stats} />
 
         {/* Pricing Section */}
         <section className="px-6 py-24 border-t border-white/5 bg-black/40 relative overflow-hidden">
