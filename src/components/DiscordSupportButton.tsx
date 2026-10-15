@@ -4,7 +4,7 @@ import { ExternalLink, Hash, MessageCircleMore, UsersRound, X } from "lucide-rea
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { useEffect, useState } from "react";
 
-const DISCORD_URL = "https://discord.gg/XBmmhgjHkn";
+const DISCORD_URL = "https://discord.gg/WATumj4YwT";
 
 export function DiscordSupportButton({ compact = false }: { compact?: boolean }) {
   const reduceMotion = useReducedMotion();

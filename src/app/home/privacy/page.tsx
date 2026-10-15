@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { Command, ChevronLeft, ShieldCheck } from "lucide-react";
 import { BackgroundEffects } from "@/components/BackgroundEffects";
 
@@ -78,7 +78,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-white mb-4">5. ติดต่อเรา</h2>
             <p className="mb-4">
-              หากคุณมีข้อสงสัยเกี่ยวกับนโยบายความเป็นส่วนตัวนี้ สามารถติดต่อทีมงานของเราได้ที่ช่องทาง Discord Support ของ GANGLIST
+              หากคุณมีข้อสงสัยเกี่ยวกับนโยบายความเป็นส่วนตัวนี้ สามารถติดต่อทีมงานของเราได้ที่ช่องทาง <a href="https://discord.gg/WATumj4YwT" target="_blank" rel="noreferrer" className="text-[#0084ff] underline hover:text-[#00aaff] font-bold">Discord Support</a> ของ GANGLIST
             </p>
           </section>
         </div>

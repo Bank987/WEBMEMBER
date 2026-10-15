@@ -245,7 +245,7 @@ export default function GangAuth() {
                 <p className="mt-3 text-[11px] text-white/40 leading-relaxed max-w-[280px] mx-auto font-medium">
                   หากคุณเป็นเจ้าของเว็บไซต์และลืมรหัสผ่าน โปรดติดต่อฝ่ายสนับสนุน (SUPPORT) เพื่อยืนยันตัวตนและขอรับรหัสใหม่
                 </p>
-                <a href="#" className="inline-flex items-center justify-center mt-5 rounded-[14px] bg-white/5 border border-white/10 px-6 py-3 text-[11px] font-bold text-white transition hover:bg-white/10 hover:border-white/20">
+                <a href="https://discord.gg/WATumj4YwT" target="_blank" rel="noreferrer" className="inline-flex items-center justify-center mt-5 rounded-[14px] bg-white/5 border border-white/10 px-6 py-3 text-[11px] font-bold text-white transition hover:bg-white/10 hover:border-white/20">
                   ติดต่อ SUPPORT
                 </a>
               </motion.div>
